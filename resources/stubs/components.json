@@ -1,0 +1,14 @@
+{
+  "tailwind": {
+    "config": "",
+    "css": "resources/css/app.css",
+    "baseColor": "{{BASE_COLOR}}",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "components": "resources/views/components",
+    "ui": "resources/views/components/ui"
+  },
+  "iconLibrary": "lucide"
+}
