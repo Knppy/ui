@@ -8,8 +8,6 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\File;
 use Knppy\Ui\Enums\ColorScheme;
-use RuntimeException;
-use Symfony\Component\Process\Process;
 
 class InstallCommand extends Command
 {
