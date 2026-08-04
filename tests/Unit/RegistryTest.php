@@ -60,6 +60,25 @@ it('returns an empty array when items key is missing', function (): void {
     expect($registry->items())->toBe([]);
 });
 
+// ── components() ─────────────────────────────────────────────────────────────
+
+it('returns a list of all component names', function (): void {
+    $registry = registryWithFixture([
+        'items' => [
+            ['name' => 'button'],
+            ['name' => 'badge'],
+        ],
+    ]);
+
+    expect($registry->components())->toBe(['button', 'badge']);
+});
+
+it('returns an empty array when there are no items', function (): void {
+    $registry = registryWithFixture(['items' => []]);
+
+    expect($registry->components())->toBe([]);
+});
+
 // ── component() ──────────────────────────────────────────────────────────────
 
 it('returns a component by name', function (): void {

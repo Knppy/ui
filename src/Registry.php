@@ -49,6 +49,14 @@ class Registry
     }
 
     /**
+     * Get a list of all the components.
+     */
+    public function components(): array
+    {
+        return array_map(fn (array $item) => $item['name'], $this->items());
+    }
+
+    /**
      * Get the dependencies for a component by component name.
      *
      * @return array{composer:list<string>, npm:list<string>}
