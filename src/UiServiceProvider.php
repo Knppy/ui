@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Knppy\Ui;
 
 use Illuminate\Support\ServiceProvider;
+use Knppy\Ui\Console\Commands\AddCommand;
 use Knppy\Ui\Console\Commands\InstallCommand;
 
 class UiServiceProvider extends ServiceProvider
@@ -39,6 +40,7 @@ class UiServiceProvider extends ServiceProvider
         ], ['ui', 'ui-lang']);
 
         $this->commands([
+            AddCommand::class,
             InstallCommand::class,
         ]);
     }
