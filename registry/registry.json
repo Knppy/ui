@@ -1,0 +1,21 @@
+{
+  "name": "knppy",
+  "homepage": "",
+  "description": "A registry for knppy packages.",
+  "items": [
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "A button component for the knppy UI library.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/button/button.blade.php"
+      ]
+    }
+  ]
+}
