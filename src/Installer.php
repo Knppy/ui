@@ -10,7 +10,7 @@ use RuntimeException;
 
 class Installer
 {
-    public function __construct(protected string $targetPath, protected bool $force = false, protected Registry $registry) {}
+    public function __construct(protected string $targetPath, protected bool $force, protected Registry $registry) {}
 
     /**
      * @throws FileNotFoundException
@@ -32,7 +32,7 @@ class Installer
                 File::makeDirectory($directory, 0755, true);
             }
 
-            $source = $this->registry->srcPath() .'/'. $file;
+            $source = $this->registry->srcPath().'/'.$file;
 
             $content = File::get($source);
             File::put($destination, $content);

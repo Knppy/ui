@@ -5,6 +5,9 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\File;
 use Knppy\Ui\Enums\ColorScheme;
 
+// File-system state at base_path() is shared across parallel workers.
+uses()->group('serial');
+
 beforeEach(function () {
     // Ensure the css directory exists in the testbench app
     File::ensureDirectoryExists(resource_path('css'));

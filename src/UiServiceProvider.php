@@ -16,8 +16,6 @@ class UiServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/ui.php', 'ui');
-
-        $this->app->singleton(Ui::class);
     }
 
     /**
@@ -27,10 +25,6 @@ class UiServiceProvider extends ServiceProvider
     {
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'ui');
 
-        if (! $this->app->runningInConsole()) {
-            return;
-        }
-
         $this->publishes([
             __DIR__.'/../config/ui.php' => config_path('ui.php'),
         ], ['ui', 'ui-config']);
@@ -39,9 +33,11 @@ class UiServiceProvider extends ServiceProvider
             __DIR__.'/../lang' => $this->app->langPath('vendor/ui'),
         ], ['ui', 'ui-lang']);
 
-        $this->commands([
-            AddCommand::class,
-            InstallCommand::class,
-        ]);
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                AddCommand::class,
+                InstallCommand::class,
+            ]);
+        }
     }
 }
