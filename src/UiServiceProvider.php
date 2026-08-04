@@ -7,6 +7,7 @@ namespace Knppy\Ui;
 use Illuminate\Support\ServiceProvider;
 use Knppy\Ui\Console\Commands\AddCommand;
 use Knppy\Ui\Console\Commands\InstallCommand;
+use Knppy\Ui\Console\Commands\ListCommand;
 
 class UiServiceProvider extends ServiceProvider
 {
@@ -37,6 +38,7 @@ class UiServiceProvider extends ServiceProvider
             $this->commands([
                 AddCommand::class,
                 InstallCommand::class,
+                ListCommand::class,
             ]);
         }
     }
