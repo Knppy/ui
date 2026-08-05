@@ -49,6 +49,7 @@ php artisan vendor:publish --tag="ui-lang"
 | Component name | Category | Status |
 |----------------|----------|--------|
 | button         | forms    | ✅      |
+| button-group   | forms    | ✅      |
 
 
 ## Changelog

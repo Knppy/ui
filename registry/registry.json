@@ -17,6 +17,22 @@
         "ui/button.blade.php"
       ]
     },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button group",
+      "description": "A button group component for the knppy UI library.",
+      "registryDependencies": ["button"],
+      "dependencies": {
+        "composer": ["gehrisandro/tailwind-merge-laravel"],
+        "npm": []
+      },
+      "files": [
+        "ui/button-group.blade.php",
+        "ui/button-group-separator.blade.php",
+        "ui/button-group-text.blade.php"
+      ]
+    },
       ]
     }
   ]
