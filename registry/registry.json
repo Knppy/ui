@@ -166,6 +166,22 @@
       ]
     },
     {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/progress.blade.php"
+      ]
+    },
+    {
       "name": "separator",
       "type": "registry:ui",
       "title": "Separator",
