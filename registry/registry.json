@@ -47,6 +47,18 @@
         "ui/separator.blade.php"
       ]
     },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Use to show a placeholder while content is loading.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": ["gehrisandro/tailwind-merge-laravel"],
+        "npm": []
+      },
+      "files": [
+        "ui/skeleton.blade.php"
       ]
     }
   ]
