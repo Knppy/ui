@@ -54,6 +54,7 @@ php artisan vendor:publish --tag="ui-lang"
 | button         | forms    | ✅      |
 | button-group   | forms    | ✅      |
 | input          | forms    |   ✅    |
+| label          | forms    |   ✅    |
 | separator      | layout   |   ✅    |
 | skeleton       | ui       |   ✅    |
 
