@@ -137,6 +137,20 @@
       "files": [
         "ui/skeleton.blade.php"
       ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Displays a form textarea or a component that looks like a textarea.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": ["gehrisandro/tailwind-merge-laravel"],
+        "npm": []
+      },
+      "files": [
+        "ui/textarea.blade.php"
+      ]
     }
   ]
 }
