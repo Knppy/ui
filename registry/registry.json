@@ -83,6 +83,20 @@
       ]
     },
     {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "A text input component for forms and user data entry with built-in styling and accessibility features.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": ["gehrisandro/tailwind-merge-laravel"],
+        "npm": []
+      },
+      "files": [
+        "ui/input.blade.php"
+      ]
+    },
+    {
       "name": "separator",
       "type": "registry:ui",
       "title": "Separator",
