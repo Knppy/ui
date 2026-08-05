@@ -75,6 +75,29 @@
       ]
     },
     {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "A basic breadcrumb with a home link and a components link.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel",
+          "mallardduck/blade-lucide-icons"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/breadcrumb.blade.php",
+        "ui/breadcrumb-ellipsis.blade.php",
+        "ui/breadcrumb-item.blade.php",
+        "ui/breadcrumb-link.blade.php",
+        "ui/breadcrumb-list.blade.php",
+        "ui/breadcrumb-page.blade.php",
+        "ui/breadcrumb-separator.blade.php"
+      ]
+    },
+    {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",

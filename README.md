@@ -46,18 +46,20 @@ php artisan vendor:publish --tag="ui-lang"
 
 ## Supported component(s)
 
-| Component name | Category | Status |
-|----------------|----------|--------|
-| alert          | ui       | ✅      |
-| aspect-ratio   | layout   | ✅      |
-| avatar         | ui       | ✅      |
-| button         | forms    | ✅      |
-| button-group   | forms    | ✅      |
-| input          | forms    |   ✅    |
-| label          | forms    |   ✅    |
-| separator      | layout   |   ✅    |
-| skeleton       | ui       |   ✅    |
-| textarea       | forms    |   ✅    |
+| Component name | Category   | Status |
+|----------------|------------|----|
+| alert          | ui         | ✅  |
+| aspect-ratio   | layout     | ✅  |
+| avatar         | ui         | ✅  |
+| badge          | ui         | ✅  |
+| breadcrumb     | navigation | ✅  |
+| button         | forms      | ✅  |
+| button-group   | forms      | ✅  |
+| input          | forms      | ✅  |
+| label          | forms      | ✅  |
+| separator      | layout     | ✅  |
+| skeleton       | ui         | ✅  |
+| textarea       | forms      | ✅  |
 
 
 ## Changelog
