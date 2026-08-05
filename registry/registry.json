@@ -4,6 +4,20 @@
   "description": "A registry for knppy packages.",
   "items": [
     {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect ratio",
+      "description": "Displays content within a desired ratio.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": ["gehrisandro/tailwind-merge-laravel"],
+        "npm": []
+      },
+      "files": [
+        "ui/aspect-ratio.blade.php"
+      ]
+    },
+    {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
