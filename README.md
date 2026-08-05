@@ -44,6 +44,13 @@ php artisan vendor:publish --tag="ui-lang"
 
 <!-- Add a basic usage example here. -->
 
+## Supported component(s)
+
+| Component name | Category | Status |
+|----------------|----------|--------|
+| button         | forms    | ✅      |
+
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
