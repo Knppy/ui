@@ -33,6 +33,20 @@
         "ui/button-group-text.blade.php"
       ]
     },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Visually or semantically separates content.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": ["gehrisandro/tailwind-merge-laravel"],
+        "npm": []
+      },
+      "files": [
+        "ui/separator.blade.php"
+      ]
+    },
       ]
     }
   ]
