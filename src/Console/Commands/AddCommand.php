@@ -79,21 +79,23 @@ class AddCommand extends Command
             return $registry->components();
         }
 
-        return $this->argument('components', []);
+        return $this->argument('components');
     }
 
     /**
      * Get the components.json configuration file.
+     *
+     * @return array{
+     *     tailwind:array<array-key, string>,
+     *     aliases:array<array-key, string>,
+     *     iconLibrary:string
+     * }
      *
      * @throws FileNotFoundException
      */
     private function getConfig(): array
     {
         $path = base_path('components.json');
-
-        if (! File::exists($path)) {
-            return [];
-        }
 
         $content = File::get($path);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Knppy\Ui\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -24,8 +26,9 @@ class ListCommand extends Command
     public function handle(Registry $registry): int
     {
         if ($single = $this->argument('component')) {
-            if (!$registry->componentExists($single)) {
+            if (! $registry->componentExists($single)) {
                 $this->components->error("Unknown component: $single");
+
                 return self::FAILURE;
             }
 
