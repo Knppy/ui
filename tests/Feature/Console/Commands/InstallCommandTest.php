@@ -15,14 +15,14 @@ beforeEach(function () {
     // Ensure components.json does not exist before each test
     File::delete(base_path('components.json'));
     File::delete(resource_path('css/app.css'));
-    File::delete(resource_path('css/app.js'));
+    File::delete(resource_path('js/app.js'));
     File::delete(base_path('package.json'));
 });
 
 afterEach(function () {
     File::delete(base_path('components.json'));
     File::delete(resource_path('css/app.css'));
-    File::delete(resource_path('css/app.js'));
+    File::delete(resource_path('js/app.js'));
     File::delete(base_path('package.json'));
 });
 
@@ -69,7 +69,7 @@ it('creates app.js', function () {
         ->expectsChoice('Which base color would you like to use?', ColorScheme::NEUTRAL->value, [ColorScheme::NEUTRAL->value])
         ->assertSuccessful();
 
-    expect(resource_path('css/app.js'))->toBeFile();
+    expect(resource_path('js/app.js'))->toBeFile();
 });
 
 it('displays the success message and next steps', function () {
