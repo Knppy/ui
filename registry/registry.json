@@ -117,7 +117,7 @@
       "name": "button-group",
       "type": "registry:ui",
       "title": "Button group",
-      "description": "A button group component for the knppy UI library.",
+      "description": "A container that groups related buttons together with consistent styling.",
       "registryDependencies": [
         "button"
       ],
@@ -131,6 +131,24 @@
         "ui/button-group.blade.php",
         "ui/button-group-separator.blade.php",
         "ui/button-group-text.blade.php"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Displays a checkbox that can be checked or unchecked.",
+      "registryDependencies": [
+        "button"
+      ],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/checkbox.blade.php"
       ]
     },
     {
