@@ -4,7 +4,7 @@
     'value' => 'on',
     'checked' => false,
     'disabled' => false,
-     'size' => 'default', 
+    'size' => 'default',
 ])
 
 @php
@@ -37,6 +37,6 @@
         class="bg-background dark:data-[state=checked]:bg-primary-foreground dark:data-[state=unchecked]:bg-foreground pointer-events-none block rounded-full ring-0 transition-transform group-data-[size=default]/switch:size-4 group-data-[size=sm]/switch:size-3 data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"
     ></span>
     @if ($name)
-        <input type="hidden" :name="checked ? @js($name) : null" value="{{ $value }}"/>
+        <input type="hidden" :name="checked ? @js($name) : null" value="{{ $value }}" />
     @endif
 </button>
