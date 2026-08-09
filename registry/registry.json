@@ -249,6 +249,22 @@
       ]
     },
     {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "A control that allows the user to toggle between checked and not checked.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/switch.blade.php"
+      ]
+    },
+    {
       "name": "textarea",
       "type": "registry:ui",
       "title": "Textarea",

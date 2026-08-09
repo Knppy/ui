@@ -59,8 +59,10 @@ php artisan vendor:publish --tag="ui-lang"
 | input          | forms      | ✅  |
 | label          | forms      | ✅  |
 | progress       | ui         | ✅  |
+| radio-group    | forms      | ✅  |
 | separator      | layout     | ✅  |
 | skeleton       | ui         | ✅  |
+| switch         | forms      | ✅  |
 | textarea       | forms      | ✅  |
 
 
