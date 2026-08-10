@@ -118,6 +118,7 @@ class InstallCommand extends Command
     {
         $this->components->info('Creating app.js...');
 
+        File::put(resource_path('js/ui-core.js'), File::get(__DIR__.'/../../../resources/stubs/ui-core.js'));
         File::put(resource_path('js/app.js'), File::get(__DIR__.'/../../../resources/stubs/app.js'));
 
         $this->line("   ✓ Created app.js (base color: {$this->baseColor->value})");
