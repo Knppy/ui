@@ -280,6 +280,29 @@
       ]
     },
     {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Extends the Dialog component to display content that complements the main content of the screen.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/sheet.blade.php",
+        "ui/sheet-close.blade.php",
+        "ui/sheet-content.blade.php",
+        "ui/sheet-description.blade.php",
+        "ui/sheet-footer.blade.php",
+        "ui/sheet-header.blade.php",
+        "ui/sheet-title.blade.php",
+        "ui/sheet-trigger.blade.php"
+      ]
+    },
+    {
       "name": "skeleton",
       "type": "registry:ui",
       "title": "Skeleton",
