@@ -303,6 +303,39 @@
       ]
     },
     {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "A composable, themeable and customizable sidebar component.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/sidebar.blade.php",
+        "ui/sidebar-content.blade.php",
+        "ui/sidebar-footer.blade.php",
+        "ui/sidebar-group.blade.php",
+        "ui/sidebar-group-content.blade.php",
+        "ui/sidebar-group-label.blade.php",
+        "ui/sidebar-header.blade.php",
+        "ui/sidebar-inset.blade.php",
+        "ui/sidebar-menu.blade.php",
+        "ui/sidebar-menu-action.blade.php",
+        "ui/sidebar-menu-badge.blade.php",
+        "ui/sidebar-menu-button.blade.php",
+        "ui/sidebar-menu-item.blade.php",
+        "ui/sidebar-menu-sub.blade.php",
+        "ui/sidebar-menu-sub-item.blade.php",
+        "ui/sidebar-provider.blade.php",
+        "ui/sidebar-rail.blade.php",
+        "ui/sidebar-trigger.blade.php"
+      ]
+    },
+    {
       "name": "skeleton",
       "type": "registry:ui",
       "title": "Skeleton",

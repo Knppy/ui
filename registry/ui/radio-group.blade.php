@@ -28,7 +28,7 @@
     "
     @keydown="
         if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes($event.key)) {
-            $blatNav($event, { selector: '[role=radio]', orientation: 'both' });
+            $uiNav($event, { selector: '[role=radio]', orientation: 'both' });
             const v = document.activeElement?.getAttribute('data-value');
             if (v != null) {
                 value = v;

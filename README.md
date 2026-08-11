@@ -64,6 +64,7 @@ php artisan vendor:publish --tag="ui-lang"
 | select         | forms      | ✅  |
 | separator      | layout     | ✅  |
 | sheet          | overlays   | ✅  |
+| sidebar        | layout     | ✅  |
 | skeleton       | ui         | ✅  |
 | switch         | forms      | ✅  |
 | textarea       | forms      | ✅  |
