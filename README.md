@@ -56,15 +56,17 @@ php artisan vendor:publish --tag="ui-lang"
 | button         | forms      | ✅  |
 | button-group   | forms      | ✅  |
 | checkbox       | forms      | ✅  |
+| field          | forms      | ✅  |
 | input          | forms      | ✅  |
 | label          | forms      | ✅  |
 | progress       | ui         | ✅  |
 | radio-group    | forms      | ✅  |
+| select         | forms      | ✅  |
 | separator      | layout     | ✅  |
 | skeleton       | ui         | ✅  |
 | switch         | forms      | ✅  |
 | textarea       | forms      | ✅  |
-| toggle         | ui          | ✅  |
+| toggle         | ui         | ✅  |
 
 
 ## Changelog

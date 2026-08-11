@@ -183,6 +183,34 @@ function uiDialogLayerDirective(el) {
     });
 }
 
+/**
+ * Field directive.
+ */
+function uitFieldDirective(el) {
+    queueMicrotask(() => {
+        const control = el.querySelector(
+            'input:not([type=hidden]), textarea, select, [role="checkbox"], [role="switch"], [role="radiogroup"], [role="combobox"], [role="slider"], [role="spinbutton"]',
+        );
+        if (!control) return;
+        const ids = [];
+        const desc = el.querySelector('[data-slot="field-description"]');
+        const err = el.querySelector('[data-slot="field-error"]');
+        if (desc) ids.push(ensureId(desc, 'field-desc'));
+        if (err) ids.push(ensureId(err, 'field-err'));
+        if (ids.length) {
+            const prev = control.getAttribute('aria-describedby');
+            control.setAttribute('aria-describedby', [prev, ...ids].filter(Boolean).join(' '));
+        }
+        if (err) {
+            control.setAttribute('aria-invalid', 'true');
+            el.setAttribute('data-invalid', 'true');
+        }
+        const label = el.querySelector('[data-slot="field-label"]');
+        if (label && !label.getAttribute('for')) {
+            label.setAttribute('for', ensureId(control, 'field-control'));
+        }
+    });
+}
 
 /**
  * Labelled by directive.
@@ -339,5 +367,6 @@ export function registerUI(Alpine, options = {}) {
     Alpine.directive('ui-item-aligned', uiItemAlignedDirective);
     Alpine.directive('ui-dialog-layer', uiDialogLayerDirective);
     Alpine.directive('ui-labelledby', uiLabelledByDirective);
+    Alpine.directive('ui-field', uitFieldDirective);
     Alpine.directive('ui-trigger', uiTriggerDirective);
 }

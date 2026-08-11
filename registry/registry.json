@@ -152,6 +152,31 @@
       ]
     },
     {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/field.blade.php",
+        "ui/field-content.blade.php",
+        "ui/field-description.blade.php",
+        "ui/field-error.blade.php",
+        "ui/field-group.blade.php",
+        "ui/field-label.blade.php",
+        "ui/field-legend.blade.php",
+        "ui/field-separator.blade.php",
+        "ui/field-set.blade.php",
+        "ui/field-title.blade.php"
+      ]
+    },
+    {
       "name": "input",
       "type": "registry:ui",
       "title": "Input",
