@@ -134,6 +134,28 @@
       ]
     },
     {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "A container that groups related buttons together with consistent styling.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/card.blade.php",
+        "ui/card-action.blade.php",
+        "ui/card-content.blade.php",
+        "ui/card-description.blade.php",
+        "ui/card-footer.blade.php",
+        "ui/card-header.blade.php",
+        "ui/card-title.blade.php"
+      ]
+    },
+    {
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",

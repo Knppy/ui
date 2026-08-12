@@ -55,6 +55,7 @@ php artisan vendor:publish --tag="ui-lang"
 | breadcrumb     | navigation | ✅  |
 | button         | forms      | ✅  |
 | button-group   | forms      | ✅  |
+| card           | layout     | ✅  |
 | checkbox       | forms      | ✅  |
 | field          | forms      | ✅  |
 | input          | forms      | ✅  |
