@@ -7,17 +7,11 @@
 @php
     $isLeft = $side === 'left';
 
-    // twMerge() MUTATES the bag it is called on (it offsetSet's the merged class and returns
-    // $this). The desktop root and the mobile panel are BOTH rendered, so merging into
-    // $attributes for one leaks those classes into the other: that is how `hidden md:block`
-    // reached the mobile drawer and kept it display:none below md. Merge into a copy and leave
-    // $attributes exactly as the consumer passed it.
     $rootAttributes = $attributes->except('class');
     $userClass = (string) $attributes->get('class', '');
 @endphp
 
 @if ($collapsible === 'none')
-    {{-- Non-collapsible: a plain in-flow panel (no fixed pinning). --}}
     <div
         data-slot="sidebar"
         data-variant="{{ $variant }}"
@@ -27,16 +21,8 @@
         {{ $slot }}
     </div>
 @else
-    {{-- Desktop root. The slot is rendered again in the mobile overlay below, so BOTH need the
-         consumer's attributes: an `x-data` that only lands here leaves the mobile copy of the
-         slot referencing variables that do not exist in its scope. The overlay drops just the
-         handful that must not appear twice — see there. --}}
     <div
         {{ $rootAttributes->twMerge('text-sidebar-foreground group peer hidden md:block', $userClass) }}
-        {{-- The static md: classes are the no-JS default, so the docked rail paints with the page
-             instead of popping in after Alpine boots. `isMobile` (which sidebar-provider computes
-             from its own mobile-breakpoint) then overrides them when the two disagree — which is
-             exactly what a breakpoint other than md means. --}}
         :class="{ 'md:hidden!': isMobile }"
         :data-state="open ? 'expanded' : 'collapsed'"
         :data-collapsible="open ? '' : @js($collapsible)"
@@ -44,16 +30,14 @@
         data-side="{{ $side }}"
         data-slot="sidebar"
     >
-        {{-- gap --}}
         <div
             class="relative bg-transparent transition-[width] duration-200 ease-linear"
             :style="open
             ? 'width: var(--sidebar-width)'
             : (@js($collapsible) === 'icon' ? 'width: var(--sidebar-width-icon)' : 'width: 0')"
         ></div>
-        {{-- fixed container --}}
         <div
-            class="fixed inset-y-0 z-10 hidden h-svh transition-[left,right,width,transform] duration-200 ease-linear md:flex {{ $isLeft ? 'left-0' : 'right-0' }}"
+            class="fixed inset-y-0 z-10 hidden h-svh transition-[left,right,width,transform] duration-200 ease-linear md:flex {{ $isLeft ? 'left-0' : 'right-0' }} {{ in_array($variant, ['floating', 'inset']) ? 'p-2' : '' }}"
             :style="open
             ? 'width: var(--sidebar-width)'
             : (@js($collapsible) === 'icon'
@@ -62,18 +46,19 @@
         >
             <div
                 data-sidebar="sidebar"
-                class="bg-sidebar flex h-full w-full flex-col {{ $isLeft ? 'border-r' : 'border-l' }} border-sidebar-border"
+                @class([
+                    'bg-sidebar flex h-full w-full flex-col',
+                    'border-r border-sidebar-border' => $isLeft && $variant === 'sidebar',
+                    'border-l border-sidebar-border' => ! $isLeft && $variant === 'sidebar',
+                    'rounded-lg border border-sidebar-border shadow-sm' => in_array($variant, ['floating', 'inset']),
+                ])
             >
                 {{ $slot }}
             </div>
         </div>
     </div>
 
-    {{-- Mobile overlay --}}
     <template x-teleport="body">
-        {{-- No md:hidden here: the drawer is gated on isMobile itself, so a breakpoint above md
-             still gets it — and a viewport dragged past the breakpoint while it is open closes it
-             rather than leaving a drawer floating over the docked rail. --}}
         <div x-show="openMobile && isMobile" x-cloak class="fixed inset-0 z-50">
             <div
                 x-show="openMobile"
