@@ -70,7 +70,8 @@ php artisan vendor:publish --tag="ui-lang"
 | skeleton       | ui         | ✅  |
 | switch         | forms      | ✅  |
 | textarea       | forms      | ✅  |
-| toggle         | ui         | ✅  |
+| toggle         | forms      | ✅  |
+| toggle-group   | forms      | ✅  |
 
 
 ## Changelog

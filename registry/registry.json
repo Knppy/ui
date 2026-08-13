@@ -465,6 +465,23 @@
       "files": [
         "ui/toggle.blade.php"
       ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle group",
+      "description": "A set of two-state buttons that can be toggled on or off.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/toggle-group.blade.php",
+        "ui/toggle-group-item.blade.php"
+      ]
     }
   ]
 }
