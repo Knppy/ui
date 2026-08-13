@@ -220,6 +220,25 @@
       ]
     },
     {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "Accessible one-time password component with copy-paste functionality.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/input-otp.blade.php",
+        "ui/input-otp-group.blade.php",
+        "ui/input-otp-slot.blade.php",
+        "ui/input-otp-separator.blade.php"
+      ]
+    },
+    {
       "name": "input",
       "type": "registry:ui",
       "title": "Input",
