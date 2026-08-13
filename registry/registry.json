@@ -156,6 +156,32 @@
       ]
     },
     {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Autocomplete input with a list of suggestions.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/combobox.blade.php",
+        "ui/combobox-chips.blade.php",
+        "ui/combobox-content.blade.php",
+        "ui/combobox-empty.blade.php",
+        "ui/combobox-group.blade.php",
+        "ui/combobox-input.blade.php",
+        "ui/combobox-item.blade.php",
+        "ui/combobox-label.blade.php",
+        "ui/combobox-list.blade.php",
+        "ui/combobox-separator.blade.php",
+        "ui/combobox-trigger.blade.php"
+      ]
+    },
+    {
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",

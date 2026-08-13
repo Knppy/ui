@@ -57,6 +57,7 @@ php artisan vendor:publish --tag="ui-lang"
 | button-group   | forms      | ✅  |
 | card           | layout     | ✅  |
 | checkbox       | forms      | ✅  |
+| combobox       | forms      | ✅  |
 | field          | forms      | ✅  |
 | input          | forms      | ✅  |
 | input-group    | forms      | ✅  |

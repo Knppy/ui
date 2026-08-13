@@ -120,7 +120,13 @@ function uiItemAlignedDirective(el, {expression}, {evaluateLater, effect, cleanu
             || el.querySelector('[role="option"]:not([aria-disabled="true"])');
 
         // Place off-screen but measurable while computing layout.
-        Object.assign(el.style, {position: 'fixed', visibility: 'hidden', left: '0px', top: '0px', minWidth: `${triggerRect.width}px`});
+        Object.assign(el.style, {
+            position: 'fixed',
+            visibility: 'hidden',
+            left: '0px',
+            top: '0px',
+            minWidth: `${triggerRect.width}px`
+        });
 
         requestAnimationFrame(() => {
             const elRect = el.getBoundingClientRect();
@@ -165,7 +171,8 @@ function uiItemAlignedDirective(el, {expression}, {evaluateLater, effect, cleanu
         });
     });
 
-    cleanup(() => {});
+    cleanup(() => {
+    });
 }
 
 /**
@@ -228,6 +235,133 @@ function uiLabelledByDirective(el, {expression}, {evaluate}) {
         wire(cfg.description, 'aria-describedby');
     });
 }
+
+const uiListboxData = (config = {}) => ({
+    trigger: config.trigger || 'button',
+    open: false,
+    filtering: false,
+    multiple: !!config.multiple,
+    value: config.value ?? (config.multiple ? [] : ''),
+    activeValue: null,
+    options: config.options || [],
+
+    query: config.query ?? '',
+
+    isSelected(v) {
+        return this.multiple ? this.value.includes(v) : this.value === v;
+    },
+    get selected() {
+        return this.options.filter((o) => this.isSelected(o.value));
+    },
+
+    get label() {
+        const o = this.options.find((o) => o.value === this.value);
+        return o ? o.label : '';
+    },
+    matches(label) {
+        return label.toLowerCase().includes(this.query.toLowerCase());
+    },
+    get visible() {
+        if (this.trigger === 'input' && !this.filtering) return this.options;
+        return this.options.filter((o) => this.matches(o.label));
+    },
+    get visibleCount() {
+        return this.visible.length;
+    },
+    ensureActive() {
+        const v = this.visible;
+        if (!v.length) {
+            this.activeValue = null;
+            return;
+        }
+        if (!v.some((o) => o.value === this.activeValue)) {
+            this.activeValue = (v.find((o) => this.isSelected(o.value)) || v[0]).value;
+        }
+    },
+    move(dir) {
+        if (this.trigger === 'input' && !this.open) {
+            this.openList();
+            return;
+        }
+        const v = this.visible;
+        if (!v.length) return;
+        let i = v.findIndex((o) => o.value === this.activeValue);
+        i = i < 0 ? 0 : (i + dir + v.length) % v.length;
+        this.activeValue = v[i].value;
+    },
+    edge(pos) {
+        const v = this.visible;
+        if (!v.length) return;
+        this.activeValue = (pos === 'last' ? v[v.length - 1] : v[0]).value;
+    },
+    openList() {
+        this.open = true;
+        if (this.trigger === 'button') {
+            this.query = '';
+            this.$nextTick(() => {
+                this.ensureActive();
+                (this.$refs.search || this.$refs.list)?.focus();
+            });
+        } else {
+            this.filtering = false;
+            this.$nextTick(() => this.ensureActive());
+        }
+    },
+    onInput() {
+        if (!this.multiple) this.value = '';
+        this.open = true;
+        this.filtering = true;
+        this.$nextTick(() => this.ensureActive());
+    },
+    toggle() {
+        this.open ? this.close(false) : this.openList();
+    },
+    close(returnFocus = true) {
+        if (!this.open) return;
+        this.open = false;
+        this.filtering = false;
+        if (this.trigger === 'button' && returnFocus) this.$nextTick(() => this.$refs.trigger?.focus());
+    },
+    selectActive() {
+        if (this.activeValue != null) this.select(this.activeValue);
+    },
+    select(v) {
+        if (this.multiple) {
+            const i = this.value.indexOf(v);
+            if (i === -1) this.value.push(v); else this.value.splice(i, 1);
+            if (this.trigger === 'input') {
+                this.query = '';
+                this.filtering = false;
+                this.$nextTick(() => this.$refs.input?.focus());
+            }
+            return;
+        }
+        if (this.trigger === 'input') {
+            const o = this.options.find((x) => x.value === v);
+            if (o) {
+                this.value = o.value;
+                this.query = o.label;
+            }
+            this.close();
+            return;
+        }
+        this.value = this.value === v ? '' : v;
+        this.close();
+        this.query = '';
+    },
+    remove(v) {
+        const i = this.value.indexOf(v);
+        if (i !== -1) this.value.splice(i, 1);
+    },
+    backspace() {
+        if (this.multiple && this.query === '' && this.value.length) this.value.splice(this.value.length - 1, 1);
+    },
+    registerOption(value, label) {
+        if (!this.options.some((o) => o.value === value)) {
+            this.options.push({ value, label });
+        }
+    },
+});
 
 /**
  * UI select data.
@@ -362,6 +496,7 @@ export function registerUI(Alpine, options = {}) {
     Alpine.plugin(collapse);
 
     Alpine.data('uiSelect', uiSelectData);
+    Alpine.data('uiListbox', uiListboxData);
 
     Alpine.directive('ui-anchor', uiAnchorDirective);
     Alpine.directive('ui-item-aligned', uiItemAlignedDirective);
