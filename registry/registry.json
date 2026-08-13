@@ -199,6 +199,27 @@
       ]
     },
     {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Add addons, buttons, and helper content to inputs.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/input-group.blade.php",
+        "ui/input-group-addon.blade.php",
+        "ui/input-group-button.blade.php",
+        "ui/input-group-input.blade.php",
+        "ui/input-group-text.blade.php",
+        "ui/input-group-textarea.blade.php"
+      ]
+    },
+    {
       "name": "input",
       "type": "registry:ui",
       "title": "Input",

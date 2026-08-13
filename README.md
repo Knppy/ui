@@ -59,6 +59,7 @@ php artisan vendor:publish --tag="ui-lang"
 | checkbox       | forms      | ✅  |
 | field          | forms      | ✅  |
 | input          | forms      | ✅  |
+| input-group    | forms      | ✅  |
 | label          | forms      | ✅  |
 | progress       | ui         | ✅  |
 | radio-group    | forms      | ✅  |
