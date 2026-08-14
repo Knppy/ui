@@ -8,7 +8,7 @@
 
 <button
     type="button"
-    @click="toggle()"
+    @click="toggleSidebar()"
     data-slot="sidebar-trigger"
     aria-label="{{ $label }}"
     :aria-expanded="isMobile ? openMobile : open"

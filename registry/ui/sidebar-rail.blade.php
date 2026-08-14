@@ -11,7 +11,7 @@
 
 <button
     type="button"
-    @click="toggle()"
+    @click="toggleSidebar()"
     data-slot="sidebar-rail"
     data-sidebar="rail"
     aria-label="Toggle Sidebar"

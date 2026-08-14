@@ -12,7 +12,7 @@
         openMobile: false,
         isMobile: false,
         collapsed: false,
-        toggle() { this.isMobile ? (this.openMobile = ! this.openMobile) : (this.open = ! this.open) },
+        toggleSidebar() { this.isMobile ? (this.openMobile = ! this.openMobile) : (this.open = ! this.open) },
         setOpen(value) {
             this.open = value;
             document.cookie = 'sidebar_state=' + value + '; path=/; max-age=' + (60 * 60 * 24 * 7);
@@ -24,7 +24,7 @@
             window.addEventListener('keydown', e => {
                 if (e.key === 'b' && (e.metaKey || e.ctrlKey)) {
                     e.preventDefault();
-                    this.toggle();
+                    this.toggleSidebar();
                 }
             });
         }
