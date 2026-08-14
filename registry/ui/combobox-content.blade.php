@@ -16,7 +16,7 @@
         x-ui-anchor.bottom-start.offset.4.match-width="$refs.control ?? $refs.trigger"
         @click.outside="open && ! ($refs.control ?? $refs.trigger)?.contains($event.target) && close()"
         @keydown.escape.prevent.stop="close()"
-        class="bg-popover text-popover-foreground z-50 flex w-fit flex-col origin-top overflow-hidden rounded-md border p-0 shadow-md"
+        class="bg-popover text-popover-foreground z-50 flex w-fit origin-top flex-col overflow-hidden rounded-md border p-0 shadow-md"
         x-transition:enter="transition ease-out duration-150"
         x-transition:enter-start="opacity-0 scale-95"
         x-transition:enter-end="opacity-100 scale-100"
