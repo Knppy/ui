@@ -48,6 +48,7 @@ php artisan vendor:publish --tag="ui-lang"
 
 | Component name | Category   | Status |
 |----------------|------------|----|
+| accordion      | discosure  | ✅  |
 | alert          | ui         | ✅  |
 | aspect-ratio   | layout     | ✅  |
 | avatar         | ui         | ✅  |

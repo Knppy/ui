@@ -4,6 +4,25 @@
   "description": "A registry for knppy packages.",
   "items": [
     {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/accordion.blade.php",
+        "ui/accordion-content.blade.php",
+        "ui/accordion-item.blade.php",
+        "ui/accordion-trigger.blade.php"
+      ]
+    },
+    {
       "name": "alert",
       "type": "registry:ui",
       "title": "Alert",
