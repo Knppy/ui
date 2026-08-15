@@ -201,6 +201,29 @@
       ]
     },
     {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/dialog.blade.php",
+        "ui/dialog-close.blade.php",
+        "ui/dialog-content.blade.php",
+        "ui/dialog-description.blade.php",
+        "ui/dialog-footer.blade.php",
+        "ui/dialog-header.blade.php",
+        "ui/dialog-title.blade.php",
+        "ui/dialog-trigger.blade.php"
+      ]
+    },
+    {
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",

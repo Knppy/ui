@@ -46,34 +46,35 @@ php artisan vendor:publish --tag="ui-lang"
 
 ## Supported component(s)
 
-| Component name | Category   | Status |
-|----------------|------------|----|
-| accordion      | discosure  | ✅  |
-| alert          | ui         | ✅  |
-| aspect-ratio   | layout     | ✅  |
-| avatar         | ui         | ✅  |
-| badge          | ui         | ✅  |
+| Component name | Category  | Status |
+|----------------|-----------|----|
+| accordion      | discosure | ✅  |
+| alert          | ui        | ✅  |
+| aspect-ratio   | layout    | ✅  |
+| avatar         | ui        | ✅  |
+| badge          | ui        | ✅  |
 | breadcrumb     | navigation | ✅  |
-| button         | forms      | ✅  |
-| button-group   | forms      | ✅  |
-| card           | layout     | ✅  |
-| checkbox       | forms      | ✅  |
-| combobox       | forms      | ✅  |
-| field          | forms      | ✅  |
-| input          | forms      | ✅  |
-| input-group    | forms      | ✅  |
-| label          | forms      | ✅  |
-| progress       | ui         | ✅  |
-| radio-group    | forms      | ✅  |
-| select         | forms      | ✅  |
-| separator      | layout     | ✅  |
-| sheet          | overlays   | ✅  |
-| sidebar        | layout     | ✅  |
-| skeleton       | ui         | ✅  |
-| switch         | forms      | ✅  |
-| textarea       | forms      | ✅  |
-| toggle         | forms      | ✅  |
-| toggle-group   | forms      | ✅  |
+| button         | form     | ✅  |
+| button-group   | form     | ✅  |
+| card           | layout    | ✅  |
+| checkbox       | form     | ✅  |
+| combobox       | form     | ✅  |
+| dialog         | overlay   | ✅  |
+| field          | form     | ✅  |
+| input          | form     | ✅  |
+| input-group    | form     | ✅  |
+| label          | form     | ✅  |
+| progress       | ui        | ✅  |
+| radio-group    | form     | ✅  |
+| select         | form     | ✅  |
+| separator      | layout    | ✅  |
+| sheet          | overlays  | ✅  |
+| sidebar        | layout    | ✅  |
+| skeleton       | ui        | ✅  |
+| switch         | form     | ✅  |
+| textarea       | form     | ✅  |
+| toggle         | form     | ✅  |
+| toggle-group   | form     | ✅  |
 
 
 ## Changelog
