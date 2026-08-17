@@ -334,6 +334,23 @@
       ]
     },
     {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Used to display textual user input from keyboard.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/kbd.blade.php",
+        "ui/kbd-group.blade.php"
+      ]
+    },
+    {
       "name": "input",
       "type": "registry:ui",
       "title": "Input",
