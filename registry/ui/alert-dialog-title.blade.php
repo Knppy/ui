@@ -1,1 +1,6 @@
-<h2 data-slot="alert-dialog-title" {{ $attributes->twMerge('text-lg font-semibold sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2') }}>{{ $slot }}</h2>
+<h2
+    data-slot="alert-dialog-title"
+    {{ $attributes->twMerge('text-lg font-semibold sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2') }}
+>
+    {{ $slot }}
+</h2>

@@ -49,7 +49,7 @@ php artisan vendor:publish --tag="ui-lang"
 | Component name | Category     | Status |
 |----------------|--------------|----|
 | accordion      | discosure    | ✅  |
-| alert          | ui           | ✅  |
+| alert          | feedback     | ✅  |
 | alert-dialog   | overlay      | ✅  |
 | aspect-ratio   | layout       | ✅  |
 | avatar         | ui           | ✅  |
@@ -75,6 +75,7 @@ php artisan vendor:publish --tag="ui-lang"
 | sidebar        | layout       | ✅  |
 | skeleton       | ui           | ✅  |
 | slider         | form         | ✅  |
+| spinner        | feedback     | ✅  |
 | switch         | form         | ✅  |
 | textarea       | form         | ✅  |
 | toggle         | form         | ✅  |
