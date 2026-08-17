@@ -41,6 +41,33 @@
       ]
     },
     {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "A modal dialog that interrupts the user with important content and expects a response.",
+      "registryDependencies": [
+        "button"
+      ],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/alert-dialog.blade.php",
+        "ui/alert-dialog-action.blade.php",
+        "ui/alert-dialog-cancel.blade.php",
+        "ui/alert-dialog-content.blade.php",
+        "ui/alert-dialog-description.blade.php",
+        "ui/alert-dialog-footer.blade.php",
+        "ui/alert-dialog-header.blade.php",
+        "ui/alert-dialog-media.blade.php",
+        "ui/alert-dialog-title.blade.php",
+        "ui/alert-dialog-trigger.blade.php"
+      ]
+    },
+    {
       "name": "aspect-ratio",
       "type": "registry:ui",
       "title": "Aspect ratio",

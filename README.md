@@ -46,36 +46,37 @@ php artisan vendor:publish --tag="ui-lang"
 
 ## Supported component(s)
 
-| Component name | Category   | Status |
-|----------------|------------|----|
-| accordion      | discosure  | ✅  |
-| alert          | ui         | ✅  |
-| aspect-ratio   | layout     | ✅  |
-| avatar         | ui         | ✅  |
-| badge          | ui         | ✅  |
+| Component name | Category  | Status |
+|----------------|-----------|----|
+| accordion      | discosure | ✅  |
+| alert          | ui        | ✅  |
+| alert-dialog   | overlay        | ✅  |
+| aspect-ratio   | layout    | ✅  |
+| avatar         | ui        | ✅  |
+| badge          | ui        | ✅  |
 | breadcrumb     | navigation | ✅  |
-| button         | form       | ✅  |
-| button-group   | form       | ✅  |
-| card           | layout     | ✅  |
-| checkbox       | form       | ✅  |
-| combobox       | form       | ✅  |
-| dialog         | overlay    | ✅  |
-| field          | form       | ✅  |
-| input          | form       | ✅  |
-| input-group    | form       | ✅  |
-| label          | form       | ✅  |
-| progress       | ui         | ✅  |
-| radio-group    | form       | ✅  |
-| select         | form       | ✅  |
-| separator      | layout     | ✅  |
-| sheet          | overlays   | ✅  |
-| sidebar        | layout     | ✅  |
-| skeleton       | ui         | ✅  |
-| slider         | form       | ✅  |
-| switch         | form       | ✅  |
-| textarea       | form       | ✅  |
-| toggle         | form       | ✅  |
-| toggle-group   | form       | ✅  |
+| button         | form      | ✅  |
+| button-group   | form      | ✅  |
+| card           | layout    | ✅  |
+| checkbox       | form      | ✅  |
+| combobox       | form      | ✅  |
+| dialog         | overlay   | ✅  |
+| field          | form      | ✅  |
+| input          | form      | ✅  |
+| input-group    | form      | ✅  |
+| label          | form      | ✅  |
+| progress       | ui        | ✅  |
+| radio-group    | form      | ✅  |
+| select         | form      | ✅  |
+| separator      | layout    | ✅  |
+| sheet          | overlay   | ✅  |
+| sidebar        | layout    | ✅  |
+| skeleton       | ui        | ✅  |
+| slider         | form      | ✅  |
+| switch         | form      | ✅  |
+| textarea       | form      | ✅  |
+| toggle         | form      | ✅  |
+| toggle-group   | form      | ✅  |
 
 
 ## Changelog
