@@ -27,11 +27,8 @@ function resolveControl(el) {
 }
 
 /**
- * Anchor directive.
+ * UI anchor directive.
  */
-const ANCHOR_SIDES = ['top', 'right', 'bottom', 'left'];
-const ANCHOR_ALIGNS = ['start', 'end'];
-
 function uiAnchorDirective(el, {modifiers, expression}, {evaluateLater, cleanup}) {
     // Alpine preserves hyphens in modifier tokens (splits only on '.'), so
     // 'bottom-start' arrives as a single entry in the modifiers array.
@@ -96,6 +93,406 @@ function uiAnchorDirective(el, {modifiers, expression}, {evaluateLater, cleanup}
     });
 
     cleanup(() => stop && stop());
+}
+
+/**
+ * UI Calendar data.
+ */
+const uiCalendarData = (cfg = {}) => ({
+    calendarId: cfg.calendarId || null,
+    mode: cfg.mode || 'single',
+    locale: cfg.locale || undefined,
+    todayLabel: cfg.todayLabel || 'Today, :date',
+    selectedLabel: cfg.selectedLabel || 'selected',
+    numberOfMonths: cfg.numberOfMonths || 1,
+    weekStart: cfg.weekStart || 0,
+    captionLayout: cfg.captionLayout || 'label',
+    showWeekNumber: !!cfg.showWeekNumber,
+    disableNavigation: !!cfg.disableNavigation,
+    minDays: cfg.minDays ?? cfg.min ?? null,
+    maxDays: cfg.maxDays ?? cfg.max ?? null,
+    disabledCfg: cfg.disabled || null,
+    minDate: cfg.minDate ? _parse(cfg.minDate) : null,
+    maxDate: cfg.maxDate ? _parse(cfg.maxDate) : null,
+    outOfRange: cfg.outOfRange || 'disable',
+    modifiers: cfg.modifiers || {},
+    modifiersClass: cfg.modifiersClass || {},
+    startMonth: null,
+    endMonth: null,
+    view: null,
+    weekdays: [],
+    single: null,
+    multiple: [],
+    rangeFrom: null,
+    rangeTo: null,
+    hover: null,
+    focusedDate: null,
+
+    init() {
+        this.startMonth = cfg.startMonth ? _parse(cfg.startMonth) : null;
+        this.endMonth = cfg.endMonth ? _parse(cfg.endMonth) : null;
+
+        if (this.mode === 'single') this.single = cfg.value ? _parse(cfg.value) : null;
+        else if (this.mode === 'multiple') this.multiple = (cfg.value || []).map(_parse);
+        else if (this.mode === 'range') {
+            this.rangeFrom = cfg.value && cfg.value.from ? _parse(cfg.value.from) : null;
+            this.rangeTo = cfg.value && cfg.value.to ? _parse(cfg.value.to) : null;
+        }
+
+        let base = null;
+        if (cfg.defaultMonth) base = _parse(cfg.defaultMonth.length === 7 ? cfg.defaultMonth + '-01' : cfg.defaultMonth);
+        else base = this.single || this.rangeFrom || (this.multiple && this.multiple[0]) || this.startMonth || new Date();
+        this.view = new Date(base.getFullYear(), base.getMonth(), 1);
+
+        this.focusedDate = this.single || this.rangeFrom || (this.multiple && this.multiple[0]) || new Date(base.getFullYear(), base.getMonth(), base.getDate());
+
+        const ref = new Date(2023, 0, 1);
+        for (let i = 0; i < 7; i++) {
+            const d = new Date(ref);
+            d.setDate(ref.getDate() + ((this.weekStart + i + 7 - ref.getDay()) % 7));
+            this.weekdays.push(d.toLocaleString(this.locale, {weekday: 'narrow'}));
+        }
+        const mine = (e) => {
+            const d = e.detail;
+            const id = d && typeof d === 'object' && !(d instanceof Date) ? d.id : null;
+            return !id || id === this.calendarId;
+        };
+
+        const payload = (e) => {
+            const d = e.detail;
+            return d && typeof d === 'object' && !(d instanceof Date) ? (d.date ?? d.month ?? null) : d;
+        };
+        const onToday = (e) => {
+            if (this.mode !== 'single' || !mine(e)) return;
+            if (this.setValue(_ymd(new Date()))) this.notify('today');
+        };
+        const onSet = (e) => {
+            if (this.mode !== 'single' || !mine(e)) return;
+            const t = _parse(payload(e));
+            if (t && this.setValue(_ymd(t))) this.notify('set');
+        };
+
+        const onSetRange = (e) => {
+            if (this.mode !== 'range' || !mine(e)) return;
+            const d = e.detail || {};
+            if (this.setValue({from: d.from ?? null, to: d.to ?? null})) this.notify('set-range');
+        };
+
+        const onGoto = (e) => {
+            if (!mine(e)) return;
+            const raw = payload(e);
+            const m = _parse(typeof raw === 'string' && raw.length === 7 ? raw + '-01' : raw);
+            if (m) this.view = new Date(m.getFullYear(), m.getMonth(), 1);
+        };
+        const onClear = (e) => {
+            if (!mine(e)) return;
+            if (this.setValue(this.mode === 'single' ? null : this.mode === 'multiple' ? [] : {from: null, to: null})) {
+                this.notify('clear');
+            }
+        };
+        this._hooks = {
+            'calendar:today': onToday,
+            'calendar:set': onSet,
+            'calendar:set-range': onSetRange,
+            'calendar:goto': onGoto,
+            'calendar:clear': onClear,
+        };
+        this._rootEl = this.$root;
+        for (const target of [window, this._rootEl]) {
+            for (const name in this._hooks) target.addEventListener(name, this._hooks[name]);
+        }
+    },
+
+    destroy() {
+        if (!this._hooks) return;
+        for (const target of [window, this._rootEl]) {
+            for (const name in this._hooks) target.removeEventListener(name, this._hooks[name]);
+        }
+    },
+
+    get value() {
+        if (this.mode === 'single') return this.single ? _ymd(this.single) : null;
+        if (this.mode === 'multiple') return this.multiple.map(_ymd);
+        return {from: this.rangeFrom ? _ymd(this.rangeFrom) : null, to: this.rangeTo ? _ymd(this.rangeTo) : null};
+    },
+    set value(v) {
+        if (this.setValue(v)) this.notify('value');
+    },
+
+    setValue(v) {
+        if (this.mode === 'single') {
+            const next = v ? _ymd(_parse(v)) : null;
+            const changed = next !== (this.single ? _ymd(this.single) : null);
+            this.single = next ? _parse(next) : null;
+            if (this.single) this.reveal(this.single);
+            return changed;
+        }
+        if (this.mode === 'multiple') {
+            const list = (Array.isArray(v) ? v : v ? [v] : []).filter(Boolean).map(_parse);
+            const changed = list.map(_ymd).join(',') !== this.multiple.map(_ymd).join(',');
+            this.multiple = list;
+            if (list[0]) this.reveal(list[0]);
+            return changed;
+        }
+        const d = v || {};
+        const from = d.from ? _parse(d.from) : null;
+        const to = d.to ? _parse(d.to) : null;
+        const key = (a, b) => this.fmt(a) + '/' + this.fmt(b);
+        const changed = key(from, to) !== key(this.rangeFrom, this.rangeTo);
+        this.rangeFrom = from;
+        this.rangeTo = to;
+        this.hover = null;
+        if (from) this.reveal(from);
+        return changed;
+    },
+    reveal(d) {
+        if (!d) return;
+        if (!this._viewContains(d)) this.view = new Date(d.getFullYear(), d.getMonth(), 1);
+        this.focusedDate = d;
+    },
+
+
+    get months() {
+        return Array.from({length: this.numberOfMonths}, (_, i) => _addMonths(this.view, i));
+    },
+    monthLabel(m) {
+        return m.toLocaleString(this.locale, {month: 'long', year: 'numeric'});
+    },
+    weeksFor(m) {
+        const year = m.getFullYear(), month = m.getMonth();
+        const first = new Date(year, month, 1);
+        const offset = (first.getDay() - this.weekStart + 7) % 7;
+        const start = new Date(year, month, 1 - offset);
+        const weeks = [];
+        for (let w = 0; w < 6; w++) {
+            const days = [];
+            for (let d = 0; d < 7; d++) {
+                const day = new Date(start);
+                day.setDate(start.getDate() + w * 7 + d);
+                day.__outside = day.getMonth() !== month;
+                days.push(day);
+            }
+            weeks.push(days);
+        }
+        return weeks;
+    },
+    weekNumber(week) {
+        const d = new Date(week[0]);
+        d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7));
+        const firstThu = new Date(d.getFullYear(), 0, 4);
+        return 1 + Math.round(((d - firstThu) / 86400000 - 3 + ((firstThu.getDay() + 6) % 7)) / 7);
+    },
+
+    isOutside(d, m) {
+        return d.getMonth() !== m.getMonth();
+    },
+    isToday(d) {
+        return _sameDay(d, new Date());
+    },
+    isOutOfRange(d) {
+        return !!((this.minDate && d < this.minDate) || (this.maxDate && d > this.maxDate));
+    },
+    isDisabled(d) {
+
+        if (this.outOfRange !== 'flag' && this.isOutOfRange(d)) return true;
+        if (this.startMonth && d < new Date(this.startMonth.getFullYear(), this.startMonth.getMonth(), 1)) return true;
+        if (this.endMonth && d > new Date(this.endMonth.getFullYear(), this.endMonth.getMonth() + 1, 0)) return true;
+        const c = this.disabledCfg;
+        if (!c) return false;
+        if (Array.isArray(c)) return c.some((x) => _sameDay(_parse(x), d));
+        if (typeof c === 'object') {
+            if (c.before && d < _parse(c.before)) return true;
+            if (c.after && d > _parse(c.after)) return true;
+            if (c.dayOfWeek && c.dayOfWeek.includes(d.getDay())) return true;
+        }
+        return false;
+    },
+    isSelected(d) {
+        if (this.mode === 'single') return _sameDay(this.single, d);
+        if (this.mode === 'multiple') return this.multiple.some((x) => _sameDay(x, d));
+        return this.rangeIs(d).selected;
+    },
+    rangeIs(d) {
+        const from = this.rangeFrom, to = this.rangeTo || (this.rangeFrom && this.hover);
+        if (!from) return {};
+        const lo = to && to < from ? to : from;
+        const hi = to && to < from ? from : to;
+        const isStart = _sameDay(d, lo);
+        const isEnd = hi ? _sameDay(d, hi) : isStart;
+        const inMid = hi && d > lo && d < hi;
+        return {selected: isStart || isEnd || inMid, start: isStart, end: isEnd, middle: inMid};
+    },
+    modifierClass(d) {
+        let cls = '';
+        for (const name in this.modifiers) {
+            const list = this.modifiers[name] || [];
+            if (list.some((x) => _sameDay(_parse(x), d))) cls += ' ' + (this.modifiersClass[name] || '');
+        }
+        return cls;
+    },
+
+    select(d) {
+        if (this.isDisabled(d)) return;
+        if (this.mode === 'single') {
+            this.single = _sameDay(this.single, d) && !cfg.required ? null : d;
+        } else if (this.mode === 'multiple') {
+            const i = this.multiple.findIndex((x) => _sameDay(x, d));
+            if (i >= 0) this.multiple.splice(i, 1);
+            else if (!this.maxDays || this.multiple.length < this.maxDays) this.multiple.push(d);
+        } else {
+            if (!this.rangeFrom || (this.rangeFrom && this.rangeTo)) {
+                this.rangeFrom = d;
+                this.rangeTo = null;
+            } else {
+                let from = this.rangeFrom, to = d;
+                if (to < from) [from, to] = [to, from];
+                const span = Math.round((to - from) / 86400000) + 1;
+                if (this.minDays && span < this.minDays) {
+                    this.rangeFrom = d;
+                    this.rangeTo = null;
+                } else if (this.maxDays && span > this.maxDays) {
+                    this.rangeFrom = d;
+                    this.rangeTo = null;
+                } else {
+                    this.rangeFrom = from;
+                    this.rangeTo = to;
+                }
+            }
+        }
+        this.notify('select');
+    },
+    notify(source) {
+        const value = this.value;
+        this.$dispatch('calendar:updated', {id: this.calendarId, mode: this.mode, value, source});
+        if (source === 'select') this.$dispatch('calendar-change', value);
+    },
+    emit(value) {
+        this.$dispatch('calendar-change', value);
+    },
+
+    get canPrev() {
+        if (this.disableNavigation) return false;
+        if (!this.startMonth) return true;
+        return _addMonths(this.view, -1) >= new Date(this.startMonth.getFullYear(), this.startMonth.getMonth(), 1);
+    },
+    get canNext() {
+        if (this.disableNavigation) return false;
+        if (!this.endMonth) return true;
+        return _addMonths(this.view, this.numberOfMonths) <= new Date(this.endMonth.getFullYear(), this.endMonth.getMonth(), 1);
+    },
+    prev() {
+        if (!this.canPrev) return;
+        this.view = _addMonths(this.view, -1);
+        this.focusedDate = new Date(this.focusedDate.getFullYear(), this.focusedDate.getMonth() - 1, this.focusedDate.getDate());
+    },
+    next() {
+        if (!this.canNext) return;
+        this.view = _addMonths(this.view, 1);
+        this.focusedDate = new Date(this.focusedDate.getFullYear(), this.focusedDate.getMonth() + 1, this.focusedDate.getDate());
+    },
+
+    isFocused(d) {
+        return _sameDay(d, this.focusedDate);
+    },
+    dayLabel(d) {
+        const base = d.toLocaleDateString(this.locale, {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        let label = this.isToday(d) ? this.todayLabel.replace(':date', base) : base;
+        if (this.isSelected(d)) label += ', ' + this.selectedLabel;
+        return label;
+    },
+    _viewContains(d) {
+        const start = new Date(this.view.getFullYear(), this.view.getMonth(), 1);
+        const end = new Date(this.view.getFullYear(), this.view.getMonth() + this.numberOfMonths, 0);
+        return d >= start && d <= end;
+    },
+    _focus(d) {
+        this.focusedDate = d;
+        if (!this._viewContains(d)) this.view = new Date(d.getFullYear(), d.getMonth(), 1);
+        const key = _ymd(d);
+        setTimeout(() => {
+            const el = this.$root.querySelector('[data-day="' + key + '"]');
+            if (el) el.focus();
+        }, 0);
+    },
+    moveFocus(days) {
+        const d = new Date(this.focusedDate);
+        d.setDate(d.getDate() + days);
+        this._focus(d);
+    },
+    moveFocusMonths(n) {
+        const d = new Date(this.focusedDate);
+        d.setMonth(d.getMonth() + n);
+        this._focus(d);
+    },
+    focusWeekEdge(end) {
+        const d = new Date(this.focusedDate);
+        const offset = (d.getDay() - this.weekStart + 7) % 7;
+        d.setDate(d.getDate() + (end ? 6 - offset : -offset));
+        this._focus(d);
+    },
+    isRtl() {
+        const el = this._rootEl;
+        return !!(el && el.nodeType === 1 && typeof getComputedStyle === 'function' && getComputedStyle(el).direction === 'rtl');
+    },
+    onDayKeydown(e, d) {
+        const k = e.key;
+        const step = this.isRtl() ? -1 : 1;
+        if (k === 'ArrowLeft') this.moveFocus(-step);
+        else if (k === 'ArrowRight') this.moveFocus(step);
+        else if (k === 'ArrowUp') this.moveFocus(-7);
+        else if (k === 'ArrowDown') this.moveFocus(7);
+        else if (k === 'Home') this.focusWeekEdge(false);
+        else if (k === 'End') this.focusWeekEdge(true);
+        else if (k === 'PageUp') this.moveFocusMonths(-1);
+        else if (k === 'PageDown') this.moveFocusMonths(1);
+        else if (k === 'Enter' || k === ' ') {
+            this.select(d);
+            this.focusedDate = d;
+        } else return;
+        e.preventDefault();
+    },
+
+    get years() {
+        const start = this.startMonth ? this.startMonth.getFullYear() : new Date().getFullYear() - 100;
+        const end = this.endMonth ? this.endMonth.getFullYear() : new Date().getFullYear() + 10;
+        return Array.from({length: end - start + 1}, (_, i) => start + i);
+    },
+    get monthNames() {
+        return Array.from({length: 12}, (_, i) => new Date(2023, i, 1).toLocaleString(this.locale, {month: 'short'}));
+    },
+    setMonth(m) {
+        this.view = new Date(this.view.getFullYear(), Number(m), 1);
+    },
+    setYear(y) {
+        this.view = new Date(Number(y), this.view.getMonth(), 1);
+    },
+
+    fmt(d) {
+        return d ? _ymd(d) : '';
+    },
+    get multipleValue() {
+        return this.multiple.map(_ymd).join(',');
+    },
+});
+
+/**
+ * Dialog layer directive.
+ */
+function uiDialogLayerDirective(el) {
+    queueMicrotask(() => {
+        const home = el._x_teleportBack;
+        if (!home) return;
+        const target = home.closest('dialog') || document.body;
+        if (el.parentElement !== target) {
+            target.appendChild(el);
+            requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+        }
+    });
 }
 
 /**
@@ -172,21 +569,6 @@ function uiItemAlignedDirective(el, {expression}, {evaluateLater, effect, cleanu
     });
 
     cleanup(() => {
-    });
-}
-
-/**
- * Dialog layer directive.
- */
-function uiDialogLayerDirective(el) {
-    queueMicrotask(() => {
-        const home = el._x_teleportBack;
-        if (!home) return;
-        const target = home.closest('dialog') || document.body;
-        if (el.parentElement !== target) {
-            target.appendChild(el);
-            requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
-        }
     });
 }
 
@@ -358,7 +740,7 @@ const uiListboxData = (config = {}) => ({
     },
     registerOption(value, label) {
         if (!this.options.some((o) => o.value === value)) {
-            this.options.push({ value, label });
+            this.options.push({value, label});
         }
     },
 });
@@ -487,6 +869,25 @@ function uiTriggerDirective(el, {expression}, {evaluate, effect}) {
     });
 }
 
+function _ymd(d) {
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+function _parse(s) {
+    if (!s) return null;
+    if (s instanceof Date) return new Date(s.getFullYear(), s.getMonth(), s.getDate());
+    const p = String(s).split('-').map(Number);
+    return new Date(p[0], (p[1] || 1) - 1, p[2] || 1);
+}
+
+function _sameDay(a, b) {
+    return a && b && _ymd(a) === _ymd(b);
+}
+
+function _addMonths(d, n) {
+    return new Date(d.getFullYear(), d.getMonth() + n, 1);
+}
+
 /**
  * Registers the UI.
  */
@@ -495,6 +896,7 @@ export function registerUI(Alpine, options = {}) {
     Alpine.plugin(focus);
     Alpine.plugin(collapse);
 
+    Alpine.data('uiCalendar', uiCalendarData);
     Alpine.data('uiSelect', uiSelectData);
     Alpine.data('uiListbox', uiListboxData);
 

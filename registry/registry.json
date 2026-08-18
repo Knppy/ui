@@ -224,6 +224,22 @@
                 "ui/button-group-text.blade.php"
             ]
         },
+      {
+        "name": "calendar",
+        "type": "registry:ui",
+        "title": "Calendar",
+        "description": "A calendar component that allows users to select a date or a range of dates.",
+        "registryDependencies": [],
+        "dependencies": {
+          "composer": [
+            "gehrisandro/tailwind-merge-laravel"
+          ],
+          "npm": []
+        },
+        "files": [
+          "ui/calendar.blade.php"
+        ]
+      },
         {
             "name": "card",
             "type": "registry:ui",
