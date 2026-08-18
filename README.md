@@ -55,6 +55,7 @@ php artisan vendor:publish --tag="ui-lang"
 | avatar         | ui           | ✅  |
 | badge          | ui           | ✅  |
 | breadcrumb     | navigation   | ✅  |
+| bubble         | data-display | ✅  |
 | button         | form         | ✅  |
 | button-group   | form         | ✅  |
 | card           | layout       | ✅  |
