@@ -58,7 +58,9 @@ php artisan vendor:publish --tag="ui-lang"
 | bubble         | data-display | ✅  |
 | button         | form         | ✅  |
 | button-group   | form         | ✅  |
+| calendar       | form         | ✅  |
 | card           | layout       | ✅  |
+| carousel       | data-display | ✅  |
 | checkbox       | form         | ✅  |
 | combobox       | form         | ✅  |
 | dialog         | overlay      | ✅  |

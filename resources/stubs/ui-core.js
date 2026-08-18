@@ -889,6 +889,51 @@ function _addMonths(d, n) {
 }
 
 /**
+ * Carousel Alpine data — wraps Embla Carousel.
+ *
+ * Requires `embla-carousel` to be installed in the consumer's project.
+ */
+const uiCarouselData = (config = {}) => ({
+    orientation: config.orientation || 'horizontal',
+    opts: config.opts || {},
+    canScrollPrev: false,
+    canScrollNext: false,
+    _embla: null,
+    init() {
+        // Lazily import Embla so it is only required when the component is used.
+        import('embla-carousel').then(({default: EmblaCarousel}) => {
+            const viewport = this.$refs.viewport;
+            if (!viewport) return;
+
+            this._embla = EmblaCarousel(viewport, {
+                ...this.opts,
+                axis: this.orientation === 'horizontal' ? 'x' : 'y',
+            });
+
+            const update = () => {
+                this.canScrollPrev = this._embla.canScrollPrev();
+                this.canScrollNext = this._embla.canScrollNext();
+            };
+
+            this._embla.on('init', update);
+            this._embla.on('reInit', update);
+            this._embla.on('select', update);
+
+            update();
+        });
+    },
+    destroy() {
+        this._embla?.destroy();
+    },
+    scrollPrev() {
+        this._embla?.scrollPrev();
+    },
+    scrollNext() {
+        this._embla?.scrollNext();
+    },
+});
+
+/**
  * Registers the UI.
  */
 export function registerUI(Alpine, options = {}) {
@@ -897,6 +942,7 @@ export function registerUI(Alpine, options = {}) {
     Alpine.plugin(collapse);
 
     Alpine.data('uiCalendar', uiCalendarData);
+    Alpine.data('uiCarousel', uiCarouselData);
     Alpine.data('uiSelect', uiSelectData);
     Alpine.data('uiListbox', uiListboxData);
 

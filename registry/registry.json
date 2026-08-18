@@ -224,22 +224,22 @@
                 "ui/button-group-text.blade.php"
             ]
         },
-      {
-        "name": "calendar",
-        "type": "registry:ui",
-        "title": "Calendar",
-        "description": "A calendar component that allows users to select a date or a range of dates.",
-        "registryDependencies": [],
-        "dependencies": {
-          "composer": [
-            "gehrisandro/tailwind-merge-laravel"
-          ],
-          "npm": []
+        {
+            "name": "calendar",
+            "type": "registry:ui",
+            "title": "Calendar",
+            "description": "A calendar component that allows users to select a date or a range of dates.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [
+                    "gehrisandro/tailwind-merge-laravel"
+                ],
+                "npm": []
+            },
+            "files": [
+                "ui/calendar.blade.php"
+            ]
         },
-        "files": [
-          "ui/calendar.blade.php"
-        ]
-      },
         {
             "name": "card",
             "type": "registry:ui",
@@ -260,6 +260,30 @@
                 "ui/card-footer.blade.php",
                 "ui/card-header.blade.php",
                 "ui/card-title.blade.php"
+            ]
+        },
+        {
+            "name": "carousel",
+            "type": "registry:ui",
+            "title": "Carousel",
+            "description": "A carousel with motion and swipe built using Embla.",
+            "registryDependencies": [
+                "button"
+            ],
+            "dependencies": {
+                "composer": [
+                    "gehrisandro/tailwind-merge-laravel"
+                ],
+                "npm": [
+                    "embla-carousel"
+                ]
+            },
+            "files": [
+                "ui/carousel.blade.php",
+                "ui/carousel-content.blade.php",
+                "ui/carousel-item.blade.php",
+                "ui/carousel-previous.blade.php",
+                "ui/carousel-next.blade.php"
             ]
         },
         {
