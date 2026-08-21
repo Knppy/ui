@@ -287,6 +287,24 @@
             ]
         },
         {
+            "name": "collapsible",
+            "type": "registry:ui",
+            "title": "Collapsible",
+            "description": "An interactive component which expands/collapses a panel.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [
+                    "gehrisandro/tailwind-merge-laravel"
+                ],
+                "npm": []
+            },
+            "files": [
+                "ui/collapsible.blade.php",
+                "ui/collapsible-trigger.blade.php",
+                "ui/collapsible-content.blade.php"
+            ]
+        },
+        {
             "name": "combobox",
             "type": "registry:ui",
             "title": "Combobox",
