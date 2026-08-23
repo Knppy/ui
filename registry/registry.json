@@ -330,6 +330,30 @@
                 "ui/combobox-trigger.blade.php"
             ]
         },
+      {
+        "name": "command",
+        "type": "registry:ui",
+        "title": "Command",
+        "description": "Command menu for search and quick actions.",
+        "registryDependencies": [],
+        "dependencies": {
+          "composer": [
+            "gehrisandro/tailwind-merge-laravel"
+          ],
+          "npm": []
+        },
+        "files": [
+          "ui/command.blade.php",
+          "ui/command-dialog.blade.php",
+          "ui/command-empty.blade.php",
+          "ui/command-group.blade.php",
+          "ui/command-input.blade.php",
+          "ui/command-item.blade.php",
+          "ui/command-list.blade.php",
+          "ui/command-separator.blade.php",
+          "ui/command-shortcut.blade.php"
+        ]
+      },
         {
             "name": "dialog",
             "type": "registry:ui",

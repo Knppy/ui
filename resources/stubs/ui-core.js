@@ -11,7 +11,7 @@ let _uiId = 0;
  * Ensures that a DOM node has a unique ID. If the node does not have an ID, it generates one using the provided prefix
  * and a random string.
  */
-function ensureId(node, prefix = 'blat') {
+function ensureId(node, prefix = 'ui') {
     if (!node.id) node.id = `${prefix}-${++_uiId}-${Math.random().toString(36).slice(2, 7)}`;
     return node.id;
 }
@@ -869,25 +869,6 @@ function uiTriggerDirective(el, {expression}, {evaluate, effect}) {
     });
 }
 
-function _ymd(d) {
-    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-}
-
-function _parse(s) {
-    if (!s) return null;
-    if (s instanceof Date) return new Date(s.getFullYear(), s.getMonth(), s.getDate());
-    const p = String(s).split('-').map(Number);
-    return new Date(p[0], (p[1] || 1) - 1, p[2] || 1);
-}
-
-function _sameDay(a, b) {
-    return a && b && _ymd(a) === _ymd(b);
-}
-
-function _addMonths(d, n) {
-    return new Date(d.getFullYear(), d.getMonth() + n, 1);
-}
-
 /**
  * Carousel Alpine data — wraps Embla Carousel.
  *
@@ -934,6 +915,75 @@ const uiCarouselData = (config = {}) => ({
 });
 
 /**
+ * Command palette Alpine data.
+ */
+const uiCommandData = (config = {}) => ({
+    query: '',
+    activeId: null,
+    _entries: [],
+    registerItem(el, keyword, disabled) {
+        const id = ensureId(el, 'ui-cmd-item');
+        this._entries.push({ id, el, keyword: (keyword || '').toLowerCase(), disabled: !!disabled });
+        return id;
+    },
+    matches(kw) {
+        return (kw || '').toLowerCase().includes(this.query.toLowerCase());
+    },
+    get _visible() {
+        return this._entries.filter((i) => !i.disabled && this.matches(i.keyword) && i.el.offsetParent !== null);
+    },
+    get visibleCount() {
+        return this._entries.filter((i) => this.matches(i.keyword)).length;
+    },
+    ensureActive() {
+        const vis = this._visible;
+        if (!vis.length) {
+            this.activeId = null;
+        } else if (!vis.some((i) => i.id === this.activeId)) {
+            this.activeId = vis[0].id;
+        }
+    },
+    move(dir) {
+        const vis = this._visible;
+        if (!vis.length) return;
+        let idx = vis.findIndex((i) => i.id === this.activeId);
+        idx = idx < 0 ? (dir > 0 ? 0 : vis.length - 1) : (idx + dir + vis.length) % vis.length;
+        this.activeId = vis[idx].id;
+        vis[idx].el.scrollIntoView({ block: 'nearest' });
+    },
+    edge(pos) {
+        const vis = this._visible;
+        if (!vis.length) return;
+        const it = pos === 'last' ? vis[vis.length - 1] : vis[0];
+        this.activeId = it.id;
+        it.el.scrollIntoView({ block: 'nearest' });
+    },
+    selectActive() {
+        const it = this._entries.find((i) => i.id === this.activeId);
+        if (it && !it.disabled) it.el.click();
+    },
+});
+
+function _addMonths(d, n) {
+    return new Date(d.getFullYear(), d.getMonth() + n, 1);
+}
+
+function _parse(s) {
+    if (!s) return null;
+    if (s instanceof Date) return new Date(s.getFullYear(), s.getMonth(), s.getDate());
+    const p = String(s).split('-').map(Number);
+    return new Date(p[0], (p[1] || 1) - 1, p[2] || 1);
+}
+
+function _sameDay(a, b) {
+    return a && b && _ymd(a) === _ymd(b);
+}
+
+function _ymd(d) {
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+/**
  * Registers the UI.
  */
 export function registerUI(Alpine, options = {}) {
@@ -945,6 +995,7 @@ export function registerUI(Alpine, options = {}) {
     Alpine.data('uiCarousel', uiCarouselData);
     Alpine.data('uiSelect', uiSelectData);
     Alpine.data('uiListbox', uiListboxData);
+    Alpine.data('uiCommand', uiCommandData);
 
     Alpine.directive('ui-anchor', uiAnchorDirective);
     Alpine.directive('ui-item-aligned', uiItemAlignedDirective);
