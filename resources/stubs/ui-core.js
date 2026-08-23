@@ -575,7 +575,7 @@ function uiItemAlignedDirective(el, {expression}, {evaluateLater, effect, cleanu
 /**
  * Field directive.
  */
-function uitFieldDirective(el) {
+function uiFieldDirective(el) {
     queueMicrotask(() => {
         const control = el.querySelector(
             'input:not([type=hidden]), textarea, select, [role="checkbox"], [role="switch"], [role="radiogroup"], [role="combobox"], [role="slider"], [role="spinbutton"]',
@@ -618,6 +618,9 @@ function uiLabelledByDirective(el, {expression}, {evaluate}) {
     });
 }
 
+/**
+ * Listbox data.
+ */
 const uiListboxData = (config = {}) => ({
     trigger: config.trigger || 'button',
     open: false,
@@ -742,6 +745,62 @@ const uiListboxData = (config = {}) => ({
         if (!this.options.some((o) => o.value === value)) {
             this.options.push({value, label});
         }
+    },
+});
+
+/**
+ * Menu data.
+ */
+const uiMenuData = (config = {}) => ({
+    open: config.open ?? false,
+    x: 0,
+    y: 0,
+    _menu: null,
+    _trigger: null,
+    _closeTimer: null,
+    // Context-menu entry point: open at the pointer position with first item focused.
+    openAt(ev) {
+        if (ev) {
+            ev.preventDefault();
+            this.x = ev.clientX;
+            this.y = ev.clientY;
+            this._trigger = ev.currentTarget || this._trigger;
+        }
+        this.openMenu();
+    },
+    get _items() {
+        if (!this._menu) return [];
+        return Array.from(this._menu.querySelectorAll('[role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]')).filter(
+            (i) => i.getAttribute('aria-disabled') !== 'true' && !i.hasAttribute('disabled') && i.offsetParent !== null,
+        );
+    },
+    openMenu(focus) {
+        this.cancelClose();
+        this.open = true;
+        this.$nextTick(() => {
+            if (!this._menu) return;
+            const items = this._items;
+            if (focus === 'first') (items[0] || this._menu).focus();
+            else if (focus === 'last') (items[items.length - 1] || this._menu).focus();
+            else this._menu.focus();
+        });
+    },
+    toggleMenu() {
+        this.open ? this.closeMenu(false) : this.openMenu();
+    },
+    closeMenu(returnFocus = true) {
+        this.cancelClose();
+        if (!this.open) return;
+        this.open = false;
+        if (returnFocus && this._trigger) this.$nextTick(() => this._trigger.focus());
+    },
+
+    closeSoon(delay = 120) {
+        clearTimeout(this._closeTimer);
+        this._closeTimer = setTimeout(() => this.closeMenu(false), delay);
+    },
+    cancelClose() {
+        clearTimeout(this._closeTimer);
     },
 });
 
@@ -993,14 +1052,16 @@ export function registerUI(Alpine, options = {}) {
 
     Alpine.data('uiCalendar', uiCalendarData);
     Alpine.data('uiCarousel', uiCarouselData);
-    Alpine.data('uiSelect', uiSelectData);
-    Alpine.data('uiListbox', uiListboxData);
     Alpine.data('uiCommand', uiCommandData);
+    Alpine.data('uiListbox', uiListboxData);
+    Alpine.data('uiMenu', uiMenuData);
+    Alpine.data('uiContextMenu', uiMenuData);
+    Alpine.data('uiSelect', uiSelectData);
 
     Alpine.directive('ui-anchor', uiAnchorDirective);
     Alpine.directive('ui-item-aligned', uiItemAlignedDirective);
     Alpine.directive('ui-dialog-layer', uiDialogLayerDirective);
     Alpine.directive('ui-labelledby', uiLabelledByDirective);
-    Alpine.directive('ui-field', uitFieldDirective);
+    Alpine.directive('ui-field', uiFieldDirective);
     Alpine.directive('ui-trigger', uiTriggerDirective);
 }

@@ -354,6 +354,35 @@
           "ui/command-shortcut.blade.php"
         ]
       },
+      {
+        "name": "context-menu",
+        "type": "registry:ui",
+        "title": "Context Menu",
+        "description": "Displays a menu of actions triggered by a right click.",
+        "registryDependencies": [],
+        "dependencies": {
+          "composer": [
+            "gehrisandro/tailwind-merge-laravel"
+          ],
+          "npm": []
+        },
+        "files": [
+          "ui/context-menu.blade.php",
+          "ui/context-menu-checkbox-item.blade.php",
+          "ui/context-menu-content.blade.php",
+          "ui/context-menu-group.blade.php",
+          "ui/context-menu-item.blade.php",
+          "ui/context-menu-label.blade.php",
+          "ui/context-menu-radio-group.blade.php",
+          "ui/context-menu-radio-item.blade.php",
+          "ui/context-menu-separator.blade.php",
+          "ui/context-menu-shortcut.blade.php",
+          "ui/context-menu-sub.blade.php",
+          "ui/context-menu-sub-content.blade.php",
+          "ui/context-menu-sub-trigger.blade.php",
+          "ui/context-menu-trigger.blade.php"
+        ]
+      },
         {
             "name": "dialog",
             "type": "registry:ui",

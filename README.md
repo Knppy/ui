@@ -48,7 +48,7 @@ php artisan vendor:publish --tag="ui-lang"
 
 | Component name | Category     | Status |
 |----------------|--------------|----|
-| accordion      | disclosure    | ✅  |
+| accordion      | disclosure   | ✅  |
 | alert          | feedback     | ✅  |
 | alert-dialog   | overlay      | ✅  |
 | aspect-ratio   | layout       | ✅  |
@@ -64,6 +64,8 @@ php artisan vendor:publish --tag="ui-lang"
 | checkbox       | form         | ✅  |
 | collapsible    | disclosure   | ✅  |
 | combobox       | form         | ✅  |
+| command        | overlay      | ✅  |
+| context-menu   | overlay      | ✅  |
 | dialog         | overlay      | ✅  |
 | field          | form         | ✅  |
 | input          | form         | ✅  |
