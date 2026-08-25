@@ -100,6 +100,10 @@ class InstallCommand extends Command
     {
         $this->components->info('Creating app.css...');
 
+        $stub = File::get(__DIR__.'/../../../resources/stubs/ui.css');
+
+        File::put(resource_path('css/ui.css'), $stub);
+
         $stub = File::get(__DIR__.'/../../../resources/stubs/app.css');
 
         $stub = str_replace('{{THEME_COLOR}}', $this->baseColor->getCss(), $stub);
