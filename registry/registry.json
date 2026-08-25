@@ -406,6 +406,36 @@
                 "ui/dialog-trigger.blade.php"
             ]
         },
+      {
+        "name": "dropdown-menu",
+        "type": "registry:ui",
+        "title": "Dropdown menu",
+        "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
+        "registryDependencies": [],
+        "dependencies": {
+          "composer": [
+            "gehrisandro/tailwind-merge-laravel"
+          ],
+          "npm": []
+        },
+        "files": [
+          "ui/dropdown-menu.blade.php",
+          "ui/dropdown-menu-checkbox-item.blade.php",
+          "ui/dropdown-menu-content.blade.php",
+          "ui/dropdown-menu-group.blade.php",
+          "ui/dropdown-menu-item.blade.php",
+          "ui/dropdown-menu-label.blade.php",
+          "ui/dropdown-menu-portal.blade.php",
+          "ui/dropdown-menu-radio-group.blade.php",
+          "ui/dropdown-menu-radio-item.blade.php",
+          "ui/dropdown-menu-separator.blade.php",
+          "ui/dropdown-menu-shortcut.blade.php",
+          "ui/dropdown-menu-sub.blade.php",
+          "ui/dropdown-menu-sub-content.blade.php",
+          "ui/dropdown-menu-sub-trigger.blade.php",
+          "ui/dropdown-menu-trigger.blade.php"
+        ]
+      },
         {
             "name": "checkbox",
             "type": "registry:ui",
