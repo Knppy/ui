@@ -68,6 +68,7 @@ php artisan vendor:publish --tag="ui-lang"
 | context-menu   | overlay      | ✅  |
 | dialog         | overlay      | ✅  |
 | dropdown-menu  | overlay      | ✅  |
+| empty          | feedback     | ✅  |
 | field          | form         | ✅  |
 | input          | form         | ✅  |
 | input-group    | form         | ✅  |

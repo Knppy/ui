@@ -455,6 +455,27 @@
             ]
         },
         {
+            "name": "empty",
+            "type": "registry:ui",
+            "title": "Empty",
+            "description": "Use the Empty component to display an empty state.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [
+                    "gehrisandro/tailwind-merge-laravel"
+                ],
+                "npm": []
+            },
+            "files": [
+                "ui/empty.blade.php",
+                "ui/empty-content.blade.php",
+                "ui/empty-description.blade.php",
+                "ui/empty-header.blade.php",
+                "ui/empty-media.blade.php",
+                "ui/empty-title.blade.php"
+            ]
+        },
+        {
             "name": "field",
             "type": "registry:ui",
             "title": "Field",
