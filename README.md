@@ -75,6 +75,9 @@ php artisan vendor:publish --tag="ui-lang"
 | input-otp      | form         | ✅  |
 | kbd            | data-display | ✅  |
 | label          | form         | ✅  |
+| marker         | data-display | ✅  |
+| menubar        | overlay      | ✅  |
+| message        | data-display | ✅  |
 | progress       | ui           | ✅  |
 | radio-group    | form         | ✅  |
 | select         | form         | ✅  |
