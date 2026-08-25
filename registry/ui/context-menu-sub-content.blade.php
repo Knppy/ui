@@ -1,6 +1,7 @@
 <div
     x-show="subOpen"
     x-cloak
+    @click="subOpen = false"
     data-slot="context-menu-sub-content"
     :data-state="subOpen ? 'open' : 'closed'"
     x-transition:enter="transition ease-out duration-150"

@@ -7,7 +7,9 @@
     data-slot="dropdown-menu-checkbox-item"
     role="menuitemcheckbox"
     :aria-checked="@js((bool) $checked)"
-    @if ($disabled) data-disabled="true" aria-disabled="true" @else @click="typeof closeMenu === 'function' && closeMenu()" @endif
+    @if ($disabled) data-disabled="true" aria-disabled="true" @else @click="
+        typeof closeMenu === 'function' && closeMenu()
+    " @endif
     tabindex="{{ $disabled ? '-1' : '0' }}"
     @keydown.enter.prevent="
         if (! $el.dataset.disabled) {

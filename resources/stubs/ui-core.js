@@ -57,37 +57,46 @@ function uiAnchorDirective(el, {modifiers, expression}, {evaluateLater, cleanup}
     queueMicrotask(() => {
         getReference((reference) => {
             if (!reference || stop) return;
-            const update = () => computePosition(reference, el, {
-                strategy: 'fixed',
-                placement,
-                middleware: [
-                    flOffset({mainAxis: offsetValue, alignmentAxis: alignOffsetValue}),
-                    allowFlip && flip({padding: PAD}),
-                    avoidCollisions && shift({padding: PAD}),
-                    size({
-                        padding: PAD,
-                        apply({availableWidth, availableHeight, rects}) {
-                            // Fit the available space but never exceed the design cap (min 140px so it
-                            // never collapses). The popover carries overflow-y-auto, so it scrolls.
-                            const h = Math.min(designMax, Math.max(140, Math.floor(availableHeight)));
-                            el.style.maxHeight = Number.isFinite(h) ? `${h}px` : '';
-                            // Match the trigger width as a minimum.
-                            el.style.minWidth = `${rects.reference.width}px`;
-                            // Radix-compatible CSS custom properties.
-                            el.style.setProperty('--radix-select-trigger-width', `${rects.reference.width}px`);
-                            el.style.setProperty('--radix-select-trigger-height', `${rects.reference.height}px`);
-                            el.style.setProperty('--radix-select-content-available-width', `${Math.floor(availableWidth)}px`);
-                            el.style.setProperty('--radix-select-content-available-height', `${Math.floor(availableHeight)}px`);
-                        },
-                    }),
-                ].filter(Boolean),
-            }).then(({x, y, placement: resolvedPlacement}) => {
-                Object.assign(el.style, {position: 'fixed', left: `${x}px`, top: `${y}px`});
-                // Expose resolved side and align as data attributes for CSS consumers.
-                const [side, align = 'center'] = resolvedPlacement.split('-');
-                el.dataset.side = side;
-                el.dataset.align = align;
-            });
+            const update = () => {
+                // Skip positioning when the element is closing (leave transition)
+                // or the reference has no layout, to prevent flashing to 0,0.
+                if (el.dataset.state === 'closed') return;
+                const ref = typeof reference === 'function' ? reference() : reference;
+                if (!ref) return;
+                const rect = ref.getBoundingClientRect();
+                if (rect.width === 0 && rect.height === 0) return;
+                return computePosition(reference, el, {
+                    strategy: 'fixed',
+                    placement,
+                    middleware: [
+                        flOffset({mainAxis: offsetValue, alignmentAxis: alignOffsetValue}),
+                        allowFlip && flip({padding: PAD}),
+                        avoidCollisions && shift({padding: PAD}),
+                        size({
+                            padding: PAD,
+                            apply({availableWidth, availableHeight, rects}) {
+                                // Fit the available space but never exceed the design cap (min 140px so it
+                                // never collapses). The popover carries overflow-y-auto, so it scrolls.
+                                const h = Math.min(designMax, Math.max(140, Math.floor(availableHeight)));
+                                el.style.maxHeight = Number.isFinite(h) ? `${h}px` : '';
+                                // Match the trigger width as a minimum.
+                                el.style.minWidth = `${rects.reference.width}px`;
+                                // Radix-compatible CSS custom properties.
+                                el.style.setProperty('--radix-select-trigger-width', `${rects.reference.width}px`);
+                                el.style.setProperty('--radix-select-trigger-height', `${rects.reference.height}px`);
+                                el.style.setProperty('--radix-select-content-available-width', `${Math.floor(availableWidth)}px`);
+                                el.style.setProperty('--radix-select-content-available-height', `${Math.floor(availableHeight)}px`);
+                            },
+                        }),
+                    ].filter(Boolean),
+                }).then(({x, y, placement: resolvedPlacement}) => {
+                    Object.assign(el.style, {position: 'fixed', left: `${x}px`, top: `${y}px`});
+                    // Expose resolved side and align as data attributes for CSS consumers.
+                    const [side, align = 'center'] = resolvedPlacement.split('-');
+                    el.dataset.side = side;
+                    el.dataset.align = align;
+                });
+            };
             stop = autoUpdate(reference, el, update);
         });
     });
@@ -805,6 +814,35 @@ const uiMenuData = (config = {}) => ({
 });
 
 /**
+ * Menubar data — bar-level roving focus and auto-open coordination.
+ *
+ * Each menu item inside the bar should use x-data="uiMenu()" for its own
+ * open/close state. The bar root uses this component to track which trigger
+ * is active and to handle left/right arrow navigation between triggers.
+ */
+const uiMenubarData = () => ({
+    _triggers: [],
+    // Register a trigger element. Called by each menubar-trigger via x-init.
+    registerTrigger(el) {
+        if (!this._triggers.includes(el)) this._triggers.push(el);
+    },
+    // Returns true if any menu in this bar is currently open.
+    get anyOpen() {
+        return this._triggers.some((t) => t.getAttribute('data-state') === 'open');
+    },
+    // Move focus (and optionally open the menu) to the trigger at offset +1/-1.
+    moveTrigger(el, dir) {
+        const idx = this._triggers.indexOf(el);
+        if (idx === -1) return;
+        const next = this._triggers[(idx + dir + this._triggers.length) % this._triggers.length];
+        if (next) {
+            next.focus();
+            if (this.anyOpen) next.click();
+        }
+    },
+});
+
+/**
  * UI select data.
  */
 const uiSelectData = (config = {}) => ({
@@ -1056,6 +1094,7 @@ export function registerUI(Alpine, options = {}) {
     Alpine.data('uiListbox', uiListboxData);
     Alpine.data('uiMenu', uiMenuData);
     Alpine.data('uiContextMenu', uiMenuData);
+    Alpine.data('uiMenubar', uiMenubarData);
     Alpine.data('uiSelect', uiSelectData);
 
     Alpine.directive('ui-anchor', uiAnchorDirective);

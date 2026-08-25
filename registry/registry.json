@@ -1,866 +1,896 @@
 {
-    "name": "knppy",
-    "homepage": "",
-    "description": "A registry for knppy packages.",
-    "items": [
-        {
-            "name": "accordion",
-            "type": "registry:ui",
-            "title": "Accordion",
-            "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/accordion.blade.php",
-                "ui/accordion-content.blade.php",
-                "ui/accordion-item.blade.php",
-                "ui/accordion-trigger.blade.php"
-            ]
-        },
-        {
-            "name": "alert",
-            "type": "registry:ui",
-            "title": "Alert",
-            "description": "Displays a callout for user attention.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/alert.blade.php",
-                "ui/alert-description.blade.php",
-                "ui/alert-title.blade.php"
-            ]
-        },
-        {
-            "name": "alert-dialog",
-            "type": "registry:ui",
-            "title": "Alert Dialog",
-            "description": "A modal dialog that interrupts the user with important content and expects a response.",
-            "registryDependencies": [
-                "button"
-            ],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/alert-dialog.blade.php",
-                "ui/alert-dialog-action.blade.php",
-                "ui/alert-dialog-cancel.blade.php",
-                "ui/alert-dialog-content.blade.php",
-                "ui/alert-dialog-description.blade.php",
-                "ui/alert-dialog-footer.blade.php",
-                "ui/alert-dialog-header.blade.php",
-                "ui/alert-dialog-media.blade.php",
-                "ui/alert-dialog-title.blade.php",
-                "ui/alert-dialog-trigger.blade.php"
-            ]
-        },
-        {
-            "name": "attachment",
-            "type": "registry:ui",
-            "title": "Attachment",
-            "description": "Displays file attachments with support for various states, sizes, and orientations.",
-            "registryDependencies": [
-                "button"
-            ],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/attachment.blade.php",
-                "ui/attachment-action.blade.php",
-                "ui/attachment-actions.blade.php",
-                "ui/attachment-content.blade.php",
-                "ui/attachment-description.blade.php",
-                "ui/attachment-group.blade.php",
-                "ui/attachment-media.blade.php",
-                "ui/attachment-title.blade.php",
-                "ui/attachment-trigger.blade.php"
-            ]
-        },
-        {
-            "name": "aspect-ratio",
-            "type": "registry:ui",
-            "title": "Aspect ratio",
-            "description": "Displays content within a desired ratio.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/aspect-ratio.blade.php"
-            ]
-        },
-        {
-            "name": "avatar",
-            "type": "registry:ui",
-            "title": "Avatar",
-            "description": "An image element with a fallback for representing the user.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/avatar.blade.php",
-                "ui/avatar-badge.blade.php",
-                "ui/avatar-fallback.blade.php",
-                "ui/avatar-group.blade.php",
-                "ui/avatar-group-count.blade.php",
-                "ui/avatar-image.blade.php"
-            ]
-        },
-        {
-            "name": "badge",
-            "type": "registry:ui",
-            "title": "Badge",
-            "description": "Displays a badge or a component that looks like a badge.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/badge.blade.php"
-            ]
-        },
-        {
-            "name": "bubble",
-            "type": "registry:ui",
-            "title": "Bubble",
-            "description": "Displays conversational content in a message bubble. Supports variants, alignment, grouping, reactions, and collapsible content.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/bubble.blade.php",
-                "ui/bubble-group.blade.php",
-                "ui/bubble-content.blade.php",
-                "ui/bubble-reactions.blade.php"
-            ]
-        },
-        {
-            "name": "breadcrumb",
-            "type": "registry:ui",
-            "title": "Breadcrumb",
-            "description": "A basic breadcrumb with a home link and a components link.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel",
-                    "mallardduck/blade-lucide-icons"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/breadcrumb.blade.php",
-                "ui/breadcrumb-ellipsis.blade.php",
-                "ui/breadcrumb-item.blade.php",
-                "ui/breadcrumb-link.blade.php",
-                "ui/breadcrumb-list.blade.php",
-                "ui/breadcrumb-page.blade.php",
-                "ui/breadcrumb-separator.blade.php"
-            ]
-        },
-        {
-            "name": "button",
-            "type": "registry:ui",
-            "title": "Button",
-            "description": "Displays a button or a component that looks like a button.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/button.blade.php"
-            ]
-        },
-        {
-            "name": "button-group",
-            "type": "registry:ui",
-            "title": "Button group",
-            "description": "A container that groups related buttons together with consistent styling.",
-            "registryDependencies": [
-                "button"
-            ],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/button-group.blade.php",
-                "ui/button-group-separator.blade.php",
-                "ui/button-group-text.blade.php"
-            ]
-        },
-        {
-            "name": "calendar",
-            "type": "registry:ui",
-            "title": "Calendar",
-            "description": "A calendar component that allows users to select a date or a range of dates.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/calendar.blade.php"
-            ]
-        },
-        {
-            "name": "card",
-            "type": "registry:ui",
-            "title": "Card",
-            "description": "A container that groups related buttons together with consistent styling.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/card.blade.php",
-                "ui/card-action.blade.php",
-                "ui/card-content.blade.php",
-                "ui/card-description.blade.php",
-                "ui/card-footer.blade.php",
-                "ui/card-header.blade.php",
-                "ui/card-title.blade.php"
-            ]
-        },
-        {
-            "name": "carousel",
-            "type": "registry:ui",
-            "title": "Carousel",
-            "description": "A carousel with motion and swipe built using Embla.",
-            "registryDependencies": [
-                "button"
-            ],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": [
-                    "embla-carousel"
-                ]
-            },
-            "files": [
-                "ui/carousel.blade.php",
-                "ui/carousel-content.blade.php",
-                "ui/carousel-item.blade.php",
-                "ui/carousel-previous.blade.php",
-                "ui/carousel-next.blade.php"
-            ]
-        },
-        {
-            "name": "collapsible",
-            "type": "registry:ui",
-            "title": "Collapsible",
-            "description": "An interactive component which expands/collapses a panel.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/collapsible.blade.php",
-                "ui/collapsible-trigger.blade.php",
-                "ui/collapsible-content.blade.php"
-            ]
-        },
-        {
-            "name": "combobox",
-            "type": "registry:ui",
-            "title": "Combobox",
-            "description": "Autocomplete input with a list of suggestions.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/combobox.blade.php",
-                "ui/combobox-chips.blade.php",
-                "ui/combobox-content.blade.php",
-                "ui/combobox-empty.blade.php",
-                "ui/combobox-group.blade.php",
-                "ui/combobox-input.blade.php",
-                "ui/combobox-item.blade.php",
-                "ui/combobox-label.blade.php",
-                "ui/combobox-list.blade.php",
-                "ui/combobox-separator.blade.php",
-                "ui/combobox-trigger.blade.php"
-            ]
-        },
-      {
-        "name": "command",
-        "type": "registry:ui",
-        "title": "Command",
-        "description": "Command menu for search and quick actions.",
-        "registryDependencies": [],
-        "dependencies": {
-          "composer": [
-            "gehrisandro/tailwind-merge-laravel"
-          ],
-          "npm": []
-        },
-        "files": [
-          "ui/command.blade.php",
-          "ui/command-dialog.blade.php",
-          "ui/command-empty.blade.php",
-          "ui/command-group.blade.php",
-          "ui/command-input.blade.php",
-          "ui/command-item.blade.php",
-          "ui/command-list.blade.php",
-          "ui/command-separator.blade.php",
-          "ui/command-shortcut.blade.php"
+  "name": "knppy",
+  "homepage": "",
+  "description": "A registry for knppy packages.",
+  "items": [
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/accordion.blade.php",
+        "ui/accordion-content.blade.php",
+        "ui/accordion-item.blade.php",
+        "ui/accordion-trigger.blade.php"
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Displays a callout for user attention.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/alert.blade.php",
+        "ui/alert-description.blade.php",
+        "ui/alert-title.blade.php"
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "A modal dialog that interrupts the user with important content and expects a response.",
+      "registryDependencies": [
+        "button"
+      ],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/alert-dialog.blade.php",
+        "ui/alert-dialog-action.blade.php",
+        "ui/alert-dialog-cancel.blade.php",
+        "ui/alert-dialog-content.blade.php",
+        "ui/alert-dialog-description.blade.php",
+        "ui/alert-dialog-footer.blade.php",
+        "ui/alert-dialog-header.blade.php",
+        "ui/alert-dialog-media.blade.php",
+        "ui/alert-dialog-title.blade.php",
+        "ui/alert-dialog-trigger.blade.php"
+      ]
+    },
+    {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "Displays file attachments with support for various states, sizes, and orientations.",
+      "registryDependencies": [
+        "button"
+      ],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/attachment.blade.php",
+        "ui/attachment-action.blade.php",
+        "ui/attachment-actions.blade.php",
+        "ui/attachment-content.blade.php",
+        "ui/attachment-description.blade.php",
+        "ui/attachment-group.blade.php",
+        "ui/attachment-media.blade.php",
+        "ui/attachment-title.blade.php",
+        "ui/attachment-trigger.blade.php"
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect ratio",
+      "description": "Displays content within a desired ratio.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/aspect-ratio.blade.php"
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "An image element with a fallback for representing the user.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/avatar.blade.php",
+        "ui/avatar-badge.blade.php",
+        "ui/avatar-fallback.blade.php",
+        "ui/avatar-group.blade.php",
+        "ui/avatar-group-count.blade.php",
+        "ui/avatar-image.blade.php"
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Displays a badge or a component that looks like a badge.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/badge.blade.php"
+      ]
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "Bubble",
+      "description": "Displays conversational content in a message bubble. Supports variants, alignment, grouping, reactions, and collapsible content.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/bubble.blade.php",
+        "ui/bubble-group.blade.php",
+        "ui/bubble-content.blade.php",
+        "ui/bubble-reactions.blade.php"
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "A basic breadcrumb with a home link and a components link.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel",
+          "mallardduck/blade-lucide-icons"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/breadcrumb.blade.php",
+        "ui/breadcrumb-ellipsis.blade.php",
+        "ui/breadcrumb-item.blade.php",
+        "ui/breadcrumb-link.blade.php",
+        "ui/breadcrumb-list.blade.php",
+        "ui/breadcrumb-page.blade.php",
+        "ui/breadcrumb-separator.blade.php"
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Displays a button or a component that looks like a button.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/button.blade.php"
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button group",
+      "description": "A container that groups related buttons together with consistent styling.",
+      "registryDependencies": [
+        "button"
+      ],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/button-group.blade.php",
+        "ui/button-group-separator.blade.php",
+        "ui/button-group-text.blade.php"
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "A calendar component that allows users to select a date or a range of dates.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/calendar.blade.php"
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "A container that groups related buttons together with consistent styling.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/card.blade.php",
+        "ui/card-action.blade.php",
+        "ui/card-content.blade.php",
+        "ui/card-description.blade.php",
+        "ui/card-footer.blade.php",
+        "ui/card-header.blade.php",
+        "ui/card-title.blade.php"
+      ]
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "A carousel with motion and swipe built using Embla.",
+      "registryDependencies": [
+        "button"
+      ],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": [
+          "embla-carousel"
         ]
       },
-      {
-        "name": "context-menu",
-        "type": "registry:ui",
-        "title": "Context Menu",
-        "description": "Displays a menu of actions triggered by a right click.",
-        "registryDependencies": [],
-        "dependencies": {
-          "composer": [
-            "gehrisandro/tailwind-merge-laravel"
-          ],
-          "npm": []
-        },
-        "files": [
-          "ui/context-menu.blade.php",
-          "ui/context-menu-checkbox-item.blade.php",
-          "ui/context-menu-content.blade.php",
-          "ui/context-menu-group.blade.php",
-          "ui/context-menu-item.blade.php",
-          "ui/context-menu-label.blade.php",
-          "ui/context-menu-radio-group.blade.php",
-          "ui/context-menu-radio-item.blade.php",
-          "ui/context-menu-separator.blade.php",
-          "ui/context-menu-shortcut.blade.php",
-          "ui/context-menu-sub.blade.php",
-          "ui/context-menu-sub-content.blade.php",
-          "ui/context-menu-sub-trigger.blade.php",
-          "ui/context-menu-trigger.blade.php"
-        ]
+      "files": [
+        "ui/carousel.blade.php",
+        "ui/carousel-content.blade.php",
+        "ui/carousel-item.blade.php",
+        "ui/carousel-previous.blade.php",
+        "ui/carousel-next.blade.php"
+      ]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "An interactive component which expands/collapses a panel.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
       },
-        {
-            "name": "dialog",
-            "type": "registry:ui",
-            "title": "Dialog",
-            "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/dialog.blade.php",
-                "ui/dialog-close.blade.php",
-                "ui/dialog-content.blade.php",
-                "ui/dialog-description.blade.php",
-                "ui/dialog-footer.blade.php",
-                "ui/dialog-header.blade.php",
-                "ui/dialog-title.blade.php",
-                "ui/dialog-trigger.blade.php"
-            ]
-        },
-      {
-        "name": "dropdown-menu",
-        "type": "registry:ui",
-        "title": "Dropdown menu",
-        "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
-        "registryDependencies": [],
-        "dependencies": {
-          "composer": [
-            "gehrisandro/tailwind-merge-laravel"
-          ],
-          "npm": []
-        },
-        "files": [
-          "ui/dropdown-menu.blade.php",
-          "ui/dropdown-menu-checkbox-item.blade.php",
-          "ui/dropdown-menu-content.blade.php",
-          "ui/dropdown-menu-group.blade.php",
-          "ui/dropdown-menu-item.blade.php",
-          "ui/dropdown-menu-label.blade.php",
-          "ui/dropdown-menu-portal.blade.php",
-          "ui/dropdown-menu-radio-group.blade.php",
-          "ui/dropdown-menu-radio-item.blade.php",
-          "ui/dropdown-menu-separator.blade.php",
-          "ui/dropdown-menu-shortcut.blade.php",
-          "ui/dropdown-menu-sub.blade.php",
-          "ui/dropdown-menu-sub-content.blade.php",
-          "ui/dropdown-menu-sub-trigger.blade.php",
-          "ui/dropdown-menu-trigger.blade.php"
-        ]
+      "files": [
+        "ui/collapsible.blade.php",
+        "ui/collapsible-trigger.blade.php",
+        "ui/collapsible-content.blade.php"
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Autocomplete input with a list of suggestions.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
       },
-        {
-            "name": "checkbox",
-            "type": "registry:ui",
-            "title": "Checkbox",
-            "description": "Displays a checkbox that can be checked or unchecked.",
-            "registryDependencies": [
-                "button"
-            ],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/checkbox.blade.php"
-            ]
-        },
-        {
-            "name": "empty",
-            "type": "registry:ui",
-            "title": "Empty",
-            "description": "Use the Empty component to display an empty state.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/empty.blade.php",
-                "ui/empty-content.blade.php",
-                "ui/empty-description.blade.php",
-                "ui/empty-header.blade.php",
-                "ui/empty-media.blade.php",
-                "ui/empty-title.blade.php"
-            ]
-        },
-        {
-            "name": "field",
-            "type": "registry:ui",
-            "title": "Field",
-            "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/field.blade.php",
-                "ui/field-content.blade.php",
-                "ui/field-description.blade.php",
-                "ui/field-error.blade.php",
-                "ui/field-group.blade.php",
-                "ui/field-label.blade.php",
-                "ui/field-legend.blade.php",
-                "ui/field-separator.blade.php",
-                "ui/field-set.blade.php",
-                "ui/field-title.blade.php"
-            ]
-        },
-        {
-            "name": "input-group",
-            "type": "registry:ui",
-            "title": "Input Group",
-            "description": "Add addons, buttons, and helper content to inputs.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/input-group.blade.php",
-                "ui/input-group-addon.blade.php",
-                "ui/input-group-button.blade.php",
-                "ui/input-group-input.blade.php",
-                "ui/input-group-text.blade.php",
-                "ui/input-group-textarea.blade.php"
-            ]
-        },
-        {
-            "name": "input-otp",
-            "type": "registry:ui",
-            "title": "Input OTP",
-            "description": "Accessible one-time password component with copy-paste functionality.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/input-otp.blade.php",
-                "ui/input-otp-group.blade.php",
-                "ui/input-otp-slot.blade.php",
-                "ui/input-otp-separator.blade.php"
-            ]
-        },
-        {
-            "name": "kbd",
-            "type": "registry:ui",
-            "title": "Kbd",
-            "description": "Used to display textual user input from keyboard.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/kbd.blade.php",
-                "ui/kbd-group.blade.php"
-            ]
-        },
-        {
-            "name": "input",
-            "type": "registry:ui",
-            "title": "Input",
-            "description": "A text input component for forms and user data entry with built-in styling and accessibility features.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/input.blade.php"
-            ]
-        },
-        {
-            "name": "item",
-            "type": "registry:ui",
-            "title": "Item",
-            "description": "A composable list item with support for media, content, title, description, actions, header, and footer.",
-            "registryDependencies": [
-                "separator"
-            ],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/item.blade.php",
-                "ui/item-actions.blade.php",
-                "ui/item-content.blade.php",
-                "ui/item-description.blade.php",
-                "ui/item-footer.blade.php",
-                "ui/item-group.blade.php",
-                "ui/item-header.blade.php",
-                "ui/item-media.blade.php",
-                "ui/item-separator.blade.php",
-                "ui/item-title.blade.php"
-            ]
-        },
-        {
-            "name": "label",
-            "type": "registry:ui",
-            "title": "Label",
-            "description": "Renders an accessible label associated with controls.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/label.blade.php"
-            ]
-        },
-        {
-            "name": "progress",
-            "type": "registry:ui",
-            "title": "Progress",
-            "description": "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/progress.blade.php"
-            ]
-        },
-        {
-            "name": "radio-group",
-            "type": "registry:ui",
-            "title": "Radio Group",
-            "description": "A set of checkable buttons\u2014known as radio buttons\u2014where no more than one of the buttons can be checked at a time.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/radio-group.blade.php",
-                "ui/radio-group-item.blade.php"
-            ]
-        },
-        {
-            "name": "select",
-            "type": "registry:ui",
-            "title": "Select",
-            "description": "Displays a list of options for the user to pick from\u2014triggered by a button.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/select.blade.php",
-                "ui/select-content.blade.php",
-                "ui/select-group.blade.php",
-                "ui/select-item.blade.php",
-                "ui/select-label.blade.php",
-                "ui/select-trigger.blade.php",
-                "ui/select-value.blade.php"
-            ]
-        },
-        {
-            "name": "separator",
-            "type": "registry:ui",
-            "title": "Separator",
-            "description": "Visually or semantically separates content.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/separator.blade.php"
-            ]
-        },
-        {
-            "name": "sheet",
-            "type": "registry:ui",
-            "title": "Sheet",
-            "description": "Extends the Dialog component to display content that complements the main content of the screen.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/sheet.blade.php",
-                "ui/sheet-close.blade.php",
-                "ui/sheet-content.blade.php",
-                "ui/sheet-description.blade.php",
-                "ui/sheet-footer.blade.php",
-                "ui/sheet-header.blade.php",
-                "ui/sheet-title.blade.php",
-                "ui/sheet-trigger.blade.php"
-            ]
-        },
-        {
-            "name": "sidebar",
-            "type": "registry:ui",
-            "title": "Sidebar",
-            "description": "A composable, themeable and customizable sidebar component.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/sidebar.blade.php",
-                "ui/sidebar-content.blade.php",
-                "ui/sidebar-footer.blade.php",
-                "ui/sidebar-group.blade.php",
-                "ui/sidebar-group-action.blade.php",
-                "ui/sidebar-group-content.blade.php",
-                "ui/sidebar-group-label.blade.php",
-                "ui/sidebar-header.blade.php",
-                "ui/sidebar-input.blade.php",
-                "ui/sidebar-inset.blade.php",
-                "ui/sidebar-menu.blade.php",
-                "ui/sidebar-menu-action.blade.php",
-                "ui/sidebar-menu-badge.blade.php",
-                "ui/sidebar-menu-button.blade.php",
-                "ui/sidebar-menu-item.blade.php",
-                "ui/sidebar-menu-skeleton.blade.php",
-                "ui/sidebar-menu-sub.blade.php",
-                "ui/sidebar-menu-sub-button.blade.php",
-                "ui/sidebar-menu-sub-item.blade.php",
-                "ui/sidebar-provider.blade.php",
-                "ui/sidebar-rail.blade.php",
-                "ui/sidebar-separator.blade.php",
-                "ui/sidebar-trigger.blade.php"
-            ]
-        },
-        {
-            "name": "skeleton",
-            "type": "registry:ui",
-            "title": "Skeleton",
-            "description": "Use to show a placeholder while content is loading.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/skeleton.blade.php"
-            ]
-        },
-        {
-            "name": "spinner",
-            "type": "registry:ui",
-            "title": "Spinner",
-            "description": "An indicator that can be used to show a loading state.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel",
-                    "mallardduck/blade-lucide-icons"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/spinner.blade.php"
-            ]
-        },
-        {
-            "name": "slider",
-            "type": "registry:ui",
-            "title": "Slider",
-            "description": "An input where the user selects a value from within a given range.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/slider.blade.php"
-            ]
-        },
-        {
-            "name": "switch",
-            "type": "registry:ui",
-            "title": "Switch",
-            "description": "A control that allows the user to toggle between checked and not checked.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/switch.blade.php"
-            ]
-        },
-        {
-            "name": "textarea",
-            "type": "registry:ui",
-            "title": "Textarea",
-            "description": "Displays a form textarea or a component that looks like a textarea.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/textarea.blade.php"
-            ]
-        },
-        {
-            "name": "toggle",
-            "type": "registry:ui",
-            "title": "Toggle",
-            "description": "A two-state button that can be either on or off.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/toggle.blade.php"
-            ]
-        },
-        {
-            "name": "toggle-group",
-            "type": "registry:ui",
-            "title": "Toggle group",
-            "description": "A set of two-state buttons that can be toggled on or off.",
-            "registryDependencies": [],
-            "dependencies": {
-                "composer": [
-                    "gehrisandro/tailwind-merge-laravel"
-                ],
-                "npm": []
-            },
-            "files": [
-                "ui/toggle-group.blade.php",
-                "ui/toggle-group-item.blade.php"
-            ]
-        }
-    ]
+      "files": [
+        "ui/combobox.blade.php",
+        "ui/combobox-chips.blade.php",
+        "ui/combobox-content.blade.php",
+        "ui/combobox-empty.blade.php",
+        "ui/combobox-group.blade.php",
+        "ui/combobox-input.blade.php",
+        "ui/combobox-item.blade.php",
+        "ui/combobox-label.blade.php",
+        "ui/combobox-list.blade.php",
+        "ui/combobox-separator.blade.php",
+        "ui/combobox-trigger.blade.php"
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Command menu for search and quick actions.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/command.blade.php",
+        "ui/command-dialog.blade.php",
+        "ui/command-empty.blade.php",
+        "ui/command-group.blade.php",
+        "ui/command-input.blade.php",
+        "ui/command-item.blade.php",
+        "ui/command-list.blade.php",
+        "ui/command-separator.blade.php",
+        "ui/command-shortcut.blade.php"
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Displays a menu of actions triggered by a right click.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/context-menu.blade.php",
+        "ui/context-menu-checkbox-item.blade.php",
+        "ui/context-menu-content.blade.php",
+        "ui/context-menu-group.blade.php",
+        "ui/context-menu-item.blade.php",
+        "ui/context-menu-label.blade.php",
+        "ui/context-menu-radio-group.blade.php",
+        "ui/context-menu-radio-item.blade.php",
+        "ui/context-menu-separator.blade.php",
+        "ui/context-menu-shortcut.blade.php",
+        "ui/context-menu-sub.blade.php",
+        "ui/context-menu-sub-content.blade.php",
+        "ui/context-menu-sub-trigger.blade.php",
+        "ui/context-menu-trigger.blade.php"
+      ]
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "A horizontal menu bar with multiple dropdown menus.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/menubar.blade.php",
+        "ui/menubar-checkbox-item.blade.php",
+        "ui/menubar-content.blade.php",
+        "ui/menubar-group.blade.php",
+        "ui/menubar-item.blade.php",
+        "ui/menubar-label.blade.php",
+        "ui/menubar-menu.blade.php",
+        "ui/menubar-radio-group.blade.php",
+        "ui/menubar-radio-item.blade.php",
+        "ui/menubar-separator.blade.php",
+        "ui/menubar-shortcut.blade.php",
+        "ui/menubar-sub.blade.php",
+        "ui/menubar-sub-content.blade.php",
+        "ui/menubar-sub-trigger.blade.php",
+        "ui/menubar-trigger.blade.php"
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/dialog.blade.php",
+        "ui/dialog-close.blade.php",
+        "ui/dialog-content.blade.php",
+        "ui/dialog-description.blade.php",
+        "ui/dialog-footer.blade.php",
+        "ui/dialog-header.blade.php",
+        "ui/dialog-title.blade.php",
+        "ui/dialog-trigger.blade.php"
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown menu",
+      "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/dropdown-menu.blade.php",
+        "ui/dropdown-menu-checkbox-item.blade.php",
+        "ui/dropdown-menu-content.blade.php",
+        "ui/dropdown-menu-group.blade.php",
+        "ui/dropdown-menu-item.blade.php",
+        "ui/dropdown-menu-label.blade.php",
+        "ui/dropdown-menu-portal.blade.php",
+        "ui/dropdown-menu-radio-group.blade.php",
+        "ui/dropdown-menu-radio-item.blade.php",
+        "ui/dropdown-menu-separator.blade.php",
+        "ui/dropdown-menu-shortcut.blade.php",
+        "ui/dropdown-menu-sub.blade.php",
+        "ui/dropdown-menu-sub-content.blade.php",
+        "ui/dropdown-menu-sub-trigger.blade.php",
+        "ui/dropdown-menu-trigger.blade.php"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Displays a checkbox that can be checked or unchecked.",
+      "registryDependencies": [
+        "button"
+      ],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/checkbox.blade.php"
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Use the Empty component to display an empty state.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/empty.blade.php",
+        "ui/empty-content.blade.php",
+        "ui/empty-description.blade.php",
+        "ui/empty-header.blade.php",
+        "ui/empty-media.blade.php",
+        "ui/empty-title.blade.php"
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/field.blade.php",
+        "ui/field-content.blade.php",
+        "ui/field-description.blade.php",
+        "ui/field-error.blade.php",
+        "ui/field-group.blade.php",
+        "ui/field-label.blade.php",
+        "ui/field-legend.blade.php",
+        "ui/field-separator.blade.php",
+        "ui/field-set.blade.php",
+        "ui/field-title.blade.php"
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Add addons, buttons, and helper content to inputs.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/input-group.blade.php",
+        "ui/input-group-addon.blade.php",
+        "ui/input-group-button.blade.php",
+        "ui/input-group-input.blade.php",
+        "ui/input-group-text.blade.php",
+        "ui/input-group-textarea.blade.php"
+      ]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "Accessible one-time password component with copy-paste functionality.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/input-otp.blade.php",
+        "ui/input-otp-group.blade.php",
+        "ui/input-otp-slot.blade.php",
+        "ui/input-otp-separator.blade.php"
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Used to display textual user input from keyboard.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/kbd.blade.php",
+        "ui/kbd-group.blade.php"
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "A text input component for forms and user data entry with built-in styling and accessibility features.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/input.blade.php"
+      ]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "A composable list item with support for media, content, title, description, actions, header, and footer.",
+      "registryDependencies": [
+        "separator"
+      ],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/item.blade.php",
+        "ui/item-actions.blade.php",
+        "ui/item-content.blade.php",
+        "ui/item-description.blade.php",
+        "ui/item-footer.blade.php",
+        "ui/item-group.blade.php",
+        "ui/item-header.blade.php",
+        "ui/item-media.blade.php",
+        "ui/item-separator.blade.php",
+        "ui/item-title.blade.php"
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Renders an accessible label associated with controls.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/label.blade.php"
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/progress.blade.php"
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "A set of checkable buttons\u2014known as radio buttons\u2014where no more than one of the buttons can be checked at a time.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/radio-group.blade.php",
+        "ui/radio-group-item.blade.php"
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Displays a list of options for the user to pick from\u2014triggered by a button.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/select.blade.php",
+        "ui/select-content.blade.php",
+        "ui/select-group.blade.php",
+        "ui/select-item.blade.php",
+        "ui/select-label.blade.php",
+        "ui/select-trigger.blade.php",
+        "ui/select-value.blade.php"
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Visually or semantically separates content.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/separator.blade.php"
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Extends the Dialog component to display content that complements the main content of the screen.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/sheet.blade.php",
+        "ui/sheet-close.blade.php",
+        "ui/sheet-content.blade.php",
+        "ui/sheet-description.blade.php",
+        "ui/sheet-footer.blade.php",
+        "ui/sheet-header.blade.php",
+        "ui/sheet-title.blade.php",
+        "ui/sheet-trigger.blade.php"
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "A composable, themeable and customizable sidebar component.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/sidebar.blade.php",
+        "ui/sidebar-content.blade.php",
+        "ui/sidebar-footer.blade.php",
+        "ui/sidebar-group.blade.php",
+        "ui/sidebar-group-action.blade.php",
+        "ui/sidebar-group-content.blade.php",
+        "ui/sidebar-group-label.blade.php",
+        "ui/sidebar-header.blade.php",
+        "ui/sidebar-input.blade.php",
+        "ui/sidebar-inset.blade.php",
+        "ui/sidebar-menu.blade.php",
+        "ui/sidebar-menu-action.blade.php",
+        "ui/sidebar-menu-badge.blade.php",
+        "ui/sidebar-menu-button.blade.php",
+        "ui/sidebar-menu-item.blade.php",
+        "ui/sidebar-menu-skeleton.blade.php",
+        "ui/sidebar-menu-sub.blade.php",
+        "ui/sidebar-menu-sub-button.blade.php",
+        "ui/sidebar-menu-sub-item.blade.php",
+        "ui/sidebar-provider.blade.php",
+        "ui/sidebar-rail.blade.php",
+        "ui/sidebar-separator.blade.php",
+        "ui/sidebar-trigger.blade.php"
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Use to show a placeholder while content is loading.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/skeleton.blade.php"
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "An indicator that can be used to show a loading state.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel",
+          "mallardduck/blade-lucide-icons"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/spinner.blade.php"
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "An input where the user selects a value from within a given range.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/slider.blade.php"
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "A control that allows the user to toggle between checked and not checked.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/switch.blade.php"
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Displays a form textarea or a component that looks like a textarea.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/textarea.blade.php"
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A two-state button that can be either on or off.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/toggle.blade.php"
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle group",
+      "description": "A set of two-state buttons that can be toggled on or off.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/toggle-group.blade.php",
+        "ui/toggle-group-item.blade.php"
+      ]
+    }
+  ]
 }

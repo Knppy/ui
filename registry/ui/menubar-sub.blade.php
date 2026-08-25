@@ -1,5 +1,5 @@
 <div
-    data-slot="dropdown-menu-sub"
+    data-slot="menubar-sub"
     x-data="{ subOpen: false, _subCloseTimer: null }"
     @mouseenter="
         clearTimeout(_subCloseTimer);

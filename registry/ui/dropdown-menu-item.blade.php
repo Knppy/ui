@@ -8,7 +8,9 @@
     data-slot="dropdown-menu-item"
     @if ($inset) data-inset="true" @endif
     data-variant="{{ $variant }}"
-    @if ($disabled) data-disabled="true" aria-disabled="true" @else @click="typeof closeMenu === 'function' && closeMenu()" @endif
+    @if ($disabled) data-disabled="true" aria-disabled="true" @else @click="
+        typeof closeMenu === 'function' && closeMenu()
+    " @endif
     role="menuitem"
     tabindex="{{ $disabled ? '-1' : '0' }}"
     @keydown.enter.prevent="

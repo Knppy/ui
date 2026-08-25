@@ -14,6 +14,7 @@
         x-cloak
         data-slot="combobox-content"
         x-ui-anchor.bottom-start.offset.4.match-width="$refs.control ?? $refs.trigger"
+        :data-state="open ? 'open' : 'closed'"
         @click.outside="open && ! ($refs.control ?? $refs.trigger)?.contains($event.target) && close()"
         @keydown.escape.prevent.stop="close()"
         class="bg-popover text-popover-foreground z-50 flex w-fit origin-top flex-col overflow-hidden rounded-md border p-0 shadow-md"

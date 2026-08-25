@@ -18,10 +18,4 @@
     ];
 @endphp
 
-<div
-    data-slot="empty-icon"
-    data-variant="{{ $variant }}"
-    {{ $attributes->twMerge($classes) }}
->
-    {{ $slot }}
-</div>
+<div data-slot="empty-icon" data-variant="{{ $variant }}" {{ $attributes->twMerge($classes) }}>{{ $slot }}</div>
