@@ -46,51 +46,53 @@ php artisan vendor:publish --tag="ui-lang"
 
 ## Supported component(s)
 
-| Component name | Category     | Status |
-|----------------|--------------|----|
-| accordion      | disclosure   | ✅  |
-| alert          | feedback     | ✅  |
-| alert-dialog   | overlay      | ✅  |
-| aspect-ratio   | layout       | ✅  |
-| avatar         | ui           | ✅  |
-| badge          | ui           | ✅  |
-| breadcrumb     | navigation   | ✅  |
-| bubble         | data-display | ✅  |
-| button         | form         | ✅  |
-| button-group   | form         | ✅  |
-| calendar       | form         | ✅  |
-| card           | layout       | ✅  |
-| carousel       | data-display | ✅  |
-| checkbox       | form         | ✅  |
-| collapsible    | disclosure   | ✅  |
-| combobox       | form         | ✅  |
-| command        | overlay      | ✅  |
-| context-menu   | overlay      | ✅  |
-| dialog         | overlay      | ✅  |
-| dropdown-menu  | overlay      | ✅  |
-| empty          | feedback     | ✅  |
-| field          | form         | ✅  |
-| input          | form         | ✅  |
-| input-group    | form         | ✅  |
-| input-otp      | form         | ✅  |
-| kbd            | data-display | ✅  |
-| label          | form         | ✅  |
-| marker         | data-display | ✅  |
-| menubar        | overlay      | ✅  |
-| message        | data-display | ✅  |
-| progress       | ui           | ✅  |
-| radio-group    | form         | ✅  |
-| select         | form         | ✅  |
-| separator      | layout       | ✅  |
-| sheet          | overlay      | ✅  |
-| sidebar        | layout       | ✅  |
-| skeleton       | ui           | ✅  |
-| slider         | form         | ✅  |
-| spinner        | feedback     | ✅  |
-| switch         | form         | ✅  |
-| textarea       | form         | ✅  |
-| toggle         | form         | ✅  |
-| toggle-group   | form         | ✅  |
+| Component name  | Category     | Status |
+|-----------------|--------------|----|
+| accordion       | disclosure   | ✅  |
+| alert           | feedback     | ✅  |
+| alert-dialog    | overlay      | ✅  |
+| aspect-ratio    | layout       | ✅  |
+| avatar          | ui           | ✅  |
+| badge           | ui           | ✅  |
+| breadcrumb      | navigation   | ✅  |
+| bubble          | data-display | ✅  |
+| button          | form         | ✅  |
+| button-group    | form         | ✅  |
+| calendar        | form         | ✅  |
+| card            | layout       | ✅  |
+| carousel        | data-display | ✅  |
+| checkbox        | form         | ✅  |
+| collapsible     | disclosure   | ✅  |
+| combobox        | form         | ✅  |
+| command         | overlay      | ✅  |
+| context-menu    | overlay      | ✅  |
+| dialog          | overlay      | ✅  |
+| dropdown-menu   | overlay      | ✅  |
+| empty           | feedback     | ✅  |
+| field           | form         | ✅  |
+| input           | form         | ✅  |
+| input-group     | form         | ✅  |
+| input-otp       | form         | ✅  |
+| kbd             | data-display | ✅  |
+| label           | form         | ✅  |
+| marker          | data-display | ✅  |
+| menubar         | overlay      | ✅  |
+| message         | data-display | ✅  |
+| navigation-menu | navigation   | ✅  |
+| progress        | ui           | ✅  |
+| popover         | overlay      | ✅  |
+| radio-group     | form         | ✅  |
+| select          | form         | ✅  |
+| separator       | layout       | ✅  |
+| sheet           | overlay      | ✅  |
+| sidebar         | layout       | ✅  |
+| skeleton        | ui           | ✅  |
+| slider          | form         | ✅  |
+| spinner         | feedback     | ✅  |
+| switch          | form         | ✅  |
+| textarea        | form         | ✅  |
+| toggle          | form         | ✅  |
+| toggle-group    | form         | ✅  |
 
 
 ## Changelog

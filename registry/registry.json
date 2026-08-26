@@ -479,7 +479,7 @@
       "name": "navigation-menu",
       "type": "registry:ui",
       "title": "Navigation Menu",
-      "description": "A navigation menu with animated shared viewport and dropdown content panels.",
+      "description": "A collection of links for navigating websites.",
       "registryDependencies": [],
       "dependencies": {
         "composer": [
@@ -729,6 +729,28 @@
       },
       "files": [
         "ui/label.blade.php"
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Displays rich content in a portal, triggered by a button.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/popover.blade.php",
+        "ui/popover-anchor.blade.php",
+        "ui/popover-content.blade.php",
+        "ui/popover-description.blade.php",
+        "ui/popover-header.blade.php",
+        "ui/popover-title.blade.php",
+        "ui/popover-trigger.blade.php"
       ]
     },
     {
