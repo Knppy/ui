@@ -44,6 +44,9 @@ function uiAnchorDirective(el, {modifiers, expression}, {evaluateLater, cleanup}
     // Align offset supports negative values via data-align-offset attribute.
     const alignOffsetValue = el.dataset.alignOffset !== undefined ? Number(el.dataset.alignOffset) : 0;
 
+    // no-min-width modifier: skip forcing minWidth to match the reference element.
+    const noMinWidth = modifiers.includes('no-min-width');
+
     // avoidCollisions="false" disables flip + shift (data-avoid-collisions="false").
     const avoidCollisions = el.dataset.avoidCollisions !== 'false';
     const allowFlip = !modifiers.includes('no-flip') && avoidCollisions;
@@ -79,8 +82,8 @@ function uiAnchorDirective(el, {modifiers, expression}, {evaluateLater, cleanup}
                                 // never collapses). The popover carries overflow-y-auto, so it scrolls.
                                 const h = Math.min(designMax, Math.max(140, Math.floor(availableHeight)));
                                 el.style.maxHeight = Number.isFinite(h) ? `${h}px` : '';
-                                // Match the trigger width as a minimum.
-                                el.style.minWidth = `${rects.reference.width}px`;
+                                // Match the trigger width as a minimum (skip when no-min-width modifier is set).
+                                if (!noMinWidth) el.style.minWidth = `${rects.reference.width}px`;
                                 // Radix-compatible CSS custom properties.
                                 el.style.setProperty('--radix-select-trigger-width', `${rects.reference.width}px`);
                                 el.style.setProperty('--radix-select-trigger-height', `${rects.reference.height}px`);
@@ -490,6 +493,101 @@ const uiCalendarData = (cfg = {}) => ({
 });
 
 /**
+ * Carousel data — wraps Embla Carousel.
+ *
+ * Requires `embla-carousel` to be installed in the consumer's project.
+ */
+const uiCarouselData = (config = {}) => ({
+    orientation: config.orientation || 'horizontal',
+    opts: config.opts || {},
+    canScrollPrev: false,
+    canScrollNext: false,
+    _embla: null,
+    init() {
+        // Lazily import Embla so it is only required when the component is used.
+        import('embla-carousel').then(({default: EmblaCarousel}) => {
+            const viewport = this.$refs.viewport;
+            if (!viewport) return;
+
+            this._embla = EmblaCarousel(viewport, {
+                ...this.opts,
+                axis: this.orientation === 'horizontal' ? 'x' : 'y',
+            });
+
+            const update = () => {
+                this.canScrollPrev = this._embla.canScrollPrev();
+                this.canScrollNext = this._embla.canScrollNext();
+            };
+
+            this._embla.on('init', update);
+            this._embla.on('reInit', update);
+            this._embla.on('select', update);
+
+            update();
+        });
+    },
+    destroy() {
+        this._embla?.destroy();
+    },
+    scrollPrev() {
+        this._embla?.scrollPrev();
+    },
+    scrollNext() {
+        this._embla?.scrollNext();
+    },
+});
+
+/**
+ * Command palette data.
+ */
+const uiCommandData = (config = {}) => ({
+    query: '',
+    activeId: null,
+    _entries: [],
+    registerItem(el, keyword, disabled) {
+        const id = ensureId(el, 'ui-cmd-item');
+        this._entries.push({ id, el, keyword: (keyword || '').toLowerCase(), disabled: !!disabled });
+        return id;
+    },
+    matches(kw) {
+        return (kw || '').toLowerCase().includes(this.query.toLowerCase());
+    },
+    get _visible() {
+        return this._entries.filter((i) => !i.disabled && this.matches(i.keyword) && i.el.offsetParent !== null);
+    },
+    get visibleCount() {
+        return this._entries.filter((i) => this.matches(i.keyword)).length;
+    },
+    ensureActive() {
+        const vis = this._visible;
+        if (!vis.length) {
+            this.activeId = null;
+        } else if (!vis.some((i) => i.id === this.activeId)) {
+            this.activeId = vis[0].id;
+        }
+    },
+    move(dir) {
+        const vis = this._visible;
+        if (!vis.length) return;
+        let idx = vis.findIndex((i) => i.id === this.activeId);
+        idx = idx < 0 ? (dir > 0 ? 0 : vis.length - 1) : (idx + dir + vis.length) % vis.length;
+        this.activeId = vis[idx].id;
+        vis[idx].el.scrollIntoView({ block: 'nearest' });
+    },
+    edge(pos) {
+        const vis = this._visible;
+        if (!vis.length) return;
+        const it = pos === 'last' ? vis[vis.length - 1] : vis[0];
+        this.activeId = it.id;
+        it.el.scrollIntoView({ block: 'nearest' });
+    },
+    selectActive() {
+        const it = this._entries.find((i) => i.id === this.activeId);
+        if (it && !it.disabled) it.el.click();
+    },
+});
+
+/**
  * Dialog layer directive.
  */
 function uiDialogLayerDirective(el) {
@@ -815,14 +913,10 @@ const uiMenuData = (config = {}) => ({
 
 /**
  * Menubar data — bar-level roving focus and auto-open coordination.
- *
- * Each menu item inside the bar should use x-data="uiMenu()" for its own
- * open/close state. The bar root uses this component to track which trigger
- * is active and to handle left/right arrow navigation between triggers.
  */
 const uiMenubarData = () => ({
     _triggers: [],
-    // Register a trigger element. Called by each menubar-trigger via x-init.
+
     registerTrigger(el) {
         if (!this._triggers.includes(el)) this._triggers.push(el);
     },
@@ -839,6 +933,119 @@ const uiMenubarData = () => ({
             next.focus();
             if (this.anyOpen) next.click();
         }
+    },
+});
+
+/**
+ * Message scroller data.
+ */
+const uiMessageScrollerData = (config = {}) => ({
+    _autoScroll: config.autoScroll ?? false,
+    _threshold: config.scrollEdgeThreshold ?? 40,
+    _userScrolled: false,
+    _raf: 0,
+    _roRef: null,
+    _moRef: null,
+    // Reactive scrollability flags consumed by the button.
+    canScrollStart: false,
+    canScrollEnd: false,
+
+    // ── Lifecycle ────────────────────────────────────────────────────────────
+
+    init() {
+        const viewport = this.$refs.viewport;
+        if (!viewport) return;
+
+        this._syncScrollable(viewport);
+
+        // Track programmatic vs. user-initiated scroll.
+        viewport.addEventListener('wheel',     () => { this._userScrolled = true; }, { passive: true });
+        viewport.addEventListener('touchmove', () => { this._userScrolled = true; }, { passive: true });
+        viewport.addEventListener('keydown', (e) => {
+            const scrollKeys = new Set(['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' ']);
+            if (scrollKeys.has(e.key)) this._userScrolled = true;
+        }, { passive: true });
+
+        viewport.addEventListener('scroll', () => this._onScroll(viewport), { passive: true });
+
+        // Observe content mutations so auto-scroll fires on new messages.
+        const content = this.$refs.content;
+        if (content && typeof MutationObserver !== 'undefined') {
+            this._moRef = new MutationObserver(() => this._onContentChange(viewport));
+            this._moRef.observe(content, { childList: true, subtree: false });
+        }
+
+        // Observe viewport resize (window resize, panel resize, etc.).
+        if (typeof ResizeObserver !== 'undefined') {
+            this._roRef = new ResizeObserver(() => {
+                cancelAnimationFrame(this._raf);
+                this._raf = requestAnimationFrame(() => {
+                    this._syncScrollable(viewport);
+                    if (this._autoScroll && !this._userScrolled) {
+                        this._scrollTo(viewport, 'end', 'instant');
+                    }
+                });
+            });
+            this._roRef.observe(viewport);
+        }
+
+        // Scroll to end on first render when autoScroll is on.
+        if (this._autoScroll) {
+            requestAnimationFrame(() => this._scrollTo(viewport, 'end', 'instant'));
+        }
+    },
+
+    destroy() {
+        this._roRef?.disconnect();
+        this._moRef?.disconnect();
+        cancelAnimationFrame(this._raf);
+    },
+
+    // ── Internal helpers ─────────────────────────────────────────────────────
+
+    _onScroll(viewport) {
+        this._syncScrollable(viewport);
+
+        // If the user scrolled back to the end, re-enable auto-scroll.
+        const atEnd = this._distanceFromEnd(viewport) <= this._threshold;
+        if (this._userScrolled && atEnd) {
+            this._userScrolled = false;
+        }
+    },
+
+    _onContentChange(viewport) {
+        this._syncScrollable(viewport);
+        if (this._autoScroll && !this._userScrolled) {
+            // Use instant for the initial append; smooth would feel laggy when
+            // streaming tokens one-by-one.
+            requestAnimationFrame(() => this._scrollTo(viewport, 'end', 'instant'));
+        }
+    },
+
+    _distanceFromEnd(viewport) {
+        return viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight;
+    },
+
+    _syncScrollable(viewport) {
+        this.canScrollStart = viewport.scrollTop > this._threshold;
+        this.canScrollEnd   = this._distanceFromEnd(viewport) > this._threshold;
+    },
+
+    _scrollTo(viewport, direction, behavior = 'smooth') {
+        const top = direction === 'end' ? viewport.scrollHeight : 0;
+        viewport.scrollTo({ top, behavior });
+    },
+
+    // ── Public API ───────────────────────────────────────────────────────────
+
+    scrollToStart(behavior = 'smooth') {
+        const viewport = this.$refs.viewport;
+        if (viewport) this._scrollTo(viewport, 'start', behavior);
+    },
+
+    scrollToEnd(behavior = 'smooth') {
+        const viewport = this.$refs.viewport;
+        if (viewport) this._scrollTo(viewport, 'end', behavior);
     },
 });
 
@@ -966,101 +1173,6 @@ function uiTriggerDirective(el, {expression}, {evaluate, effect}) {
     });
 }
 
-/**
- * Carousel Alpine data — wraps Embla Carousel.
- *
- * Requires `embla-carousel` to be installed in the consumer's project.
- */
-const uiCarouselData = (config = {}) => ({
-    orientation: config.orientation || 'horizontal',
-    opts: config.opts || {},
-    canScrollPrev: false,
-    canScrollNext: false,
-    _embla: null,
-    init() {
-        // Lazily import Embla so it is only required when the component is used.
-        import('embla-carousel').then(({default: EmblaCarousel}) => {
-            const viewport = this.$refs.viewport;
-            if (!viewport) return;
-
-            this._embla = EmblaCarousel(viewport, {
-                ...this.opts,
-                axis: this.orientation === 'horizontal' ? 'x' : 'y',
-            });
-
-            const update = () => {
-                this.canScrollPrev = this._embla.canScrollPrev();
-                this.canScrollNext = this._embla.canScrollNext();
-            };
-
-            this._embla.on('init', update);
-            this._embla.on('reInit', update);
-            this._embla.on('select', update);
-
-            update();
-        });
-    },
-    destroy() {
-        this._embla?.destroy();
-    },
-    scrollPrev() {
-        this._embla?.scrollPrev();
-    },
-    scrollNext() {
-        this._embla?.scrollNext();
-    },
-});
-
-/**
- * Command palette Alpine data.
- */
-const uiCommandData = (config = {}) => ({
-    query: '',
-    activeId: null,
-    _entries: [],
-    registerItem(el, keyword, disabled) {
-        const id = ensureId(el, 'ui-cmd-item');
-        this._entries.push({ id, el, keyword: (keyword || '').toLowerCase(), disabled: !!disabled });
-        return id;
-    },
-    matches(kw) {
-        return (kw || '').toLowerCase().includes(this.query.toLowerCase());
-    },
-    get _visible() {
-        return this._entries.filter((i) => !i.disabled && this.matches(i.keyword) && i.el.offsetParent !== null);
-    },
-    get visibleCount() {
-        return this._entries.filter((i) => this.matches(i.keyword)).length;
-    },
-    ensureActive() {
-        const vis = this._visible;
-        if (!vis.length) {
-            this.activeId = null;
-        } else if (!vis.some((i) => i.id === this.activeId)) {
-            this.activeId = vis[0].id;
-        }
-    },
-    move(dir) {
-        const vis = this._visible;
-        if (!vis.length) return;
-        let idx = vis.findIndex((i) => i.id === this.activeId);
-        idx = idx < 0 ? (dir > 0 ? 0 : vis.length - 1) : (idx + dir + vis.length) % vis.length;
-        this.activeId = vis[idx].id;
-        vis[idx].el.scrollIntoView({ block: 'nearest' });
-    },
-    edge(pos) {
-        const vis = this._visible;
-        if (!vis.length) return;
-        const it = pos === 'last' ? vis[vis.length - 1] : vis[0];
-        this.activeId = it.id;
-        it.el.scrollIntoView({ block: 'nearest' });
-    },
-    selectActive() {
-        const it = this._entries.find((i) => i.id === this.activeId);
-        if (it && !it.disabled) it.el.click();
-    },
-});
-
 function _addMonths(d, n) {
     return new Date(d.getFullYear(), d.getMonth() + n, 1);
 }
@@ -1081,6 +1193,107 @@ function _ymd(d) {
 }
 
 /**
+ * Navigation menu data — shared viewport model.
+ *
+ * The root component tracks which item is active. The viewport panel reads
+ * the active item's content and animates width/height transitions by setting
+ * CSS custom properties, mirroring Radix NavigationMenu behaviour.
+ */
+const uiNavigationMenuData = (config = {}) => ({
+    // ID of the currently open item, or null when closed.
+    activeValue: null,
+    // Whether the viewport is currently visible (delayed close for animation).
+    viewportOpen: false,
+    _closeTimer: null,
+    // Map of value → { trigger, content } registered by items.
+    _items: {},
+    // Direct reference to the <ul> list element, set by navigation-menu-list
+    // so teleported content can anchor to it without traversing via $root.
+    _listEl: null,
+
+    registerList(el) {
+        this._listEl = el;
+    },
+
+    registerItem(value, trigger, content) {
+        if (!this._items[value]) this._items[value] = { trigger: null, content: null };
+        if (trigger) this._items[value].trigger = trigger;
+        if (content) this._items[value].content = content;
+    },
+
+    open(value) {
+        clearTimeout(this._closeTimer);
+        this.activeValue = value;
+        this.viewportOpen = true;
+        this._updateViewport();
+    },
+
+    close(delay = 150) {
+        clearTimeout(this._closeTimer);
+        this._closeTimer = setTimeout(() => {
+            this.activeValue = null;
+            this.viewportOpen = false;
+        }, delay);
+    },
+
+    cancelClose() {
+        clearTimeout(this._closeTimer);
+    },
+
+    toggle(value) {
+        if (this.activeValue === value) {
+            this.close(0);
+        } else {
+            this.open(value);
+        }
+    },
+
+    isOpen(value) {
+        return this.activeValue === value;
+    },
+
+    // Move focus to the next/previous trigger (roving tabindex via keyboard).
+    moveTrigger(currentValue, dir) {
+        const keys = Object.keys(this._items);
+        const idx = keys.indexOf(currentValue);
+        if (idx === -1) return;
+        const next = keys[(idx + dir + keys.length) % keys.length];
+        const t = this._items[next]?.trigger;
+        if (t) {
+            t.focus();
+            this.open(next);
+        }
+    },
+
+    // Update the viewport CSS custom properties to match the active content.
+    // Deferred one rAF so x-show has already toggled display before we measure.
+    _updateViewport() {
+        requestAnimationFrame(() => {
+            const viewport = this.$refs?.viewport;
+            if (!viewport) return;
+            const item = this._items[this.activeValue];
+            if (!item?.content) return;
+
+            const w = item.content.scrollWidth;
+            const h = item.content.scrollHeight;
+
+            if (w > 0) viewport.style.setProperty('--radix-navigation-menu-viewport-width', `${w}px`);
+            if (h > 0) viewport.style.setProperty('--radix-navigation-menu-viewport-height', `${h}px`);
+        });
+    },
+
+    // Position the indicator arrow under the active trigger.
+    indicatorStyle() {
+        const item = this._items[this.activeValue];
+        if (!item?.trigger || !this._listEl) return {};
+        const listRect = this._listEl.getBoundingClientRect();
+        const tRect = item.trigger.getBoundingClientRect();
+        const left = tRect.left - listRect.left + tRect.width / 2 - 4;
+        return { transform: `translateX(${left}px)` };
+    },
+});
+
+/**
  * Registers the UI.
  */
 export function registerUI(Alpine, options = {}) {
@@ -1088,6 +1301,7 @@ export function registerUI(Alpine, options = {}) {
     Alpine.plugin(focus);
     Alpine.plugin(collapse);
 
+    Alpine.data('uiNavigationMenu', uiNavigationMenuData);
     Alpine.data('uiCalendar', uiCalendarData);
     Alpine.data('uiCarousel', uiCarouselData);
     Alpine.data('uiCommand', uiCommandData);
@@ -1096,6 +1310,7 @@ export function registerUI(Alpine, options = {}) {
     Alpine.data('uiContextMenu', uiMenuData);
     Alpine.data('uiMenubar', uiMenubarData);
     Alpine.data('uiSelect', uiSelectData);
+    Alpine.data('uiMessageScroller', uiMessageScrollerData);
 
     Alpine.directive('ui-anchor', uiAnchorDirective);
     Alpine.directive('ui-item-aligned', uiItemAlignedDirective);
