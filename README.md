@@ -82,6 +82,7 @@ php artisan vendor:publish --tag="ui-lang"
 | progress        | ui           | ✅  |
 | popover         | overlay      | ✅  |
 | radio-group     | form         | ✅  |
+| resizable       | layout       | ✅  |
 | select          | form         | ✅  |
 | separator       | layout       | ✅  |
 | sheet           | overlay      | ✅  |

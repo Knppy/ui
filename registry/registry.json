@@ -787,6 +787,24 @@
       ]
     },
     {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Accessible resizable panel groups and layouts with keyboard support.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/resizable-panel-group.blade.php",
+        "ui/resizable-panel.blade.php",
+        "ui/resizable-handle.blade.php"
+      ]
+    },
+    {
       "name": "select",
       "type": "registry:ui",
       "title": "Select",
