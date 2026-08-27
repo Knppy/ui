@@ -3,7 +3,7 @@
 ])
 
 @php
-    $id = 'rp-' . Str::random(8);
+    $id = 'rp-'.Str::random(8);
     // Strip trailing % so "50%" and 50 both work
     $sizeValue = $defaultSize !== null
         ? (float) str_replace('%', '', $defaultSize)

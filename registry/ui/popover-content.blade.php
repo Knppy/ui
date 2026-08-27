@@ -1,11 +1,11 @@
 @props([
-    'align'      => 'center',
-    'side'       => 'bottom',
+    'align' => 'center',
+    'side' => 'bottom',
     'sideOffset' => 4,
 ])
 
 @php
-    $placement = $side . ($align === 'center' ? '' : '-' . $align);
+    $placement = $side.($align === 'center' ? '' : '-'.$align);
 @endphp
 
 <template x-teleport="body">
@@ -15,7 +15,7 @@
         x-ui-dialog-layer
         :id="$id('ui-popover')"
         {!! 'x-ui-anchor.' . $placement . '.offset.' . $sideOffset . '="() => _anchor"' !!}
-        @click.outside="! _anchor?.contains($event.target) && (open = false)"
+        @click.outside="!_anchor?.contains($event.target) && (open = false)"
         @keydown.escape.window="open = false"
         x-trap.noscroll.inert="open"
         x-ui-labelledby="{ label: '[data-slot=popover-title]', description: '[data-slot=popover-description]' }"
