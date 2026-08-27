@@ -31,10 +31,10 @@
         init() {
             // The toaster is a singleton — if one is already mounted on the page, this extra
             // instance stays inert (prevents duplicate toasts when x-ui.sonner appears twice).
-            if (window.__blatToasterActive) { this.disabled = true; return; }
-            window.__blatToasterActive = true;
+            if (window.__uiToasterActive) { this.disabled = true; return; }
+            window.__uiToasterActive = true;
         },
-        destroy() { if (! this.disabled) window.__blatToasterActive = false; },
+        destroy() { if (! this.disabled) window.__uiToasterActive = false; },
         add(t) {
             if (this.disabled) return;
             const id = t.id != null ? t.id : (Date.now() + Math.random());

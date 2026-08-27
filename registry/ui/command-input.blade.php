@@ -11,7 +11,7 @@
         aria-autocomplete="list"
         autocomplete="off"
         aria-label="{{ $placeholder }}"
-        :aria-controls="$id('blat-command-list')"
+        :aria-controls="$id('ui-command-list')"
         :aria-activedescendant="activeId"
         @keydown.down.prevent="move(1)"
         @keydown.up.prevent="move(-1)"

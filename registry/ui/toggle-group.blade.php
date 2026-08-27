@@ -49,7 +49,7 @@
     "
     @keydown="
         if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes($event.key)) {
-            $blatNav($event, { selector: '[data-slot=toggle-group-item]', orientation: 'both' });
+            $uiNav($event, { selector: '[data-slot=toggle-group-item]', orientation: 'both' });
         }
     "
     {{ $attributes->twMerge('group/toggle-group flex w-fit items-center rounded-md gap-[--spacing(var(--gap))] data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch data-[spacing=0]:data-[variant=outline]:shadow-xs') }}
