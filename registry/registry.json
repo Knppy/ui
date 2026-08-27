@@ -1027,6 +1027,24 @@
       ]
     },
     {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Sonner",
+      "description": "A succinct message that is displayed temporarily.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel",
+          "mallardduck/blade-lucide-icons"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/sonner.blade.php",
+        "ui/sonner-flash.blade.php"
+      ]
+    },
+    {
       "name": "toggle",
       "type": "registry:ui",
       "title": "Toggle",
