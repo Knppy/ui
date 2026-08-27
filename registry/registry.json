@@ -969,6 +969,29 @@
       ]
     },
     {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "A responsive table component.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/table.blade.php",
+        "ui/table-body.blade.php",
+        "ui/table-caption.blade.php",
+        "ui/table-cell.blade.php",
+        "ui/table-footer.blade.php",
+        "ui/table-head.blade.php",
+        "ui/table-header.blade.php",
+        "ui/table-row.blade.php"
+      ]
+    },
+    {
       "name": "textarea",
       "type": "registry:ui",
       "title": "Textarea",
