@@ -754,6 +754,25 @@
       ]
     },
     {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/tooltip.blade.php",
+        "ui/tooltip-content.blade.php",
+        "ui/tooltip-provider.blade.php",
+        "ui/tooltip-trigger.blade.php"
+      ]
+    },
+    {
       "name": "progress",
       "type": "registry:ui",
       "title": "Progress",
@@ -995,7 +1014,7 @@
       "name": "tabs",
       "type": "registry:ui",
       "title": "Tabs",
-      "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+      "description": "A set of layered sections of content\u2014known as tab panels\u2014that are displayed one at a time.",
       "registryDependencies": [],
       "dependencies": {
         "composer": [
