@@ -937,6 +937,153 @@ const uiMenubarData = () => ({
 });
 
 /**
+ * Scroll area data.
+ *
+ * Replaces the native scrollbar with a custom overlay thumb that matches the
+ * shadcn/ui ScrollArea primitive behaviour:
+ *  - hides the native scrollbar via CSS (handled in the Blade template)
+ *  - dynamically sizes the thumb proportional to the viewport/content ratio
+ *  - syncs thumb position on scroll
+ *  - shows on hover / scroll, auto-hides after 1 s of inactivity
+ *  - supports thumb drag on both axes
+ */
+const uiScrollAreaData = () => ({
+    // ── Reactive state consumed by the scrollbar template ────────────────────
+    _scrollbarVisible: false,
+    _hasVerticalScroll: false,
+    _hasHorizontalScroll: false,
+    _thumbSizeY: 0,
+    _thumbOffsetY: 0,
+    _thumbSizeX: 0,
+    _thumbOffsetX: 0,
+
+    // ── Internal state ────────────────────────────────────────────────────────
+    _hideTimer: null,
+    _roRef: null,
+    _dragAxis: null,       // 'vertical' | 'horizontal' | null
+    _dragStart: 0,         // pointer clientY or clientX at drag start
+    _dragScrollStart: 0,   // viewport scrollTop or scrollLeft at drag start
+    _onPointerMoveBound: null,
+    _onPointerUpBound: null,
+
+    // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+    init() {
+        const vp = this.$refs.viewport;
+        if (!vp) return;
+
+        this._sync();
+
+        vp.addEventListener('scroll', () => { this._sync(); this.showScrollbar(); this.scheduleHide(); }, { passive: true });
+
+        if (typeof ResizeObserver !== 'undefined') {
+            this._roRef = new ResizeObserver(() => this._sync());
+            this._roRef.observe(vp);
+            // Also observe direct children so content size changes are caught.
+            Array.from(vp.children).forEach(c => this._roRef.observe(c));
+        }
+    },
+
+    destroy() {
+        this._roRef?.disconnect();
+        clearTimeout(this._hideTimer);
+        this._removeDragListeners();
+    },
+
+    // ── Public API (called from template event handlers) ─────────────────────
+
+    onScroll() {
+        this._sync();
+    },
+
+    showScrollbar() {
+        clearTimeout(this._hideTimer);
+        this._scrollbarVisible = true;
+    },
+
+    scheduleHide() {
+        clearTimeout(this._hideTimer);
+        this._hideTimer = setTimeout(() => { this._scrollbarVisible = false; }, 1000);
+    },
+
+    cancelHide() {
+        clearTimeout(this._hideTimer);
+    },
+
+    startDrag(event, axis) {
+        const vp = this.$refs.viewport;
+        if (!vp) return;
+
+        this._dragAxis = axis;
+        this._dragStart = axis === 'vertical' ? event.clientY : event.clientX;
+        this._dragScrollStart = axis === 'vertical' ? vp.scrollTop : vp.scrollLeft;
+
+        this._onPointerMoveBound = (e) => this._onDragMove(e);
+        this._onPointerUpBound   = ()  => this._onDragEnd();
+
+        window.addEventListener('pointermove', this._onPointerMoveBound);
+        window.addEventListener('pointerup',   this._onPointerUpBound);
+        window.addEventListener('pointercancel', this._onPointerUpBound);
+    },
+
+    // ── Internal helpers ──────────────────────────────────────────────────────
+
+    _sync() {
+        const vp = this.$refs.viewport;
+        if (!vp) return;
+
+        const { scrollTop, scrollLeft, scrollHeight, scrollWidth, clientHeight, clientWidth } = vp;
+
+        // Vertical
+        const ratioY = clientHeight / scrollHeight;
+        this._hasVerticalScroll = ratioY < 1;
+        this._thumbSizeY   = ratioY * 100;
+        this._thumbOffsetY = (scrollTop / scrollHeight) * 100;
+
+        // Horizontal
+        const ratioX = clientWidth / scrollWidth;
+        this._hasHorizontalScroll = ratioX < 1;
+        this._thumbSizeX   = ratioX * 100;
+        this._thumbOffsetX = (scrollLeft / scrollWidth) * 100;
+    },
+
+    _onDragMove(event) {
+        const vp = this.$refs.viewport;
+        if (!vp || !this._dragAxis) return;
+
+        if (this._dragAxis === 'vertical') {
+            const delta    = event.clientY - this._dragStart;
+            const trackH   = vp.clientHeight;
+            const maxScroll = vp.scrollHeight - vp.clientHeight;
+            vp.scrollTop = this._dragScrollStart + (delta / trackH) * vp.scrollHeight;
+            vp.scrollTop = Math.max(0, Math.min(vp.scrollTop, maxScroll));
+        } else {
+            const delta    = event.clientX - this._dragStart;
+            const trackW   = vp.clientWidth;
+            const maxScroll = vp.scrollWidth - vp.clientWidth;
+            vp.scrollLeft = this._dragScrollStart + (delta / trackW) * vp.scrollWidth;
+            vp.scrollLeft = Math.max(0, Math.min(vp.scrollLeft, maxScroll));
+        }
+    },
+
+    _onDragEnd() {
+        this._dragAxis = null;
+        this._removeDragListeners();
+        this.scheduleHide();
+    },
+
+    _removeDragListeners() {
+        if (this._onPointerMoveBound) {
+            window.removeEventListener('pointermove', this._onPointerMoveBound);
+            window.removeEventListener('pointerup',   this._onPointerUpBound);
+            window.removeEventListener('pointercancel', this._onPointerUpBound);
+            this._onPointerMoveBound = null;
+            this._onPointerUpBound   = null;
+        }
+    },
+});
+
+/**
  * Message scroller data.
  */
 const uiMessageScrollerData = (config = {}) => ({
@@ -1310,6 +1457,7 @@ export function registerUI(Alpine, options = {}) {
     Alpine.data('uiContextMenu', uiMenuData);
     Alpine.data('uiMenubar', uiMenubarData);
     Alpine.data('uiSelect', uiSelectData);
+    Alpine.data('uiScrollArea', uiScrollAreaData);
     Alpine.data('uiMessageScroller', uiMessageScrollerData);
 
     Alpine.directive('ui-anchor', uiAnchorDirective);

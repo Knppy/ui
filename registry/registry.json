@@ -824,6 +824,23 @@
       ]
     },
     {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "Augments native scroll functionality for custom, cross-browser styling.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/scroll-area.blade.php",
+        "ui/scroll-bar.blade.php"
+      ]
+    },
+    {
       "name": "select",
       "type": "registry:ui",
       "title": "Select",
