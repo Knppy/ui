@@ -732,6 +732,29 @@
       ]
     },
     {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Pagination with page navigation, next and previous links.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "gehrisandro/tailwind-merge-laravel",
+          "mallardduck/blade-lucide-icons"
+        ],
+        "npm": []
+      },
+      "files": [
+        "ui/pagination.blade.php",
+        "ui/pagination-content.blade.php",
+        "ui/pagination-item.blade.php",
+        "ui/pagination-link.blade.php",
+        "ui/pagination-previous.blade.php",
+        "ui/pagination-next.blade.php",
+        "ui/pagination-ellipsis.blade.php"
+      ]
+    },
+    {
       "name": "popover",
       "type": "registry:ui",
       "title": "Popover",
