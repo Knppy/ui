@@ -10,7 +10,7 @@
     <a href="https://packagist.org/packages/knppy/ui"><img src="https://img.shields.io/packagist/dt/knppy/ui.svg?style=flat-square" alt="Total Downloads"></a>
 </p>
 
-Shadcn for Laravel Blade
+Shadcn port for Laravel Blade
 
 ## Installation
 
