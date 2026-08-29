@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Knppy\Ui;
 
 use Illuminate\Support\ServiceProvider;
-use Knppy\Ui\Console\Commands\UiCommand;
+use Knppy\Ui\Console\Commands\AddCommand;
+use Knppy\Ui\Console\Commands\InstallCommand;
 
 class UiServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,15 @@ class UiServiceProvider extends ServiceProvider
     {
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'ui');
 
+        $this->bootPublishResources();
+        $this->bootCommands();
+    }
+
+    /**
+     * Boot any application publishable resources.
+     */
+    private function bootPublishResources(): void
+    {
         if (! $this->app->runningInConsole()) {
             return;
         }
@@ -41,13 +51,20 @@ class UiServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../public' => public_path('vendor/ui'),
         ], ['ui', 'ui-assets']);
+    }
 
-        $this->publishesMigrations([
-            __DIR__.'/../database/migrations' => database_path('migrations'),
-        ], ['ui', 'ui-migrations']);
+    /**
+     * Boot any application commands.
+     */
+    private function bootCommands(): void
+    {
+        if (! $this->app->runningInConsole()) {
+            return;
+        }
 
         $this->commands([
-            UiCommand::class,
+            AddCommand::class,
+            InstallCommand::class,
         ]);
     }
 }

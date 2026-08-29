@@ -1,22 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Knppy\Ui\Console\Commands;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Attribute\AsCommand;
 
-class UiCommand extends Command
+#[AsCommand(name: 'ui:install')]
+class InstallCommand extends Command
 {
     /**
      * The command signature.
      */
-    protected $signature = 'ui:placeholder';
+    protected $signature = 'ui:install {--force}';
 
     /**
      * The command description.
      */
-    protected $description = 'Placeholder Artisan command shipped by the package ui.';
+    protected $description = 'Quick install Knnpy UI.';
 
     /**
      * Execute the console command.
