@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Knppy\Ui;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 use Knppy\Ui\Console\Commands\AddCommand;
 use Knppy\Ui\Console\Commands\InstallCommand;
+use Psr\SimpleCache\CacheInterface;
 
 class UiServiceProvider extends ServiceProvider
 {
@@ -18,6 +20,12 @@ class UiServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/ui.php', 'ui');
 
         $this->app->singleton(Ui::class);
+        $this->app->singleton(ClassBuilder::class, function () {
+            return new ClassBuilder(
+                config('ui.twMerge', []),
+                $this->getCacheStore(),
+            );
+        });
     }
 
     /**
@@ -66,5 +74,15 @@ class UiServiceProvider extends ServiceProvider
             AddCommand::class,
             InstallCommand::class,
         ]);
+    }
+
+    /**
+     * Get the cache store instance that will be used by Knppy UI.
+     */
+    private function getCacheStore(): CacheInterface
+    {
+        $storage = config('ui.cache_store');
+
+        return Cache::store($storage);
     }
 }
