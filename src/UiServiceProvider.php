@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Knppy\Ui;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 use Knppy\Ui\Console\Commands\AddCommand;
@@ -33,10 +34,19 @@ class UiServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->bootComponentsPath();
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'ui');
 
         $this->bootPublishResources();
         $this->bootCommands();
+    }
+
+    /**
+     * Boot the components path.
+     */
+    private function bootComponentsPath(): void
+    {
+        Blade::anonymousComponentPath(__DIR__.'/../stubs/views/components');
     }
 
     /**
