@@ -1,0 +1,58 @@
+@php
+    use Illuminate\Support\Str;
+    use Laravel\Head\Facades\Head;
+
+    $dir = resource_path('views/examples/'.$slug);
+
+    $examples = collect(glob($dir.'/*.blade.php'))
+        ->map(fn ($p) => basename($p, '.blade.php'))
+        ->sort(function ($a, $b) {
+            if ($a === 'default') {
+                return -1;
+            }
+
+            if ($b === 'default') {
+                return 1;
+            }
+
+            return strcmp($a, $b);
+        })
+        ->values();
+
+    $title = config('docs.labels.'.$slug) ?? Str::headline($slug);
+    $description = config('docs.descriptions.'.$slug);
+    $notes = config('docs.notes.'.$slug, []);
+
+    Head::title($title)
+        ->description($description ?? '');
+@endphp
+
+<x-layouts.docs>
+    <div class="space-y-2">
+        <p class="text-muted-foreground text-sm font-medium">Components</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ $title }}</h1>
+        @if ($description)
+            <p class="text-muted-foreground text-lg">{{ $description }}</p>
+        @endif
+    </div>
+
+    @foreach ($notes as $note)
+        <div class="mt-4 flex gap-2.5 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3.5 py-2.5 text-sm text-amber-900 dark:text-amber-200">
+            <x-lucide-triangle-alert class="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+            <p class="[&_code]:bg-amber-500/15 [&_code]:rounded [&_code]:px-1 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[0.85em]">
+                {!! $note !!}
+            </p>
+        </div>
+    @endforeach
+
+    @forelse ($examples as $ex)
+        <section class="mt-10">
+            @unless ($ex === 'default')
+                <h2 class="mb-1 text-xl font-semibold tracking-tight">{{ Str::headline($ex) }}</h2>
+            @endunless
+            <x-preview :file="$slug.'.'.$ex" />
+        </section>
+    @empty
+        <p class="text-muted-foreground mt-10">No examples yet.</p>
+    @endforelse
+</x-layouts.docs>

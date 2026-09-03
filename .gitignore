@@ -1,3 +1,4 @@
+/node_modules
 /vendor
 /build
 /.phpunit.cache
@@ -9,3 +10,5 @@ composer.lock
 .DS_Store
 .idea
 .vscode
+/public/fonts-manifest.dev.json
+/public/hot

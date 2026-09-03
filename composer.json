@@ -19,14 +19,14 @@
     "require": {
         "php": "^8.3",
         "gehrisandro/tailwind-merge-php": "^1.2",
-        "illuminate/support": "^12.0||^13.0"
         "illuminate/support": "^12.0||^13.0",
         "mallardduck/blade-lucide-icons": "^2.0"
     },
     "require-dev": {
         "larastan/larastan": "^3.9",
-        "laravel/pint": "^1.29",
+        "laravel/head": "^0.2.2",
         "laravel/pao": "^1.0",
+        "laravel/pint": "^1.29",
         "orchestra/testbench": "^10.0||^11.0",
         "pestphp/pest": "^4.6||^5.0",
         "pestphp/pest-plugin-laravel": "^4.1||^5.0",
@@ -60,13 +60,15 @@
         "serve": [
             "Composer\\Config::disableProcessTimeout",
             "@build",
-            "@php vendor/bin/testbench serve --ansi"
+            "@php vendor/bin/testbench ui:install --force --baseColor=neutral",
+            "@php vendor/bin/testbench cache:clear --ansi",
+            "npx concurrently -c \"#3b82f6,#10b981\" \"php vendor/bin/testbench serve --ansi\" \"npm run dev\" --names=server,vite --kill-others"
         ],
         "lint": [
-            "vendor/bin/pint --parallel"
+            "vendor/bin/pint --parallel --blade"
         ],
         "lint:check": [
-            "vendor/bin/pint --parallel --test"
+            "vendor/bin/pint --parallel --blade --test"
         ],
         "analyse": [
             "vendor/bin/phpstan analyse"
