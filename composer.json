@@ -20,6 +20,8 @@
         "php": "^8.3",
         "gehrisandro/tailwind-merge-php": "^1.2",
         "illuminate/support": "^12.0||^13.0"
+        "illuminate/support": "^12.0||^13.0",
+        "mallardduck/blade-lucide-icons": "^2.0"
     },
     "require-dev": {
         "larastan/larastan": "^3.9",
