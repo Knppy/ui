@@ -7,9 +7,12 @@ namespace Knppy\Ui;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\ComponentAttributeBag;
 use Knppy\Ui\Console\Commands\AddCommand;
 use Knppy\Ui\Console\Commands\InstallCommand;
 use Psr\SimpleCache\CacheInterface;
+use TailwindMerge\Support\Config;
+use TailwindMerge\TailwindMerge;
 
 class UiServiceProvider extends ServiceProvider
 {
@@ -21,12 +24,15 @@ class UiServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/ui.php', 'ui');
 
         $this->app->singleton(Ui::class);
-        $this->app->singleton(ClassBuilder::class, function () {
-            return new ClassBuilder(
-                config('ui.twMerge', []),
+        $this->app->singleton(TailwindMerge::class, function () {
+            Config::setAdditionalConfig(config('ui.twMerge', []));
+
+            return new TailwindMerge(
+                Config::getMergedConfig(),
                 $this->getCacheStore(),
             );
         });
+        $this->app->singleton(ClassBuilder::class);
     }
 
     /**
@@ -35,6 +41,7 @@ class UiServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->bootComponentsPath();
+        $this->bootAttributesBagMacros();
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'ui');
 
         $this->bootPublishResources();
@@ -94,5 +101,16 @@ class UiServiceProvider extends ServiceProvider
         $storage = config('ui.cache_store');
 
         return Cache::store($storage);
+    }
+
+    private function bootAttributesBagMacros(): void
+    {
+        ComponentAttributeBag::macro('twMerge', function (...$args): ComponentAttributeBag {
+            /** @var ComponentAttributeBag $this */
+            $this->offsetSet('class', resolve(TailwindMerge::class)
+                ->merge($args, ($this->get('class', ''))));
+
+            return $this;
+        });
     }
 }

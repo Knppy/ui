@@ -1,5 +1,5 @@
 @props([
-    'is' => 'button',
+    'is' => null,
     'variant' => 'default',
     'size' => 'default',
 ])
@@ -33,7 +33,8 @@
     $classes = Ui::classes()
         ->add($base)
         ->add($variants['variant'][$variant] ?? $variants['variant']['default'])
-        ->add($variants['size'][$variant] ?? $variants['size']['default']);
+        ->add($variants['size'][$size] ?? $variants['size']['default'])
+        ->add($attributes['class'] ?? '');
 
     $tag = $is ?? 'button';
 @endphp
@@ -42,6 +43,6 @@
     data-slot="button"
     data-variant="{{ $variant }}"
     data-size="{{ $size }}"
-    {{ $attributes->merge(['class' => $classes]) }}
+    {{ $attributes->twMerge(['class' => $classes]) }}
     >{{ $slot }}</{{$tag}}
 >

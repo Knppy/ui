@@ -16,7 +16,8 @@
 
     $classes = Ui::classes()
         ->add($base)
-        ->add($variants['variant'][$variant] ?? $variants['variant']['default']);
+        ->add($variants['variant'][$variant] ?? $variants['variant']['default'])
+        ->add($attributes['class'] ?? '');
 @endphp
 
-<div data-slot="alert" role="alert" class="{{ $classes }}">{{ $slot }}</div>
+<div data-slot="alert" role="alert" {{ $attributes->twMerge(['class' => $classes]) }}>{{ $slot }}</div>

@@ -11,7 +11,7 @@ use TailwindMerge\Support\Config;
  */
 function builder(): ClassBuilder
 {
-    return new ClassBuilder(Config::getMergedConfig());
+    return new ClassBuilder();
 }
 
 test('can be instantiated with no arguments', function (): void {
@@ -55,6 +55,3 @@ test('toString on a fresh builder returns empty string', function (): void {
     expect((string) builder())->toBe('');
 });
 
-test('twMerge deduplicates conflicting tailwind classes', function (): void {
-    expect(builder()->twMerge('p-4', 'p-8'))->toBe('p-8');
-});
