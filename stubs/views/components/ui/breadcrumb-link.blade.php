@@ -1,5 +1,5 @@
 @props([
-    'is' => null,
+    'is' => 'a',
 ])
 
 @php
@@ -8,8 +8,6 @@
     $classes = Ui::classes()
         ->add('transition-colors hover:text-foreground')
         ->add($attributes['class'] ?? '');
-
-    $tag = $is ?? 'a';
 @endphp
 
-<{{ $tag }} data-slot="breadcrumb-link" {{ $attributes->twMerge(['class' => $classes]) }}>{{ $slot }}</{{ $tag }}>
+<{{ $is }} data-slot="breadcrumb-link" {{ $attributes->twMerge(['class' => $classes]) }}>{{ $slot }}</{{ $is }}>

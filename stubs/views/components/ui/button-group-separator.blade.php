@@ -5,10 +5,8 @@
 @php
     use Knppy\Ui\Facades\Ui;
 
-    $base = 'bg-input relative m-0! self-stretch data-[orientation=vertical]:h-auto';
-
     $classes = Ui::classes()
-        ->add($base)
+        ->add('bg-input relative m-0! self-stretch data-[orientation=vertical]:h-auto')
         ->add($attributes['class'] ?? '');
 @endphp
 

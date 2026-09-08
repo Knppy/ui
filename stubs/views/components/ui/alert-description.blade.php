@@ -1,10 +1,8 @@
 @php
     use Knppy\Ui\Facades\Ui;
 
-    $base = 'col-start-2 grid justify-items-start gap-1 text-sm text-muted-foreground [&_p]:leading-relaxed';
-
     $classes = Ui::classes()
-        ->add($base)
+        ->add('col-start-2 grid justify-items-start gap-1 text-sm text-muted-foreground [&_p]:leading-relaxed')
         ->add($attributes['class'] ?? '');
 @endphp
 

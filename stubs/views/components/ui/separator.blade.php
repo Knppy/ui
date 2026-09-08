@@ -6,10 +6,8 @@
 @php
     use Knppy\Ui\Facades\Ui;
 
-    $base = 'bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px';
-
     $classes = Ui::classes()
-        ->add($base)
+        ->add('bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px')
         ->add($attributes['class'] ?? '');
 @endphp
 
