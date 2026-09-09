@@ -11,7 +11,7 @@ use TailwindMerge\Support\Config;
  */
 function builder(): ClassBuilder
 {
-    return new ClassBuilder();
+    return new ClassBuilder;
 }
 
 test('can be instantiated with no arguments', function (): void {
@@ -54,4 +54,3 @@ test('chained add calls accumulate classes', function (): void {
 test('toString on a fresh builder returns empty string', function (): void {
     expect((string) builder())->toBe('');
 });
-

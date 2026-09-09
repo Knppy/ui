@@ -23,7 +23,7 @@ class UiServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/ui.php', 'ui');
 
-        $this->app->singleton(Ui::class);
+        $this->app->singleton(ClassBuilder::class);
         $this->app->singleton(TailwindMerge::class, function () {
             Config::setAdditionalConfig(config('ui.twMerge', []));
 
@@ -32,7 +32,7 @@ class UiServiceProvider extends ServiceProvider
                 $this->getCacheStore(),
             );
         });
-        $this->app->singleton(ClassBuilder::class);
+        $this->app->singleton(Ui::class);
     }
 
     /**
@@ -103,6 +103,9 @@ class UiServiceProvider extends ServiceProvider
         return Cache::store($storage);
     }
 
+    /**
+     * Boot attributes bag macro's
+     */
     private function bootAttributesBagMacros(): void
     {
         ComponentAttributeBag::macro('twMerge', function (...$args): ComponentAttributeBag {
