@@ -22,7 +22,7 @@ class InstallCommand extends Command
     /**
      * The command description.
      */
-    protected $description = 'Quick install Knnpy UI.';
+    protected $description = 'Quick install Knppy UI.';
 
     private ColorScheme $baseColor;
 
@@ -41,9 +41,44 @@ class InstallCommand extends Command
         // Copy app.css
         $this->updateAppCss();
 
+        // Copy app.js
+        $this->updateAppJs();
+
         return self::SUCCESS;
     }
 
+    /**
+     * Copy a simple stub.
+     *
+     * @throws FileNotFoundException
+     */
+    private function copyStub(string $path): void
+    {
+        $stub = Str::of(File::get(__DIR__.'/../../../stubs/'.$path));
+
+        $destPath = resource_path($path);
+
+        if (File::exists($destPath)) {
+            if ($this->option('force') || $this->confirm("Update $destPath?", true)) {
+                File::put($destPath, $stub->value());
+                $this->line('   ✓ Updated '.$destPath);
+            }
+
+            return;
+        }
+
+        $destDir = dirname($destPath);
+
+        if (! File::isDirectory($destDir)) {
+            File::makeDirectory($destDir, 0755, true);
+        }
+        File::put($destPath, $stub->value());
+        $this->line('   ✓ Created '.$destPath);
+    }
+
+    /**
+     * Select a base color.
+     */
     private function selectBaseColor(): ColorScheme
     {
         if ($baseColor = $this->option('baseColor')) {
@@ -60,6 +95,8 @@ class InstallCommand extends Command
     }
 
     /**
+     * Update app css and its dependencies.
+     *
      * @throws FileNotFoundException
      */
     private function updateAppCss(): void
@@ -87,5 +124,18 @@ class InstallCommand extends Command
         }
         File::put($appCssPath, $stub->value());
         $this->line('   ✓ Created app.css');
+    }
+
+    /**
+     * Update app js and its dependencies.
+     *
+     * @throws FileNotFoundException
+     */
+    private function updateAppJs(): void
+    {
+        $this->components->info('Setting up javascript...');
+
+        $this->copyStub('js/ui.js');
+        $this->copyStub('js/app.js');
     }
 }
