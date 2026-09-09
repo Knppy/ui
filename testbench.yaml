@@ -14,10 +14,11 @@ workbench:
   install: true
   health: false
   discovers:
+    config: true
     web: true
     api: true
     commands: true
-    components: false
+    components: true
     factories: true
     views: true
   build:

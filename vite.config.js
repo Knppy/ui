@@ -9,9 +9,9 @@ export default defineConfig({
             input: [
                 'vendor/orchestra/testbench-core/laravel/resources/css/app.css',
             ],
-            publicDirectory: 'public',
+            publicDirectory: 'vendor/orchestra/testbench-core/laravel/public',
             buildDirectory: 'build',
-            hotFile: 'public/hot',
+            hotFile: 'vendor/orchestra/testbench-core/laravel/public/hot',
             refresh: true,
             fonts: [
                 bunny('Instrument Sans', {
