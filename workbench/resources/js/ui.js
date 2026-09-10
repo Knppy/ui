@@ -61,6 +61,93 @@ const themeStore = {
     },
 }
 
+let componentId = 0;
+
+const disclosure = (open = false) => ({
+    open,
+    toggle() {
+        this.open = !this.open;
+    },
+});
+
+const accordion = (value = null, type = 'single', collapsible = true) => ({
+    value: type === 'multiple' ? (Array.isArray(value) ? value : []) : value,
+    isOpen(item) {
+        return this.type === 'multiple' ? this.value.includes(item) : this.value === item;
+    },
+    toggle(item) {
+        if (this.type === 'multiple') {
+            this.value = this.isOpen(item)
+                ? this.value.filter((value) => value !== item)
+                : [...this.value, item];
+            return;
+        }
+
+        if (this.value !== item || this.collapsible) {
+            this.value = this.value === item ? null : item;
+        }
+    },
+    type,
+    collapsible,
+});
+
+const tabs = (value = null, orientation = 'horizontal') => ({
+    value,
+    orientation,
+    id: ++componentId,
+    select(tab) {
+        if (!tab.disabled) {
+            this.value = tab.dataset.value;
+            tab.focus();
+        }
+    },
+    move(event, direction) {
+        const tabs = [...event.currentTarget.querySelectorAll('[role="tab"]:not(:disabled)')];
+        const current = tabs.indexOf(document.activeElement);
+        const next = direction === 'first'
+            ? tabs[0]
+            : direction === 'last'
+                ? tabs.at(-1)
+                : tabs[(current + direction + tabs.length) % tabs.length];
+
+        if (next) {
+            event.preventDefault();
+            this.select(next);
+        }
+    },
+    triggerId(tab) {
+        return `ui-tabs-${this.id}-trigger-${tab}`;
+    },
+    contentId(tab) {
+        return `ui-tabs-${this.id}-content-${tab}`;
+    },
+});
+
+const toggle = (pressed = false) => ({
+    pressed,
+    toggle() {
+        this.pressed = !this.pressed;
+    },
+});
+
+const toggleGroup = (value = null, type = 'single') => ({
+    value: type === 'multiple' ? (Array.isArray(value) ? value : []) : value,
+    type,
+    isPressed(item) {
+        return this.type === 'multiple' ? this.value.includes(item) : this.value === item;
+    },
+    toggle(item) {
+        if (this.type === 'multiple') {
+            this.value = this.isPressed(item)
+                ? this.value.filter((value) => value !== item)
+                : [...this.value, item];
+            return;
+        }
+
+        this.value = this.value === item ? null : item;
+    },
+});
+
 /**
  * Registers all the UI functionality.
  *
@@ -80,10 +167,17 @@ export function registerUI(Alpine, options = {}) {
     Alpine.store('theme', themeStore);
 
     // Data.
+    Alpine.data('uiAccordion', accordion);
+    Alpine.data('uiCollapsible', disclosure);
+    Alpine.data('uiTabs', tabs);
+    Alpine.data('uiToggle', toggle);
+    Alpine.data('uiToggleGroup', toggleGroup);
+    Alpine.data('uiCheckbox', disclosure);
+    Alpine.data('uiRadioGroup', (value = null) => ({ value }));
+    Alpine.data('uiSwitch', disclosure);
 
     // Directives.
 
     // Magic.
 
-    console.info('UI loaded!')
 }

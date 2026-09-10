@@ -8,6 +8,7 @@ return [
 
     ],
     'descriptions' => [
+        'accordion' => 'A vertically stacked set of interactive headings that each reveal a section of content.',
         'alert' => 'Displays a callout for user attention.',
         'aspect-ratio' => 'Displays content within a desired ratio.',
         'attachment' => 'Displays a file or image attachment with media, metadata, upload state, and actions.',
@@ -17,6 +18,8 @@ return [
         'button' => 'Displays a button or a component that looks like a button.',
         'button-group' => 'A container that groups related buttons together with consistent styling.',
         'card' => 'Displays a card with header, content, and footer.',
+        'checkbox' => 'A control that allows the user to toggle between checked and not checked.',
+        'collapsible' => 'An interactive component which expands/collapses a panel.',
         'empty' => 'Use the Empty component to display an empty state.',
         'field' => 'Combine labels, controls, and help text to compose accessible form fields and grouped inputs.',
         'input' => 'A text input component for forms and user data entry with built-in styling and accessibility features.',
@@ -26,10 +29,15 @@ return [
         'native-select' => 'A styled native HTML select element with consistent design system integration.',
         'pagination' => 'Pagination with page navigation, next and previous links.',
         'progress' => 'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
+        'radio-group' => 'A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.',
         'separator' => 'Visually or semantically separates content.',
         'skeleton' => 'Use to show a placeholder while content is loading.',
         'spinner' => 'An indicator that can be used to show a loading state.',
+        'switch' => 'A control that allows the user to toggle between checked and not checked.',
         'table' => 'A responsive table component.',
+        'tabs' => 'A set of layered sections of content—known as tab panels—that are displayed one at a time.',
         'textarea' => 'Displays a form textarea or a component that looks like a textarea.',
+        'toggle' => 'A two-state button that can be either on or off.',
+        'toggle-group' => 'A set of two-state buttons that can be toggled on or off.',
     ],
 ];

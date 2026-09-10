@@ -23,7 +23,6 @@ test('ClassBuilder singleton is bound in the container', function (): void {
     expect(app(ClassBuilder::class))->toBe(app(ClassBuilder::class));
 });
 
-
 test('ClassBuilder uses a custom cache store when configured', function (): void {
     config(['ui.cache_store' => 'array']);
 

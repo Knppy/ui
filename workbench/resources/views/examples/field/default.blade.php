@@ -66,20 +66,14 @@
                 <x-ui.field-description>
                     The billing address associated with your payment method
                 </x-ui.field-description>
-                {{--                <x-ui.field-group>--}}
-                {{--                    <x-ui.field orientation="horizontal">--}}
-                {{--                        <x-ui.checkbox--}}
-                {{--                            id="checkout-7j9-same-as-shipping-wgm"--}}
-                {{--                            defaultChecked--}}
-                {{--                        />--}}
-                {{--                        <x-ui.field-label--}}
-                {{--                            for="checkout-7j9-same-as-shipping-wgm"--}}
-                {{--                            class="font-normal"--}}
-                {{--                        >--}}
-                {{--                            Same as shipping address--}}
-                {{--                        </x-ui.field-label>--}}
-                {{--                    </x-ui.field>--}}
-                {{--                </x-ui.field-group>--}}
+                <x-ui.field-group>
+                    <x-ui.field orientation="horizontal">
+                        <x-ui.checkbox id="checkout-7j9-same-as-shipping-wgm" checked />
+                        <x-ui.field-label for="checkout-7j9-same-as-shipping-wgm" class="font-normal">
+                            Same as shipping address
+                        </x-ui.field-label>
+                    </x-ui.field>
+                </x-ui.field-group>
             </x-ui.field-set>
             <x-ui.field-set>
                 <x-ui.field-group>

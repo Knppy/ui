@@ -1,5 +1,4 @@
 import Alpine from 'alpinejs';
-import './ui.js';
 import {registerUI} from "./ui.js";
 
 if (!window.Alpine) {

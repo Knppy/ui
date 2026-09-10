@@ -6,19 +6,22 @@ use Illuminate\Support\Facades\File;
 use Knppy\Ui\Enums\ColorScheme;
 
 beforeEach(function (): void {
-    // Ensure a clean resources/css directory before each test
-    $cssDir = resource_path('css');
+    $resourceDirectories = [resource_path('css'), resource_path('js')];
 
-    if (File::isDirectory($cssDir)) {
-        File::deleteDirectory($cssDir);
+    foreach ($resourceDirectories as $directory) {
+        if (File::isDirectory($directory)) {
+            File::deleteDirectory($directory);
+        }
     }
 });
 
 afterEach(function (): void {
-    $cssDir = resource_path('css');
+    $resourceDirectories = [resource_path('css'), resource_path('js')];
 
-    if (File::isDirectory($cssDir)) {
-        File::deleteDirectory($cssDir);
+    foreach ($resourceDirectories as $directory) {
+        if (File::isDirectory($directory)) {
+            File::deleteDirectory($directory);
+        }
     }
 });
 
@@ -92,4 +95,14 @@ test('creates css directory if it does not exist', function (): void {
         ->assertSuccessful();
 
     expect(File::isDirectory(resource_path('css')))->toBeTrue();
+});
+
+test('installs the Alpine component registrations', function (): void {
+    $this->artisan('ui:install', ['--baseColor' => 'neutral'])
+        ->assertSuccessful();
+
+    expect(File::get(resource_path('js/ui.js')))
+        ->toContain("Alpine.data('uiAccordion', accordion)")
+        ->toContain("Alpine.data('uiTabs', tabs)")
+        ->toContain("Alpine.data('uiSwitch', disclosure)");
 });
