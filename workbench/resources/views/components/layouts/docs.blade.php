@@ -17,9 +17,12 @@
             <aside class="bg-background fixed inset-y-0 top-14 left-0 z-30 w-64 shrink-0 overflow-y-auto border-r p-4 transition-transform lg:sticky lg:top-14 lg:h-[calc(100svh-3.5rem)] lg:translate-x-0">
                 <ul>
                     @foreach ($components as $component)
-                        @php $has = in_array($component, $available); @endphp
+                        @php
+                            $has = in_array($component, $available);
+                            $title = config('docs.labels.'.$component) ?? Str::headline($component);
+                        @endphp
                         <li>
-                            <a href="{{ $has ? route('docs.component', $component) : '#' }}">{{ $component }}</a>
+                            <a href="{{ $has ? route('docs.component', $component) : '#' }}">{{ $title }}</a>
                         </li>
                     @endforeach
                 </ul>

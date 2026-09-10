@@ -106,6 +106,11 @@ test('installs the Alpine component registrations', function (): void {
         ->toContain("Alpine.data('uiDialog', dialog)")
         ->toContain("Alpine.data('uiHoverCard', hoverCard)")
         ->toContain("Alpine.data('uiPopover', popover)")
+        ->toContain("Alpine.data('uiInputOtp', inputOtp)")
+        ->toContain("Alpine.data('uiMessageScroller', messageScroller)")
+        ->toContain("Alpine.data('uiResizable', resizable)")
+        ->toContain("Alpine.data('uiScrollArea', scrollArea)")
+        ->toContain("Alpine.data('uiSlider', slider)")
         ->toContain("Alpine.data('uiTabs', tabs)")
         ->toContain("Alpine.data('uiTooltip', tooltip)")
         ->toContain("Alpine.data('uiSwitch', disclosure)");

@@ -5,7 +5,7 @@ return [
 
     ],
     'labels' => [
-
+        'input-otp' => 'Input OTP',
     ],
     'descriptions' => [
         'accordion' => 'A vertically stacked set of interactive headings that each reveal a section of content.',
@@ -28,17 +28,22 @@ return [
         'hover-card' => 'For sighted users to preview content available behind a link.',
         'input' => 'A text input component for forms and user data entry with built-in styling and accessibility features.',
         'input-group' => 'Displays an input with inline or stacked addons and actions.',
+        'input-otp' => 'Accessible one-time password component with copy-paste functionality.',
         'item' => 'A versatile component for displaying content with media, title, description, and actions.',
         'kbd' => 'Used to display textual user input from keyboard.',
         'marker' => 'Displays an inline status, system note, bordered row, or labeled separator in a conversation.',
+        'message-scroller' => 'A chat scroll container that anchors turns, opens saved transcripts, follows streamed responses, loads history without jumping, and jumps to any message.',
         'native-select' => 'A styled native HTML select element with consistent design system integration.',
         'pagination' => 'Pagination with page navigation, next and previous links.',
         'popover' => 'Displays rich content in a portal, triggered by a button.',
         'progress' => 'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
         'radio-group' => 'A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.',
+        'resizable' => 'Accessible resizable panel groups and layouts with keyboard support.',
+        'scroll-area' => 'Augments native scroll functionality for custom, cross-browser styling.',
         'separator' => 'Visually or semantically separates content.',
         'sheet' => 'Extends the Dialog component to display content that complements the main content of the screen.',
         'skeleton' => 'Use to show a placeholder while content is loading.',
+        'slider' => 'An input where the user selects a value from within a given range.',
         'spinner' => 'An indicator that can be used to show a loading state.',
         'switch' => 'A control that allows the user to toggle between checked and not checked.',
         'table' => 'A responsive table component.',

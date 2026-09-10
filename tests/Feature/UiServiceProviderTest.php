@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Knppy\Ui\ClassBuilder;
 use Knppy\Ui\Ui;
@@ -66,6 +67,21 @@ test('assets publish tag is registered', function (): void {
     );
 
     expect($paths)->not->toBeEmpty();
+});
+
+test('interactive form components render native inputs', function (): void {
+    $slider = Blade::render('<x-ui.slider name="volume" value="25" min="0" max="50" />');
+    $otp = Blade::render('<x-ui.input-otp name="code" maxlength="4"><x-ui.input-otp-group><x-ui.input-otp-slot :index="0" /></x-ui.input-otp-group></x-ui.input-otp>');
+
+    expect($slider)
+        ->toContain('x-data="uiSlider(\'25\', \'0\', \'50\', 1)"')
+        ->toContain('type="range"')
+        ->toContain('name="volume"')
+        ->and($otp)
+        ->toContain('x-data="uiInputOtp(\'\', \'4\')"')
+        ->toContain('autocomplete="one-time-code"')
+        ->toContain('name="code"')
+        ->toContain('data-slot="input-otp-slot"');
 });
 
 test('commands and publishables are not registered outside console context', function (): void {
