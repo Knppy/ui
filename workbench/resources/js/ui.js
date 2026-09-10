@@ -65,8 +65,133 @@ let componentId = 0;
 
 const disclosure = (open = false) => ({
     open,
+    close() {
+        this.open = false;
+    },
     toggle() {
         this.open = !this.open;
+    },
+});
+
+const popover = (open = false) => ({
+    open,
+    trigger: null,
+    close() {
+        this.open = false;
+    },
+    registerTrigger(trigger) {
+        this.trigger = trigger;
+        trigger?.setAttribute('aria-haspopup', 'dialog');
+
+        if (trigger instanceof HTMLButtonElement && !trigger.hasAttribute('type')) {
+            trigger.type = 'button';
+        }
+    },
+    toggle() {
+        this.open = !this.open;
+    },
+});
+
+const dialog = (open = false) => ({
+    open,
+    id: ++componentId,
+    trigger: null,
+    get titleId() {
+        return `ui-dialog-${this.id}-title`;
+    },
+    get descriptionId() {
+        return `ui-dialog-${this.id}-description`;
+    },
+    registerTrigger(trigger) {
+        this.trigger = trigger;
+        trigger?.setAttribute('aria-haspopup', 'dialog');
+
+        if (trigger instanceof HTMLButtonElement && !trigger.hasAttribute('type')) {
+            trigger.type = 'button';
+        }
+    },
+    openDialog(trigger = null) {
+        this.trigger = trigger;
+        this.open = true;
+        this.$nextTick(() => {
+            const form = this.trigger?.closest('form');
+
+            if (form && this.$refs.content) {
+                form.id ||= `ui-dialog-${this.id}-form`;
+                this.$refs.content.querySelectorAll('button, fieldset, input, object, output, select, textarea')
+                    .forEach((control) => control.setAttribute('form', control.getAttribute('form') || form.id));
+            }
+
+            this.$refs.content?.focus();
+        });
+    },
+    closeDialog() {
+        if (!this.open) {
+            return;
+        }
+
+        this.open = false;
+        this.$nextTick(() => this.trigger?.focus());
+    },
+});
+
+const hoverCard = (openDelay = 700, closeDelay = 300) => ({
+    open: false,
+    openDelay,
+    closeDelay,
+    trigger: null,
+    timer: null,
+    registerTrigger(trigger, delay = null, closeDelay = null) {
+        this.trigger = trigger;
+
+        if (delay !== null) {
+            this.openDelay = delay;
+        }
+
+        if (closeDelay !== null) {
+            this.closeDelay = closeDelay;
+        }
+
+        if (trigger instanceof HTMLButtonElement && !trigger.hasAttribute('type')) {
+            trigger.type = 'button';
+        }
+    },
+    scheduleOpen() {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => this.open = true, this.openDelay);
+    },
+    scheduleClose() {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => this.open = false, this.closeDelay);
+    },
+    cancelClose() {
+        clearTimeout(this.timer);
+    },
+});
+
+const tooltip = (delay = 0) => ({
+    open: false,
+    timer: null,
+    id: ++componentId,
+    trigger: null,
+    get contentId() {
+        return `ui-tooltip-${this.id}`;
+    },
+    registerTrigger(trigger) {
+        this.trigger = trigger;
+
+        if (trigger instanceof HTMLButtonElement && !trigger.hasAttribute('type')) {
+            trigger.type = 'button';
+        }
+
+    },
+    show() {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => this.open = true, delay);
+    },
+    hide() {
+        clearTimeout(this.timer);
+        this.open = false;
     },
 });
 
@@ -172,9 +297,14 @@ export function registerUI(Alpine, options = {}) {
     Alpine.data('uiTabs', tabs);
     Alpine.data('uiToggle', toggle);
     Alpine.data('uiToggleGroup', toggleGroup);
+    Alpine.data('uiAvatar', () => ({ imageLoaded: false }));
     Alpine.data('uiCheckbox', disclosure);
+    Alpine.data('uiDialog', dialog);
+    Alpine.data('uiHoverCard', hoverCard);
+    Alpine.data('uiPopover', popover);
     Alpine.data('uiRadioGroup', (value = null) => ({ value }));
     Alpine.data('uiSwitch', disclosure);
+    Alpine.data('uiTooltip', tooltip);
 
     // Directives.
 

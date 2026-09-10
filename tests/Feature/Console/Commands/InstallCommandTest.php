@@ -103,6 +103,10 @@ test('installs the Alpine component registrations', function (): void {
 
     expect(File::get(resource_path('js/ui.js')))
         ->toContain("Alpine.data('uiAccordion', accordion)")
+        ->toContain("Alpine.data('uiDialog', dialog)")
+        ->toContain("Alpine.data('uiHoverCard', hoverCard)")
+        ->toContain("Alpine.data('uiPopover', popover)")
         ->toContain("Alpine.data('uiTabs', tabs)")
+        ->toContain("Alpine.data('uiTooltip', tooltip)")
         ->toContain("Alpine.data('uiSwitch', disclosure)");
 });
