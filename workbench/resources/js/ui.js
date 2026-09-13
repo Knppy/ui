@@ -1,6 +1,7 @@
 import {anchor} from "@alpinejs/anchor";
 import {focus} from "@alpinejs/focus";
 import {collapse} from "@alpinejs/collapse";
+import {autoUpdate, computePosition, flip, offset, shift, size} from "@floating-ui/dom";
 
 /**
  * The theme store function.
@@ -245,6 +246,452 @@ const tabs = (value = null, orientation = 'horizontal') => ({
     },
     contentId(tab) {
         return `ui-tabs-${this.id}-content-${tab}`;
+    },
+});
+
+const combobox = (value = null, multiple = false, disabled = false) => ({
+    open: false,
+    value: multiple ? (Array.isArray(value) ? value : []) : value,
+    multiple,
+    disabled,
+    query: '',
+    searchQuery: '',
+    id: ++componentId,
+    anchor: null,
+    input: null,
+    content: null,
+    activeIndex: -1,
+    suppressFocusOpen: false,
+    cleanupPosition: null,
+    side: 'bottom',
+    align: 'start',
+    sideOffset: 6,
+    alignOffset: 0,
+    get contentId() {
+        return `ui-combobox-${this.id}-content`;
+    },
+    get options() {
+        return this.content ? [...this.content.querySelectorAll('[role="option"]')] : [];
+    },
+    get visibleOptions() {
+        return this.options.filter((option) => !option.hasAttribute('data-disabled') && this.matches(option));
+    },
+    get selectedOption() {
+        return this.options.find((option) => this.isSelected(option.dataset.value)) ?? null;
+    },
+    get selectedLabel() {
+        return this.selectedOption?.dataset.label ?? '';
+    },
+    registerAnchor(anchor) {
+        this.anchor = anchor;
+    },
+    registerInput(input) {
+        this.input = input;
+        this.$nextTick(() => {
+            if (!this.multiple && !this.query) {
+                this.query = this.selectedLabel;
+            }
+        });
+    },
+    handleFocus() {
+        if (!this.suppressFocusOpen) {
+            this.openList();
+        }
+    },
+    focusInput() {
+        if (!this.input) {
+            return;
+        }
+
+        this.suppressFocusOpen = true;
+        this.input.focus();
+        this.suppressFocusOpen = false;
+    },
+    registerContent(content, side = 'bottom', align = 'start', sideOffset = 6, alignOffset = 0) {
+        this.content = content;
+        this.side = side;
+        this.align = align;
+        this.sideOffset = Number(sideOffset);
+        this.alignOffset = Number(alignOffset);
+        this.cleanupPosition?.();
+        this.cleanupPosition = autoUpdate(this.anchor ?? this.input, content, () => {
+            if (this.open) {
+                this.positionContent();
+            }
+        });
+        this.$nextTick(() => {
+            if (!this.multiple && !this.query) {
+                this.query = this.selectedLabel;
+            }
+        });
+    },
+    optionId(value) {
+        return `ui-combobox-${this.id}-option-${encodeURIComponent(value ?? '')}`;
+    },
+    isSelected(optionValue) {
+        const normalized = String(optionValue ?? '');
+
+        return this.multiple
+            ? this.value.map(String).includes(normalized)
+            : String(this.value ?? '') === normalized;
+    },
+    matches(option) {
+        return !this.searchQuery || option.dataset.label.toLocaleLowerCase().includes(this.searchQuery.trim().toLocaleLowerCase());
+    },
+    openList(resetQuery = true) {
+        if (this.disabled) {
+            return;
+        }
+
+        if (!this.open && resetQuery) {
+            this.query = this.multiple ? '' : this.selectedLabel;
+            this.searchQuery = '';
+        }
+
+        this.open = true;
+        this.$nextTick(() => {
+            const selected = this.visibleOptions.indexOf(this.selectedOption);
+            this.activeIndex = selected >= 0 ? selected : (this.visibleOptions.length ? 0 : -1);
+            this.positionContent();
+        });
+    },
+    closeList() {
+        this.open = false;
+
+        if (!this.multiple) {
+            this.query = this.selectedLabel;
+        }
+        this.searchQuery = '';
+    },
+    toggleList() {
+        this.open ? this.closeList() : this.openList();
+    },
+    filter() {
+        this.searchQuery = this.query;
+        this.openList(false);
+        this.$nextTick(() => {
+            this.activeIndex = this.visibleOptions.length ? 0 : -1;
+            this.positionContent();
+        });
+    },
+    clear() {
+        this.value = this.multiple ? [] : null;
+        this.query = '';
+        this.searchQuery = '';
+        this.$dispatch('change', this.value);
+        this.focusInput();
+        this.openList(false);
+    },
+    selectOption(option) {
+        if (!option || option.hasAttribute('data-disabled')) {
+            return;
+        }
+
+        const optionValue = option.dataset.value;
+
+        if (this.multiple) {
+            this.value = this.isSelected(optionValue)
+                ? this.value.filter((value) => String(value) !== optionValue)
+                : [...this.value, optionValue];
+            this.query = '';
+            this.searchQuery = '';
+            this.$dispatch('change', this.value);
+            this.$nextTick(() => this.focusInput());
+            return;
+        }
+
+        this.value = optionValue;
+        this.query = option.dataset.label;
+        this.searchQuery = '';
+        this.$dispatch('change', this.value);
+        this.closeList();
+        this.$nextTick(() => this.focusInput());
+    },
+    removeValue(optionValue) {
+        if (this.disabled) {
+            return;
+        }
+
+        this.value = this.multiple
+            ? this.value.filter((value) => String(value) !== String(optionValue))
+            : null;
+        this.query = '';
+        this.searchQuery = '';
+        this.$dispatch('change', this.value);
+    },
+    move(direction) {
+        const options = this.visibleOptions;
+
+        if (!options.length) {
+            return;
+        }
+
+        if (direction === 'first' || direction === 'last') {
+            this.activeIndex = direction === 'first' ? 0 : options.length - 1;
+        } else {
+            this.activeIndex = (this.activeIndex + direction + options.length) % options.length;
+        }
+
+        options[this.activeIndex]?.scrollIntoView({ block: 'nearest' });
+    },
+    handleKeydown(event) {
+        if (event.key === 'Escape') {
+            if (this.open) {
+                event.preventDefault();
+                this.closeList();
+            }
+            return;
+        }
+
+        if (event.key === 'Tab') {
+            this.closeList();
+            return;
+        }
+
+        if (event.key === 'Enter' && this.open && this.activeIndex >= 0) {
+            event.preventDefault();
+            this.selectOption(this.visibleOptions[this.activeIndex]);
+            return;
+        }
+
+        const directions = { ArrowDown: 1, ArrowUp: -1, Home: 'first', End: 'last' };
+
+        if (directions[event.key] !== undefined) {
+            event.preventDefault();
+            this.open ? this.move(directions[event.key]) : this.openList();
+        }
+    },
+    positionContent() {
+        const anchor = this.anchor ?? this.input;
+
+        if (!anchor || !this.content) {
+            return;
+        }
+
+        computePosition(anchor, this.content, {
+            strategy: 'fixed',
+            placement: this.align === 'center' ? this.side : `${this.side}-${this.align}`,
+            middleware: [
+                offset({ mainAxis: this.sideOffset, crossAxis: this.alignOffset }),
+                flip(),
+                shift({ padding: 8 }),
+                size({
+                    padding: 8,
+                    apply: ({ availableHeight, availableWidth, rects }) => {
+                        this.content.style.width = `${rects.reference.width}px`;
+                        this.content.style.maxWidth = `${availableWidth}px`;
+                        this.content.style.maxHeight = `${availableHeight}px`;
+                    },
+                }),
+            ],
+        }).then(({ x, y, placement }) => {
+            Object.assign(this.content.style, { left: `${x}px`, top: `${y}px` });
+            this.content.dataset.side = placement.split('-')[0];
+        });
+    },
+    destroy() {
+        this.cleanupPosition?.();
+    },
+});
+
+const select = (value = null, disabled = false) => ({
+    open: false,
+    value,
+    disabled,
+    id: ++componentId,
+    trigger: null,
+    content: null,
+    position: 'item-aligned',
+    side: 'bottom',
+    align: 'center',
+    sideOffset: 0,
+    cleanupPosition: null,
+    activeIndex: -1,
+    get contentId() {
+        return `ui-select-${this.id}-content`;
+    },
+    get options() {
+        return this.content ? [...this.content.querySelectorAll('[role="option"]')] : [];
+    },
+    get selectableOptions() {
+        return this.options.filter((option) => !option.hasAttribute('data-disabled'));
+    },
+    get selectedOption() {
+        return this.options.find((option) => this.isSelected(option.dataset.value)) ?? null;
+    },
+    get selectedLabel() {
+        return this.selectedOption?.querySelector('[data-slot="select-item-text"]')?.textContent.trim() ?? '';
+    },
+    registerTrigger(trigger) {
+        this.trigger = trigger;
+    },
+    registerContent(content, position = 'item-aligned', side = 'bottom', align = 'center', sideOffset = 0) {
+        this.content = content;
+        this.position = position;
+        this.side = side;
+        this.align = align;
+        this.sideOffset = Number(sideOffset);
+        this.cleanupPosition?.();
+        this.cleanupPosition = autoUpdate(this.trigger, content, () => {
+            if (this.open) {
+                this.positionContent();
+            }
+        });
+    },
+    optionId(value) {
+        return `ui-select-${this.id}-option-${encodeURIComponent(value ?? '')}`;
+    },
+    isSelected(optionValue) {
+        return String(optionValue ?? '') === String(this.value ?? '');
+    },
+    openList() {
+        if (this.disabled) {
+            return;
+        }
+
+        this.open = true;
+        this.$nextTick(() => {
+            const selected = this.selectableOptions.indexOf(this.selectedOption);
+            this.activeIndex = selected >= 0 ? selected : 0;
+            this.positionContent();
+        });
+    },
+    closeList(focus = false) {
+        this.open = false;
+
+        if (focus) {
+            this.$nextTick(() => this.trigger?.focus());
+        }
+    },
+    toggleList() {
+        this.open ? this.closeList() : this.openList();
+    },
+    selectOption(option) {
+        if (!option || option.hasAttribute('data-disabled')) {
+            return;
+        }
+
+        this.value = option.dataset.value;
+        this.$dispatch('change', this.value);
+        this.closeList(true);
+    },
+    move(direction) {
+        const options = this.selectableOptions;
+
+        if (!options.length) {
+            return;
+        }
+
+        if (direction === 'first' || direction === 'last') {
+            this.activeIndex = direction === 'first' ? 0 : options.length - 1;
+        } else {
+            this.activeIndex = (this.activeIndex + direction + options.length) % options.length;
+        }
+
+        options[this.activeIndex]?.scrollIntoView({ block: 'nearest' });
+    },
+    handleKeydown(event) {
+        if (this.disabled) {
+            return;
+        }
+
+        if (event.key === 'Escape' && this.open) {
+            event.preventDefault();
+            this.closeList(true);
+            return;
+        }
+
+        if (event.key === 'Tab') {
+            this.closeList();
+            return;
+        }
+
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            this.open ? this.selectOption(this.selectableOptions[this.activeIndex]) : this.openList();
+            return;
+        }
+
+        if (!this.open && event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+            const query = event.key.toLocaleLowerCase();
+            const option = this.selectableOptions.find((item) => item.textContent.trim().toLocaleLowerCase().startsWith(query));
+
+            if (option) {
+                event.preventDefault();
+                this.selectOption(option);
+            }
+
+            return;
+        }
+
+        const directions = {
+            ArrowDown: 1,
+            ArrowUp: -1,
+            Home: 'first',
+            End: 'last',
+        };
+
+        if (directions[event.key] !== undefined) {
+            event.preventDefault();
+
+            if (!this.open) {
+                this.openList();
+                return;
+            }
+
+            this.move(directions[event.key]);
+        }
+    },
+    scroll(direction) {
+        this.content?.scrollBy({ top: direction * 48, behavior: 'smooth' });
+    },
+    positionContent() {
+        if (!this.trigger || !this.content) {
+            return;
+        }
+
+        const triggerRect = this.trigger.getBoundingClientRect();
+        this.content.style.width = `${triggerRect.width}px`;
+        this.content.style.maxHeight = `${Math.max(96, window.innerHeight - 16)}px`;
+
+        if (this.position === 'popper') {
+            const placement = this.align === 'center' ? this.side : `${this.side}-${this.align}`;
+
+            computePosition(this.trigger, this.content, {
+                strategy: 'fixed',
+                placement,
+                middleware: [
+                    offset(this.sideOffset),
+                    flip(),
+                    shift({ padding: 8 }),
+                    size({
+                        padding: 8,
+                        apply: ({ availableHeight }) => {
+                            this.content.style.maxHeight = `${availableHeight}px`;
+                        },
+                    }),
+                ],
+            }).then(({ x, y, placement: resolvedPlacement }) => {
+                Object.assign(this.content.style, { left: `${x}px`, top: `${y}px` });
+                this.content.dataset.side = resolvedPlacement.split('-')[0];
+            });
+
+            return;
+        }
+
+        const selected = this.selectedOption ?? this.selectableOptions[0];
+        const selectedCenter = selected ? selected.offsetTop + selected.offsetHeight / 2 : this.content.offsetHeight / 2;
+        const padding = 8;
+        const maximumLeft = window.innerWidth - this.content.offsetWidth - padding;
+        const maximumTop = window.innerHeight - this.content.offsetHeight - padding;
+        const left = Math.min(Math.max(padding, triggerRect.left), Math.max(padding, maximumLeft));
+        const top = Math.min(
+            Math.max(padding, triggerRect.top + triggerRect.height / 2 - selectedCenter),
+            Math.max(padding, maximumTop),
+        );
+
+        Object.assign(this.content.style, { left: `${left}px`, top: `${top}px` });
+        this.content.dataset.side = top < triggerRect.top ? 'top' : 'bottom';
     },
 });
 
@@ -550,6 +997,7 @@ export function registerUI(Alpine, options = {}) {
     // Data.
     Alpine.data('uiAccordion', accordion);
     Alpine.data('uiCollapsible', disclosure);
+    Alpine.data('uiCombobox', combobox);
     Alpine.data('uiTabs', tabs);
     Alpine.data('uiToggle', toggle);
     Alpine.data('uiToggleGroup', toggleGroup);
@@ -559,6 +1007,7 @@ export function registerUI(Alpine, options = {}) {
     Alpine.data('uiHoverCard', hoverCard);
     Alpine.data('uiPopover', popover);
     Alpine.data('uiRadioGroup', (value = null) => ({ value }));
+    Alpine.data('uiSelect', select);
     Alpine.data('uiSlider', slider);
     Alpine.data('uiSwitch', disclosure);
     Alpine.data('uiTooltip', tooltip);

@@ -1,7 +1,4 @@
-<x-ui.resizable-panel-group
-    orientation="horizontal"
-    class="max-w-sm rounded-lg border"
->
+<x-ui.resizable-panel-group orientation="horizontal" class="max-w-sm rounded-lg border">
     <x-ui.resizable-panel defaultSize="50">
         <div class="flex h-[200px] items-center justify-center p-6">
             <span class="font-semibold">One</span>
