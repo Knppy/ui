@@ -103,6 +103,7 @@ test('installs the Alpine component registrations', function (): void {
 
     expect(File::get(resource_path('js/ui.js')))
         ->toContain("Alpine.data('uiAccordion', accordion)")
+        ->toContain("Alpine.data('uiCalendar', calendar)")
         ->toContain("Alpine.data('uiCarousel', carousel)")
         ->toContain("Alpine.data('uiCommand', command)")
         ->toContain("item.style.display = item.hidden ? 'none' : ''")

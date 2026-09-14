@@ -19,6 +19,7 @@ return [
         'bubble' => 'Displays conversational content in a message bubble. Supports variants, alignment, grouping, reactions, and collapsible content.',
         'button' => 'Displays a button or a component that looks like a button.',
         'button-group' => 'A container that groups related buttons together with consistent styling.',
+        'calendar' => 'A calendar component that allows users to select a date or a range of dates.',
         'card' => 'Displays a card with header, content, and footer.',
         'carousel' => 'A carousel with motion and swipe.',
         'checkbox' => 'A control that allows the user to toggle between checked and not checked.',
