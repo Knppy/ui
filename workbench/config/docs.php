@@ -27,6 +27,7 @@ return [
         'command' => 'Command menu for search and quick actions.',
         'context-menu' => 'Displays a menu of actions triggered by a right click.',
         'dialog' => 'A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.',
+        'drawer' => 'A drawer component for Blade.',
         'empty' => 'Use the Empty component to display an empty state.',
         'field' => 'Combine labels, controls, and help text to compose accessible form fields and grouped inputs.',
         'hover-card' => 'For sighted users to preview content available behind a link.',
