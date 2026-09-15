@@ -5,5 +5,4 @@ parameters:
     paths:
         - src
         - config
-        - database
     tmpDir: build/phpstan
