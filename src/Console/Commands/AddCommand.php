@@ -23,6 +23,8 @@ class AddCommand extends Command
 
     /**
      * A list with all the ui components.
+     *
+     * @var array<string, string>
      */
     protected array $uiComponents = [
 
@@ -38,6 +40,9 @@ class AddCommand extends Command
         return self::SUCCESS;
     }
 
+    /**
+     * @return Collection<string, string>
+     */
     protected function uiComponents(): Collection
     {
         return collect($this->uiComponents)

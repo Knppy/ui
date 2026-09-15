@@ -14,6 +14,9 @@ class Ui
         return AssetManager::scripts($options);
     }
 
+    /**
+     * @param  array<string, bool>|array<int, string|int>|string|null  $styles
+     */
     public function classes(array|string|null $styles = null): ClassBuilder
     {
         $builder = app(ClassBuilder::class);

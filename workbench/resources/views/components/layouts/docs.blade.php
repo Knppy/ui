@@ -34,17 +34,15 @@
                 </x-ui.sidebar-group>
             </x-ui.sidebar-content>
 
-            <x-ui.sidebar-rail/>
+            <x-ui.sidebar-rail />
         </x-ui.sidebar>
 
         <x-ui.sidebar-inset>
             <header class="flex h-16 shrink-0 items-center gap-2 px-4">
-                <x-ui.sidebar-trigger/>
+                <x-ui.sidebar-trigger />
             </header>
 
-            <div class="mx-auto max-w-3xl px-4">
-                {{ $slot }}
-            </div>
+            <div class="mx-auto max-w-3xl px-4">{{ $slot }}</div>
         </x-ui.sidebar-inset>
     </x-ui.sidebar-provider>
 </x-layouts.app>

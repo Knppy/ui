@@ -24,7 +24,7 @@ return [
     */
     'twMerge' => [
         'classGroups' => [],
-        'prefix' => env('UI_MERGE_PREFIX', null),
+        'prefix' => env('UI_MERGE_PREFIX'),
         'theme' => [],
     ],
 ];

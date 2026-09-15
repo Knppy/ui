@@ -11,6 +11,8 @@ class ClassBuilder implements Stringable
 {
     /**
      * List of pending classes.
+     *
+     * @var list<string>
      */
     protected array $pending = [];
 
@@ -25,7 +27,7 @@ class ClassBuilder implements Stringable
     /**
      * Add classes to this class builder.
      *
-     * @param  array<string,>|array<int,string|int>|string  $classes
+     * @param  array<string, bool>|array<int, string|int>|string  $classes
      */
     public function add(array|string $classes): ClassBuilder
     {
