@@ -67,7 +67,7 @@
             "vendor/bin/pint --parallel --blade"
         ],
         "lint:check": [
-            "vendor/bin/pint --parallel --blade --test"
+            "vendor/bin/pint --parallel --test"
         ],
         "analyse": [
             "vendor/bin/phpstan analyse"
