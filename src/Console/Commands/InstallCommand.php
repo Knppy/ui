@@ -49,7 +49,7 @@ class InstallCommand extends Command
      */
     private function selectBaseColor(): ColorScheme
     {
-        if ($baseColor = $this->option('baseColor')) {
+        if (is_string($baseColor = $this->option('baseColor'))) {
             return ColorScheme::from($baseColor);
         }
 
