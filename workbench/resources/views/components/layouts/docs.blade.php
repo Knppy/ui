@@ -11,27 +11,40 @@
 @endphp
 
 <x-layouts.app>
-    <div class="min-h-screen">
-        <div class="mx-auto flex max-w-screen-2xl">
-            {{-- Sidebar --}}
-            <aside class="bg-background fixed inset-y-0 top-14 left-0 z-30 w-64 shrink-0 overflow-y-auto border-r p-4 transition-transform lg:sticky lg:top-14 lg:h-[calc(100svh-3.5rem)] lg:translate-x-0">
-                <ul>
-                    @foreach ($components as $component)
-                        @php
-                            $has = in_array($component, $available);
-                            $title = config('docs.labels.'.$component) ?? Str::headline($component);
-                        @endphp
-                        <li>
-                            <a href="{{ $has ? route('docs.component', $component) : '#' }}">{{ $title }}</a>
-                        </li>
-                    @endforeach
-                </ul>
-            </aside>
+    <x-ui.sidebar-provider>
+        <x-ui.sidebar>
+            <x-ui.sidebar-content>
+                <x-ui.sidebar-group>
+                    <x-ui.sidebar-group-label>Components</x-ui.sidebar-group-label>
+                    <x-ui.sidebar-menu>
+                        @foreach ($components as $componentSlug)
+                            @php
+                                $has = in_array($componentSlug, $available);
+                                $title = config('docs.labels.'.$componentSlug) ?? Str::headline($componentSlug);
+                            @endphp
+                            <x-ui.sidebar-menu-item>
+                                <x-ui.sidebar-menu-button
+                                    is="a"
+                                    href="{{ $has ? route('docs.component', $componentSlug) : '#' }}"
+                                >
+                                    {{ $title }}</x-ui.sidebar-menu-button>
+                            </x-ui.sidebar-menu-item>
+                        @endforeach
+                    </x-ui.sidebar-menu>
+                </x-ui.sidebar-group>
+            </x-ui.sidebar-content>
 
-            {{-- Main content --}}
-            <main class="min-w-0 flex-1 px-4 py-8 lg:px-10">
-                <div class="mx-auto max-w-3xl">{{ $slot }}</div>
-            </main>
-        </div>
-    </div>
+            <x-ui.sidebar-rail/>
+        </x-ui.sidebar>
+
+        <x-ui.sidebar-inset>
+            <header class="flex h-16 shrink-0 items-center gap-2 px-4">
+                <x-ui.sidebar-trigger/>
+            </header>
+
+            <div class="mx-auto max-w-3xl px-4">
+                {{ $slot }}
+            </div>
+        </x-ui.sidebar-inset>
+    </x-ui.sidebar-provider>
 </x-layouts.app>

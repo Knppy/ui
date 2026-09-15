@@ -59,6 +59,7 @@ return [
         'table' => 'A responsive table component.',
         'tabs' => 'A set of layered sections of content—known as tab panels—that are displayed one at a time.',
         'textarea' => 'Displays a form textarea or a component that looks like a textarea.',
+        'sidebar' => 'A composable, themeable and customizable sidebar component.',
         'toggle' => 'A two-state button that can be either on or off.',
         'toggle-group' => 'A set of two-state buttons that can be toggled on or off.',
         'tooltip' => 'A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.',
