@@ -7,8 +7,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'vendor/orchestra/testbench-core/laravel/resources/js/app.js',
-                'vendor/orchestra/testbench-core/laravel/resources/css/app.css',
+                'workbench/resources/css/app.css',
             ],
             publicDirectory: 'vendor/orchestra/testbench-core/laravel/public',
             buildDirectory: 'build',

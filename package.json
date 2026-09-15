@@ -4,6 +4,7 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
+        "build:assets": "vite build --config vite.assets.config.js",
         "dev": "vite"
     },
     "devDependencies": {

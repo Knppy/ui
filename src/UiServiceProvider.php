@@ -40,6 +40,7 @@ class UiServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        AssetManager::boot();
         $this->bootComponentsPath();
         $this->bootAttributesBagMacros();
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'ui');
@@ -72,10 +73,6 @@ class UiServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../lang' => $this->app->langPath('vendor/ui'),
         ], ['ui', 'ui-lang']);
-
-        $this->publishes([
-            __DIR__.'/../public' => public_path('vendor/ui'),
-        ], ['ui', 'ui-assets']);
     }
 
     /**

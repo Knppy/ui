@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Knppy\Ui\ClassBuilder;
 use Knppy\Ui\Ui;
@@ -60,13 +61,46 @@ test('lang publish tag is registered', function (): void {
     expect($paths)->not->toBeEmpty();
 });
 
-test('assets publish tag is registered', function (): void {
-    $paths = ServiceProvider::pathsToPublish(
-        UiServiceProvider::class,
-        'ui-assets',
-    );
+test('uiScripts directive renders the package javascript asset', function (): void {
+    $html = Blade::render('@uiScripts');
 
-    expect($paths)->not->toBeEmpty();
+    expect($html)
+        ->toContain('<script')
+        ->toContain('src="http://localhost/ui/ui.js?id=')
+        ->toContain('defer')
+        ->toContain('data-navigate-once');
+});
+
+test('uiScripts directive supports a content security policy nonce', function (): void {
+    $html = Blade::render('@uiScripts([\'nonce\' => \'test-nonce\'])');
+
+    expect($html)->toContain('nonce="test-nonce"');
+});
+
+test('serves the compiled javascript asset with cache headers', function (): void {
+    $response = $this->get('/ui/ui.js');
+
+    $response
+        ->assertOk()
+        ->assertHeader('Content-Type', 'application/javascript; charset=utf-8');
+
+    expect($response->headers->get('Cache-Control'))
+        ->toContain('public')
+        ->toContain('max-age=31536000')
+        ->toContain('immutable')
+        ->and($response->headers->get('Last-Modified'))->not->toBeNull();
+
+    expect(File::get(__DIR__.'/../../dist/ui.js'))
+        ->toContain('uiAccordion')
+        ->toContain('window.Alpine');
+});
+
+test('returns not modified for a cached javascript asset', function (): void {
+    $lastModified = $this->get('/ui/ui.js')->headers->get('Last-Modified');
+
+    $this->withHeader('If-Modified-Since', $lastModified)
+        ->get('/ui/ui.js')
+        ->assertNotModified();
 });
 
 test('interactive form components render native inputs', function (): void {

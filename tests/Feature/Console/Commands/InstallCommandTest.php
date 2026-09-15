@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\File;
 use Knppy\Ui\Enums\ColorScheme;
 
 beforeEach(function (): void {
+    $this->app->setBasePath(storage_path('framework/testing/ui-app-'.getmypid()));
+
     $resourceDirectories = [resource_path('css'), resource_path('js')];
 
     foreach ($resourceDirectories as $directory) {
@@ -97,54 +99,10 @@ test('creates css directory if it does not exist', function (): void {
     expect(File::isDirectory(resource_path('css')))->toBeTrue();
 });
 
-test('installs the Alpine component registrations', function (): void {
+test('does not install javascript into the application', function (): void {
     $this->artisan('ui:install', ['--baseColor' => 'neutral'])
         ->assertSuccessful();
 
-    expect(File::get(resource_path('js/ui.js')))
-        ->toContain("Alpine.data('uiAccordion', accordion)")
-        ->toContain("Alpine.data('uiCalendar', calendar)")
-        ->toContain("Alpine.data('uiCarousel', carousel)")
-        ->toContain("Alpine.data('uiCommand', command)")
-        ->toContain("item.style.display = item.hidden ? 'none' : ''")
-        ->toContain("separator.style.display = separator.hidden ? 'none' : ''")
-        ->toContain("Alpine.data('uiCombobox', combobox)")
-        ->toContain('openList(resetQuery = true)')
-        ->toContain("this.query = this.multiple ? '' : this.selectedLabel")
-        ->toContain('this.searchQuery = this.query')
-        ->toContain('this.openList(false)')
-        ->toContain('this.suppressFocusOpen = true')
-        ->toContain("Alpine.data('uiDialog', dialog)")
-        ->toContain("Alpine.data('uiDrawer', drawer)")
-        ->toContain("Alpine.data('uiContextMenu', contextMenu)")
-        ->toContain("Alpine.data('uiContextMenuCheckbox', dropdownMenuCheckbox)")
-        ->toContain("Alpine.data('uiContextMenuRadioGroup', dropdownMenuRadioGroup)")
-        ->toContain("Alpine.data('uiContextMenuSub', dropdownMenuSub)")
-        ->toContain("Alpine.data('uiDropdownMenu', dropdownMenu)")
-        ->toContain("Alpine.data('uiDropdownMenuCheckbox', dropdownMenuCheckbox)")
-        ->toContain("Alpine.data('uiDropdownMenuRadioGroup', dropdownMenuRadioGroup)")
-        ->toContain("Alpine.data('uiDropdownMenuSub', dropdownMenuSub)")
-        ->toContain("Alpine.data('uiMenubar', menubar)")
-        ->toContain("Alpine.data('uiMenubarCheckbox', dropdownMenuCheckbox)")
-        ->toContain("Alpine.data('uiMenubarRadioGroup', menubarRadioGroup)")
-        ->toContain("Alpine.data('uiMenubarSub', dropdownMenuSub)")
-        ->toContain("Alpine.data('uiHoverCard', hoverCard)")
-        ->toContain("Alpine.data('uiPopover', popover)")
-        ->toContain("Alpine.data('uiInputOtp', inputOtp)")
-        ->toContain("Alpine.data('uiMessageScroller', messageScroller)")
-        ->toContain("Alpine.data('uiNavigationMenu', navigationMenu)")
-        ->toContain("content.style.position = 'absolute'")
-        ->toContain('this.viewport.style.left = `${Math.max(minimumLeft, Math.min(triggerLeft, maximumLeft))}px`')
-        ->toContain("Alpine.data('uiResizable', resizable)")
-        ->toContain("Alpine.data('uiScrollArea', scrollArea)")
-        ->toContain("Alpine.data('uiSelect', select)")
-        ->toContain("Alpine.data('uiSlider', slider)")
-        ->toContain("Alpine.data('uiTabs', tabs)")
-        ->toContain("Alpine.data('uiTooltip', tooltip)")
-        ->toContain("Alpine.data('uiSwitch', disclosure)")
-        ->toContain("Alpine.store('toast', toastStore)")
-        ->toContain("Alpine.data('uiSonner', sonner)")
-        ->toContain('index * 16')
-        ->toContain("Alpine.magic('toast'")
-        ->toContain('notify[type] = (message, options = {}) => notify(message, { ...options, type })');
+    expect(File::exists(resource_path('js/app.js')))->toBeFalse()
+        ->and(File::exists(resource_path('js/ui.js')))->toBeFalse();
 });

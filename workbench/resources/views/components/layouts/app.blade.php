@@ -6,9 +6,10 @@
 
     @head
 
-    @vite(['workbench/resources/css/app.css', 'workbench/resources/js/app.js'])
+    @vite('workbench/resources/css/app.css')
 </head>
 <body class="bg-background text-foreground min-h-screen font-sans antialiased" x-data>
     {{ $slot }}
+    @uiScripts
 </body>
 </html>
