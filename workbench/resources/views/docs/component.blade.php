@@ -1,6 +1,5 @@
 @php
     use Illuminate\Support\Str;
-    use Laravel\Head\Facades\Head;
 
     $dir = resource_path('views/examples/'.$slug);
 
@@ -22,12 +21,9 @@
     $title = config('docs.labels.'.$slug) ?? Str::headline($slug);
     $description = config('docs.descriptions.'.$slug);
     $notes = config('docs.notes.'.$slug, []);
-
-    Head::title($title)
-        ->description($description ?? '');
 @endphp
 
-<x-layouts.docs>
+<x-layouts.docs :$title :$description>
     <div class="space-y-2">
         <p class="text-muted-foreground text-sm font-medium">Components</p>
         <h1 class="text-3xl font-bold tracking-tight">{{ $title }}</h1>

@@ -1,10 +1,17 @@
+@props([
+    'title' => config('app.name'),
+    'description' => null,
+])
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    @head
+    <title>{{ $title }}</title>
+    @if ($description)
+        <meta name="description" content="{{ $description }}" />
+    @endif
 
     @vite('workbench/resources/css/app.css')
 </head>

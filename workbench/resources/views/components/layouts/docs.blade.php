@@ -10,7 +10,12 @@
         ->all();
 @endphp
 
-<x-layouts.app>
+@props([
+    'title' => config('app.name'),
+    'description' => null,
+])
+
+<x-layouts.app :$title :$description>
     <x-ui.sidebar-provider>
         <x-ui.sidebar>
             <x-ui.sidebar-content>
