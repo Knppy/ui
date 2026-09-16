@@ -5,7 +5,7 @@
     x-modelable="open"
     x-bind:data-state="open ? 'checked' : 'unchecked'"
     data-slot="checkbox-wrapper"
-    {{ $attributes->whereStartsWith('x-model') }}
+    {{ $attributes->whereStartsWith(['x-model', 'wire:model']) }}
     class="relative inline-grid size-4 shrink-0 place-content-center"
 >
     <input
@@ -14,7 +14,7 @@
         x-model="open"
         x-bind:data-state="open ? 'checked' : 'unchecked'"
         data-slot="checkbox"
-        {{ $attributes->whereDoesntStartWith('x-model')->twMerge(['class' => 'peer size-4 shrink-0 appearance-none rounded-[4px] border border-input shadow-xs transition-shadow outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 checked:border-primary checked:bg-primary dark:bg-input/30 dark:aria-invalid:ring-destructive/40 dark:checked:bg-primary']) }}
+        {{ $attributes->whereDoesntStartWith(['x-model', 'wire:model'])->twMerge(['class' => 'peer size-4 shrink-0 appearance-none rounded-[4px] border border-input shadow-xs transition-shadow outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 checked:border-primary checked:bg-primary dark:bg-input/30 dark:aria-invalid:ring-destructive/40 dark:checked:bg-primary']) }}
     />
     <svg
         aria-hidden="true"

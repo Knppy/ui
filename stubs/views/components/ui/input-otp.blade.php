@@ -9,7 +9,7 @@
     x-data="uiInputOtp(@js($value), @js($maxlength))"
     x-modelable="value"
     data-slot="input-otp"
-    {{ $attributes->whereStartsWith('x-model') }}
+    {{ $attributes->whereStartsWith(['x-model', 'wire:model']) }}
     {{ $attributes->only('class')->twMerge(['class' => 'relative flex items-center gap-2 has-disabled:opacity-50', $containerClass]) }}
 >
     <input
@@ -28,7 +28,7 @@
         maxlength="{{ $maxlength }}"
         autocomplete="one-time-code"
         inputmode="{{ $inputmode }}"
-        {{ $attributes->whereDoesntStartWith('x-model')->except('class')->twMerge(['class' => 'pointer-events-none absolute inset-0 size-full opacity-0 disabled:cursor-not-allowed']) }}
+        {{ $attributes->whereDoesntStartWith(['x-model', 'wire:model'])->except('class')->twMerge(['class' => 'pointer-events-none absolute inset-0 size-full opacity-0 disabled:cursor-not-allowed']) }}
     />
     {{ $slot }}
 </div>

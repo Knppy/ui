@@ -11,8 +11,8 @@
     x-on:click.outside="closeMenu()"
     data-slot="navigation-menu"
     data-viewport="{{ $viewport ? 'true' : 'false' }}"
-    {{ $attributes->whereStartsWith('x-model') }}
-    {{ $attributes->whereDoesntStartWith('x-model')->twMerge(['class' => 'group/navigation-menu relative flex max-w-max flex-1 items-center justify-center']) }}
+    {{ $attributes->whereStartsWith(['x-model', 'wire:model']) }}
+    {{ $attributes->whereDoesntStartWith(['x-model', 'wire:model'])->twMerge(['class' => 'group/navigation-menu relative flex max-w-max flex-1 items-center justify-center']) }}
 >
     {{ $slot }}
 

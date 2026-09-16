@@ -9,7 +9,7 @@
     x-bind:data-state="open ? 'checked' : 'unchecked'"
     data-slot="switch"
     data-size="{{ $size }}"
-    {{ $attributes->whereStartsWith('x-model') }}
+    {{ $attributes->whereStartsWith(['x-model', 'wire:model']) }}
     {{ $attributes->only('class')->twMerge(['class' => 'peer group/switch relative inline-flex shrink-0 cursor-pointer items-center rounded-full border border-transparent shadow-xs transition-all outline-none has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50 has-disabled:cursor-not-allowed has-disabled:opacity-50 data-[size=default]:h-[1.15rem] data-[size=default]:w-8 data-[size=sm]:h-3.5 data-[size=sm]:w-6 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input dark:data-[state=unchecked]:bg-input/80']) }}
 >
     <input
@@ -18,7 +18,7 @@
         @checked($checked)
         x-model="open"
         class="sr-only"
-        {{ $attributes->whereDoesntStartWith('x-model')->except('class') }}
+        {{ $attributes->whereDoesntStartWith(['x-model', 'wire:model'])->except('class') }}
     />
     <span
         aria-hidden="true"
