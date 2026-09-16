@@ -55,6 +55,18 @@ instance. Pass a CSP nonce when required with `@uiScripts(['nonce' => $nonce])`.
 
 Components are available as anonymous Blade components under the `ui` namespace.
 
+### Livewire
+
+Interactive components (checkbox, switch, select, dialog, and similar) expose their state through
+Alpine's `x-modelable`, so `wire:model` binds to them the same way `x-model` does:
+
+```blade
+<x-ui.checkbox wire:model="terms" />
+```
+
+Components are also safe to optimize with [Livewire Blaze](https://github.com/livewire/blaze) if
+your application enables folding for them via `Blaze::optimize()->in(...)`.
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.

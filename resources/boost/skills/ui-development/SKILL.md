@@ -32,7 +32,8 @@ package's behavior and styling instead of recreating either with custom Blade ma
 6. Preserve semantic HTML, labels, names, disabled state, validation attributes, keyboard behavior, and focus
    management. Add utility classes through `class`; the package merges them with component defaults.
 7. Verify the result at mobile and desktop widths. Exercise keyboard navigation, focus, dismissal, bound state, and
-   native form submission for interactive controls.
+   native form submission for interactive controls. Interactive components accept `wire:model` the same way they
+   accept `x-model`, since both bind to the component's Alpine `x-modelable` state.
 
 ## Component Catalog
 

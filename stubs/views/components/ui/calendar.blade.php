@@ -19,8 +19,8 @@
     x-data="uiCalendar(@js($value), @js($mode), @js($initialMonth), @js($showOutsideDays), @js($min), @js($max), @js($startMonth), @js($endMonth))"
     x-modelable="value"
     data-slot="calendar"
-    {{ $attributes->whereStartsWith('x-model') }}
-    {{ $attributes->whereDoesntStartWith('x-model')->twMerge(['class' => 'group/calendar bg-background w-fit p-3 [--cell-size:--spacing(8)]']) }}
+    {{ $attributes->whereStartsWith(['x-model', 'wire:model']) }}
+    {{ $attributes->whereDoesntStartWith(['x-model', 'wire:model'])->twMerge(['class' => 'group/calendar bg-background w-fit p-3 [--cell-size:--spacing(8)]']) }}
 >
     <div class="relative flex flex-col gap-4">
         @if ($captionLayout === 'label')

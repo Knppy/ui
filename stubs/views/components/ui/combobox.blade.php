@@ -9,7 +9,7 @@
     x-data="uiCombobox(@js($value), @js($multiple), @js($disabled))"
     x-modelable="value"
     data-slot="combobox"
-    {{ $attributes->whereStartsWith('x-model') }}
+    {{ $attributes->whereStartsWith(['x-model', 'wire:model']) }}
     class="contents"
 >
     @if ($name)
