@@ -57,6 +57,12 @@ Components are available as anonymous Blade components under the `ui` namespace.
 
 ### Livewire
 
+Livewire is entirely optional. `@uiScripts` detects Livewire at runtime: if Livewire is present it
+lets Livewire's own bundled Alpine instance start, and registers Knppy UI's plugins, stores, and
+directives on that instance instead of starting a second one. If Livewire isn't installed,
+`@uiScripts` bundles and starts Alpine itself. Either way you only ever get a single Alpine
+instance, so `@livewireScripts` and `@uiScripts` can be loaded together in any order.
+
 Interactive components (checkbox, switch, select, dialog, and similar) expose their state through
 Alpine's `x-modelable`, so `wire:model` binds to them the same way `x-model` does:
 
@@ -66,6 +72,19 @@ Alpine's `x-modelable`, so `wire:model` binds to them the same way `x-model` doe
 
 Components are also safe to optimize with [Livewire Blaze](https://github.com/livewire/blaze) if
 your application enables folding for them via `Blaze::optimize()->in(...)`.
+
+If your application [manually bundles Alpine into its own Vite build](https://livewire.laravel.com/docs/4.x/alpine#manually-bundling-alpine-in-your-javascript-build)
+instead of using `@livewireScripts`, don't load `@uiScripts` at all. Import `registerUI` from
+`vendor/knppy/ui/resources/js/ui.js` and register it on Livewire's `Alpine` export yourself:
+
+```js
+import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
+import { registerUI } from '../../vendor/knppy/ui/resources/js/ui.js';
+
+registerUI(Alpine, { darkMode: 'light' });
+
+Livewire.start();
+```
 
 ## Changelog
 
