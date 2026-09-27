@@ -16,7 +16,7 @@
         "alpinejs": "^3.17.2",
         "fontaine": "^0.8.1",
         "laravel-vite-plugin": "^3.2.0",
-        "prettier": "^3.9.6",
+        "prettier": "^3.9.8",
         "prettier-plugin-blade": "^3.3.3",
         "prettier-plugin-tailwindcss": "^0.8.1",
         "tailwindcss": "^4.3.3",
