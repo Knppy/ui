@@ -142,8 +142,10 @@ class AddCommand extends Command
             return $this->availableComponents()->keys()->all();
         }
 
-        if (count($this->argument('components')) > 0) {
-            $requested = array_map(strtolower(...), $this->argument('components'));
+        $componentArguments = (array) $this->argument('components');
+
+        if (count($componentArguments) > 0) {
+            $requested = array_map(strtolower(...), $componentArguments);
 
             return $this->availableComponents()
                 ->keys()
