@@ -1,5 +1,4 @@
 {
-  "$schema": "https://shadcn-blade.com/schema.json",
   "style": "default",
   "tailwind": {
     "config": "tailwind.config.js",
@@ -7,6 +6,7 @@
     "baseColor": "{{BASE_COLOR}}",
     "cssVariables": true
   },
+  "iconLibrary": "lucide",
   "aliases": {
     "components": "resources/views/components",
     "ui": "resources/views/components/ui"

@@ -44,6 +44,29 @@ php artisan vendor:publish --tag="ui-assets"
 
 <!-- Add a basic usage example here. -->
 
+### Adding Components
+
+Run `php artisan ui:install` once to create `components.json`, then add components from a registry:
+
+```bash
+php artisan ui:add button
+php artisan ui:add @knppy/button @acme/card --overwrite
+```
+
+Files are written to the `aliases` paths in `components.json` (`aliases.ui` for `registry:ui` files, `aliases.components` otherwise). Existing files are skipped unless `--overwrite` is given. Registry dependencies are installed too; missing Composer and npm packages are installed automatically (`composer require` / `npm install` in the project root; npm only when a `package.json` exists). Pass `--skip-packages` to print the commands instead.
+
+A bare name uses `default_registry`; `@namespace/name` picks a registry. Registries are configured in `config/ui.php` and can be extended per project in `components.json`:
+
+```json
+{
+  "registries": {
+    "@acme": "https://acme.test/r/{name}.json"
+  }
+}
+```
+
+A registry value is a URL template containing `{name}` or a local directory of `{name}.json` files. Each item is JSON with inline file `content` (shadcn style). If the remote `@knppy` registry is unavailable, the registry bundled with this package is used instead silently (pass `-v` to `ui:add` to see a notice; disable with `UI_REGISTRY_FALLBACK=false`); other registries never fall back.
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.

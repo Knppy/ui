@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Ui\Ui\Registry\Builder;
+
+require __DIR__.'/../vendor/autoload.php';
+
+$root = dirname(__DIR__);
+
+foreach ((new Builder)->build($root, $root.'/registry/r') as $path) {
+    echo '✓ '.substr($path, strlen($root) + 1).PHP_EOL;
+}

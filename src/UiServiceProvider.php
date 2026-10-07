@@ -10,7 +10,9 @@ use Illuminate\View\ComponentAttributeBag;
 use Psr\SimpleCache\CacheInterface;
 use TailwindMerge\Support\Config;
 use TailwindMerge\TailwindMerge;
+use Ui\Ui\Console\Commands\AddCommand;
 use Ui\Ui\Console\Commands\InstallCommand;
+use Ui\Ui\Registry\Registry;
 
 class UiServiceProvider extends ServiceProvider
 {
@@ -32,6 +34,12 @@ class UiServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(Ui::class);
+
+        $this->app->singleton(Registry::class, fn () => new Registry(
+            registries: config('ui.registries', []),
+            default: config('ui.default_registry', '@knppy'),
+            fallbacks: config('ui.fallback', true) ? ['@knppy' => __DIR__.'/../registry/r'] : [],
+        ));
     }
 
     /**
@@ -54,6 +62,7 @@ class UiServiceProvider extends ServiceProvider
         ], ['ui', 'ui-assets']);
 
         $this->commands([
+            AddCommand::class,
             InstallCommand::class,
         ]);
     }

@@ -16,6 +16,42 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Registries
+    |--------------------------------------------------------------------------
+    |
+    | Registries that ui:add can pull components from, keyed by namespace
+    | (use them as @namespace/component). A value is either a URL template
+    | containing {name}, or a path to a local directory of {name}.json files.
+    | A "registries" key in components.json is merged over these.
+    |
+    */
+    'registries' => [
+        '@knppy' => env('UI_REGISTRY_URL', 'https://ui.knppy.com/r/{name}.json'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default Registry
+    |--------------------------------------------------------------------------
+    |
+    | The registry used when a component is referenced without a namespace.
+    |
+    */
+    'default_registry' => '@knppy',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Bundled Registry Fallback
+    |--------------------------------------------------------------------------
+    |
+    | When the remote @knppy registry is unavailable, fall back to the
+    | registry bundled with this package. Other registries never fall back.
+    |
+    */
+    'fallback' => env('UI_REGISTRY_FALLBACK', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | twMerge
     |--------------------------------------------------------------------------
     |

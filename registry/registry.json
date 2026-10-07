@@ -15,6 +15,22 @@
       "files": [
         "registry/ui/button/button.blade.php"
       ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "A container that groups related buttons together with consistent styling.",
+      "registryDependencies": ["button"],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/button-group/button-group.blade.php",
+        "registry/ui/button-group/button-group-separator.blade.php",
+        "registry/ui/button-group/button-group-text.blade.php"
+      ]
     }
   ]
 }

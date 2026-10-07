@@ -1,0 +1,30 @@
+{
+    "name": "button-group",
+    "type": "registry:ui",
+    "title": "Button Group",
+    "description": "A container that groups related buttons together with consistent styling.",
+    "registryDependencies": [
+        "button"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "button-group.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'orientation' => 'horizontal',\n])\n\n@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('flex w-fit items-stretch has-[>[data-slot=button-group]]:gap-2 [&>*]:focus-visible:relative [&>*]:focus-visible:z-10 has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-md [&>[data-slot=select-trigger]:not([class*=\\'w-\\'])]:w-fit [&>input]:flex-1')\n        ->add($orientation === 'vertical' ? 'flex-col [&>*:not(:first-child)]:rounded-t-none [&>*:not(:first-child)]:border-t-0 [&>*:not(:last-child)]:rounded-b-none' : '[&>*:not(:first-child)]:rounded-l-none [&>*:not(:first-child)]:border-l-0 [&>*:not(:last-child)]:rounded-r-none')\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<div\n    role=\"group\"\n    data-slot=\"button-group\"\n    data-orientation=\"{{ $orientation }}\"\n    {{ $attributes->twMerge(['class' => $classes]) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "button-group-separator.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'orientation' => 'vertical',\n])\n\n@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('bg-input relative m-0! self-stretch data-[orientation=vertical]:h-auto')\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<x-ui.separator\n    data-slot=\"button-group-separator\"\n    :orientation=\"$orientation\"\n    {{ $attributes->twMerge(['class' => $classes]) }}\n/>\n"
+        },
+        {
+            "path": "button-group-text.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'is' => 'div',\n])\n\n@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('flex items-center gap-2 rounded-md border bg-muted px-4 text-sm font-medium shadow-xs [&_svg]:pointer-events-none [&_svg:not([class*=\\'size-\\'])]:size-4')\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<{{$is}} {{ $attributes->twMerge(['class' => $classes]) }}>{{ $slot }}</{{$is}}>\n"
+        }
+    ]
+}
