@@ -1,0 +1,48 @@
+{
+    "name": "card",
+    "type": "registry:ui",
+    "title": "Card",
+    "description": "Displays a card with header, content, and footer.",
+    "registryDependencies": [],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "card.blade.php",
+            "type": "registry:ui",
+            "content": "@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm')\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<div data-slot=\"card\" {{ $attributes->twMerge(['class' => $classes]) }}>{{ $slot }}</div>\n"
+        },
+        {
+            "path": "card-action.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"card-action\"\n    {{ $attributes->twMerge(['class' => 'col-start-2 row-span-2 row-start-1 self-start justify-self-end']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "card-content.blade.php",
+            "type": "registry:ui",
+            "content": "<div data-slot=\"card-content\" {{ $attributes->twMerge(['class' => 'px-6']) }}>{{ $slot }}</div>\n"
+        },
+        {
+            "path": "card-description.blade.php",
+            "type": "registry:ui",
+            "content": "<div data-slot=\"card-description\" {{ $attributes->twMerge(['class' => 'text-sm text-muted-foreground']) }}>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "card-footer.blade.php",
+            "type": "registry:ui",
+            "content": "<div data-slot=\"card-footer\" {{ $attributes->twMerge(['class' => 'flex items-center px-6 [.border-t]:pt-6']) }}>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "card-header.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"card-header\"\n    {{ $attributes->twMerge(['class' => '@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "card-title.blade.php",
+            "type": "registry:ui",
+            "content": "<div data-slot=\"card-title\" {{ $attributes->twMerge(['class' => 'leading-none font-semibold']) }}>{{ $slot }}</div>\n"
+        }
+    ]
+}

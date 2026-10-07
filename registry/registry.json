@@ -3,6 +3,113 @@
   "homepage": "https://ui.knppy.com",
   "items": [
     {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Displays a callout for user attention.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/alert/alert.blade.php",
+        "registry/ui/alert/alert-description.blade.php",
+        "registry/ui/alert/alert-title.blade.php"
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Displays content within a desired ratio.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/aspect-ratio/aspect-ratio.blade.php"
+      ]
+    },
+    {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "Displays a file or image attachment with media, metadata, upload state, and actions.",
+      "registryDependencies": [
+        "button"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/attachment/attachment.blade.php",
+        "registry/ui/attachment/attachment-action.blade.php",
+        "registry/ui/attachment/attachment-actions.blade.php",
+        "registry/ui/attachment/attachment-content.blade.php",
+        "registry/ui/attachment/attachment-description.blade.php",
+        "registry/ui/attachment/attachment-group.blade.php",
+        "registry/ui/attachment/attachment-media.blade.php",
+        "registry/ui/attachment/attachment-title.blade.php",
+        "registry/ui/attachment/attachment-trigger.blade.php"
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Displays a badge or a component that looks like a badge.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/badge/badge.blade.php"
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Displays the path to the current resource using a hierarchy of links.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "mallardduck/blade-lucide-icons"
+        ],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/breadcrumb/breadcrumbs.blade.php",
+        "registry/ui/breadcrumb/breadcrumb-ellipsis.blade.php",
+        "registry/ui/breadcrumb/breadcrumb-item.blade.php",
+        "registry/ui/breadcrumb/breadcrumb-link.blade.php",
+        "registry/ui/breadcrumb/breadcrumb-list.blade.php",
+        "registry/ui/breadcrumb/breadcrumb-page.blade.php",
+        "registry/ui/breadcrumb/breadcrumb-separator.blade.php"
+      ]
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "Bubble",
+      "description": "Displays conversational content in a message bubble. Supports variants, alignment, grouping, reactions, and collapsible content.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/bubble/bubble.blade.php",
+        "registry/ui/bubble/bubble-content.blade.php",
+        "registry/ui/bubble/bubble-group.blade.php",
+        "registry/ui/bubble/bubble-reactions.blade.php"
+      ]
+    },
+    {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
@@ -21,7 +128,9 @@
       "type": "registry:ui",
       "title": "Button Group",
       "description": "A container that groups related buttons together with consistent styling.",
-      "registryDependencies": ["button"],
+      "registryDependencies": [
+        "button"
+      ],
       "dependencies": {
         "composer": [],
         "npm": []
@@ -30,6 +139,304 @@
         "registry/ui/button-group/button-group.blade.php",
         "registry/ui/button-group/button-group-separator.blade.php",
         "registry/ui/button-group/button-group-text.blade.php"
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Displays a card with header, content, and footer.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/card/card.blade.php",
+        "registry/ui/card/card-action.blade.php",
+        "registry/ui/card/card-content.blade.php",
+        "registry/ui/card/card-description.blade.php",
+        "registry/ui/card/card-footer.blade.php",
+        "registry/ui/card/card-header.blade.php",
+        "registry/ui/card/card-title.blade.php"
+      ]
+    },
+    {
+      "name": "direction-provider",
+      "type": "registry:ui",
+      "title": "Direction Provider",
+      "description": "Sets the text direction for its children.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/direction-provider/direction-provider.blade.php"
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Use the Empty component to display an empty state.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/empty/empty.blade.php",
+        "registry/ui/empty/empty-content.blade.php",
+        "registry/ui/empty/empty-description.blade.php",
+        "registry/ui/empty/empty-header.blade.php",
+        "registry/ui/empty/empty-media.blade.php",
+        "registry/ui/empty/empty-title.blade.php"
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
+      "registryDependencies": [
+        "label",
+        "separator"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/field/field.blade.php",
+        "registry/ui/field/field-content.blade.php",
+        "registry/ui/field/field-description.blade.php",
+        "registry/ui/field/field-error.blade.php",
+        "registry/ui/field/field-group.blade.php",
+        "registry/ui/field/field-label.blade.php",
+        "registry/ui/field/field-legend.blade.php",
+        "registry/ui/field/field-separator.blade.php",
+        "registry/ui/field/field-set.blade.php",
+        "registry/ui/field/field-title.blade.php"
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "A text input component for forms and user data entry with built-in styling and accessibility features.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/input/input.blade.php"
+      ]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "A versatile component for displaying content with media, title, description, and actions.",
+      "registryDependencies": [
+        "separator"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/item/item.blade.php",
+        "registry/ui/item/item-actions.blade.php",
+        "registry/ui/item/item-content.blade.php",
+        "registry/ui/item/item-description.blade.php",
+        "registry/ui/item/item-footer.blade.php",
+        "registry/ui/item/item-group.blade.php",
+        "registry/ui/item/item-header.blade.php",
+        "registry/ui/item/item-media.blade.php",
+        "registry/ui/item/item-separator.blade.php",
+        "registry/ui/item/item-title.blade.php"
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Used to display textual user input from keyboard.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/kbd/kbd.blade.php",
+        "registry/ui/kbd/kbd-group.blade.php"
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Renders an accessible label associated with controls.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/label/label.blade.php"
+      ]
+    },
+    {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "Displays an inline status, system note, bordered row, or labeled separator in a conversation.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/marker/marker.blade.php",
+        "registry/ui/marker/marker-content.blade.php",
+        "registry/ui/marker/marker-icon.blade.php"
+      ]
+    },
+    {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native Select",
+      "description": "A styled native HTML select element with consistent design system integration.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "mallardduck/blade-lucide-icons"
+        ],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/native-select/native-select.blade.php",
+        "registry/ui/native-select/native-select-optgroup.blade.php",
+        "registry/ui/native-select/native-select-option.blade.php"
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Pagination with page navigation, next and previous links.",
+      "registryDependencies": [
+        "button"
+      ],
+      "dependencies": {
+        "composer": [
+          "mallardduck/blade-lucide-icons"
+        ],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/pagination/pagination.blade.php",
+        "registry/ui/pagination/pagination-content.blade.php",
+        "registry/ui/pagination/pagination-ellipsis.blade.php",
+        "registry/ui/pagination/pagination-item.blade.php",
+        "registry/ui/pagination/pagination-link.blade.php",
+        "registry/ui/pagination/pagination-next.blade.php",
+        "registry/ui/pagination/pagination-previous.blade.php"
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/progress/progress.blade.php"
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Visually or semantically separates content.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/separator/separator.blade.php"
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Use to show a placeholder while content is loading.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/skeleton/skeleton.blade.php"
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "An indicator that can be used to show a loading state.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [
+          "mallardduck/blade-lucide-icons"
+        ],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/spinner/spinner.blade.php"
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "A responsive table component.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/table/table.blade.php",
+        "registry/ui/table/table-body.blade.php",
+        "registry/ui/table/table-caption.blade.php",
+        "registry/ui/table/table-cell.blade.php",
+        "registry/ui/table/table-footer.blade.php",
+        "registry/ui/table/table-head.blade.php",
+        "registry/ui/table/table-header.blade.php",
+        "registry/ui/table/table-row.blade.php"
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Displays a form textarea or a component that looks like a textarea.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/textarea/textarea.blade.php"
       ]
     }
   ]

@@ -1,0 +1,18 @@
+{
+    "name": "aspect-ratio",
+    "type": "registry:ui",
+    "title": "Aspect Ratio",
+    "description": "Displays content within a desired ratio.",
+    "registryDependencies": [],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "aspect-ratio.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['ratio' => '1 / 1'])\n\n<div data-slot=\"aspect-ratio\" style=\"aspect-ratio: {{ $ratio }}\" {{ $attributes->twMerge('relative') }}>\n    {{ $slot }}\n</div>\n"
+        }
+    ]
+}

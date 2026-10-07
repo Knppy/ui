@@ -1,0 +1,52 @@
+{
+    "name": "pagination",
+    "type": "registry:ui",
+    "title": "Pagination",
+    "description": "Pagination with page navigation, next and previous links.",
+    "registryDependencies": [
+        "button"
+    ],
+    "dependencies": {
+        "composer": [
+            "mallardduck/blade-lucide-icons"
+        ],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "pagination.blade.php",
+            "type": "registry:ui",
+            "content": "<nav\n    role=\"navigation\"\n    aria-label=\"pagination\"\n    data-slot=\"pagination\"\n    {{ $attributes->twMerge(['class' => 'mx-auto flex w-full justify-center']) }}\n>\n    {{ $slot }}\n</nav>\n"
+        },
+        {
+            "path": "pagination-content.blade.php",
+            "type": "registry:ui",
+            "content": "<ul data-slot=\"pagination-content\" {{ $attributes->twMerge(['class' => 'flex flex-row items-center gap-1']) }}>\n    {{ $slot }}\n</ul>\n"
+        },
+        {
+            "path": "pagination-ellipsis.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    aria-hidden=\"true\"\n    data-slot=\"pagination-ellipsis\"\n    {{ $attributes->twMerge(['class' => 'flex size-9 items-center justify-center']) }}\n>\n    <x-lucide-ellipsis class=\"size-4\" />\n    <span class=\"sr-only\">{{ __('More pages') }}</span>\n</span>\n"
+        },
+        {
+            "path": "pagination-item.blade.php",
+            "type": "registry:ui",
+            "content": "<li data-slot=\"pagination-item\" {{ $attributes }}>{{ $slot }}</li>\n"
+        },
+        {
+            "path": "pagination-link.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'active' => false,\n    'size' => 'icon',\n])\n\n<x-ui.button\n    is=\"a\"\n    dataSlot=\"pagination-link\"\n    data-active=\"{{ $active ? 'true' : 'false' }}\"\n    :aria-current=\"$active ? 'page' : null\"\n    :variant=\"$active ? 'outline' : 'ghost'\"\n    :size=\"$size\"\n    {{ $attributes }}\n>\n    {{ $slot }}</x-ui.button>\n"
+        },
+        {
+            "path": "pagination-next.blade.php",
+            "type": "registry:ui",
+            "content": "<x-ui.pagination-link\n    aria-label=\"Go to next page\"\n    size=\"default\"\n    {{ $attributes->twMerge(['class' => 'gap-1 px-2.5 sm:pr-2.5']) }}\n>\n    <span class=\"hidden sm:block\">{{ __('Next') }}</span>\n    <x-lucide-chevron-right />\n</x-ui.pagination-link>\n"
+        },
+        {
+            "path": "pagination-previous.blade.php",
+            "type": "registry:ui",
+            "content": "<x-ui.pagination-link\n    aria-label=\"Go to previous page\"\n    size=\"default\"\n    {{ $attributes->twMerge(['class' => 'gap-1 px-2.5 sm:pl-2.5']) }}\n>\n    <x-lucide-chevron-left />\n    <span class=\"hidden sm:block\">{{ __('Previous') }}</span>\n</x-ui.pagination-link>\n"
+        }
+    ]
+}

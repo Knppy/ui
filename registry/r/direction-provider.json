@@ -1,0 +1,18 @@
+{
+    "name": "direction-provider",
+    "type": "registry:ui",
+    "title": "Direction Provider",
+    "description": "Sets the text direction for its children.",
+    "registryDependencies": [],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "direction-provider.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'dir' => null,\n    'direction' => null,\n])\n\n<div dir=\"{{ $direction ?? $dir ?? 'ltr' }}\" data-slot=\"direction-provider\" {{ $attributes }}>{{ $slot }}</div>\n"
+        }
+    ]
+}

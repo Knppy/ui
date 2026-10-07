@@ -1,0 +1,18 @@
+{
+    "name": "progress",
+    "type": "registry:ui",
+    "title": "Progress",
+    "description": "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+    "registryDependencies": [],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "progress.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'value' => 0,\n    'max' => 100,\n])\n\n@php\n    $maximum = max(1, (float) $max);\n    $current = min($maximum, max(0, (float) $value));\n    $percentage = ($current / $maximum) * 100;\n@endphp\n\n<div\n    role=\"progressbar\"\n    aria-valuemin=\"0\"\n    aria-valuemax=\"{{ $max }}\"\n    aria-valuenow=\"{{ $value }}\"\n    data-slot=\"progress\"\n    {{ $attributes->twMerge(['class' => 'relative h-2 w-full overflow-hidden rounded-full bg-primary/20']) }}\n>\n    <div\n        data-slot=\"progress-indicator\"\n        class=\"bg-primary h-full w-full flex-1 transition-all\"\n        style=\"transform: translateX(-{{ 100 - $percentage }}%)\"\n    ></div>\n</div>\n"
+        }
+    ]
+}

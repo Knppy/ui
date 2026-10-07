@@ -1,0 +1,66 @@
+{
+    "name": "field",
+    "type": "registry:ui",
+    "title": "Field",
+    "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
+    "registryDependencies": [
+        "label",
+        "separator"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "field.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['orientation' => 'vertical'])\n\n@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $orientations = [\n        'vertical' => 'flex-col [&>*]:w-full [&>.sr-only]:w-auto',\n        'horizontal' => 'flex-row items-center [&>[data-slot=field-label]]:flex-auto has-[>[data-slot=field-content]]:items-start has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px',\n        'responsive' => 'flex-col @md/field-group:flex-row @md/field-group:items-center [&>*]:w-full @md/field-group:[&>*]:w-auto [&>.sr-only]:w-auto @md/field-group:[&>[data-slot=field-label]]:flex-auto @md/field-group:has-[>[data-slot=field-content]]:items-start @md/field-group:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px',\n    ];\n    $classes = Ui::classes()\n        ->add('group/field flex w-full gap-3 data-[invalid=true]:text-destructive')\n        ->add($orientations[$orientation] ?? $orientations['vertical'])\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<div\n    role=\"group\"\n    data-slot=\"field\"\n    data-orientation=\"{{ $orientation }}\"\n    {{ $attributes->twMerge(['class' => $classes]) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "field-content.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"field-content\"\n    {{ $attributes->twMerge(['class' => 'group/field-content flex flex-1 flex-col gap-1.5 leading-snug']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "field-description.blade.php",
+            "type": "registry:ui",
+            "content": "<p\n    data-slot=\"field-description\"\n    {{ $attributes->twMerge(['class' => 'text-sm leading-normal font-normal text-muted-foreground group-has-[[data-orientation=horizontal]]/field:text-balance last:mt-0 nth-last-2:-mt-1 [[data-variant=legend]+&]:-mt-1.5 [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary']) }}\n>\n    {{ $slot }}\n</p>\n"
+        },
+        {
+            "path": "field-error.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['errors' => []])\n\n@php\n    $messages = collect($errors)\n        ->map(function ($error) {\n            if (is_string($error)) {\n                return $error;\n            }\n\n            if (is_array($error)) {\n                return $error['message'] ?? null;\n            }\n\n            return is_object($error) ? ($error->message ?? null) : null;\n        })\n        ->filter()\n        ->unique()\n        ->values();\n    $hasContent = $slot->isNotEmpty() || $messages->isNotEmpty();\n@endphp\n\n@if ($hasContent)\n    <div\n        role=\"alert\"\n        data-slot=\"field-error\"\n        {{ $attributes->twMerge(['class' => 'text-sm font-normal text-destructive']) }}\n    >\n        @if ($slot->isNotEmpty())\n            {{ $slot }}\n        @elseif ($messages->count() === 1)\n            {{ $messages->first() }}\n        @else\n            <ul class=\"ml-4 flex list-disc flex-col gap-1\">\n                @foreach ($messages as $message)\n                    <li>{{ $message }}</li>\n                @endforeach\n            </ul>\n        @endif\n    </div>\n@endif\n"
+        },
+        {
+            "path": "field-group.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"field-group\"\n    {{ $attributes->twMerge(['class' => 'group/field-group @container/field-group flex w-full flex-col gap-7 data-[slot=checkbox-group]:gap-3 [&>[data-slot=field-group]]:gap-4']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "field-label.blade.php",
+            "type": "registry:ui",
+            "content": "<x-ui.label\n    dataSlot=\"field-label\"\n    {{ $attributes->twMerge(['class' => 'group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border [&>*]:data-[slot=field]:p-4 has-data-[state=checked]:border-primary has-data-[state=checked]:bg-primary/5 dark:has-data-[state=checked]:bg-primary/10']) }}\n>\n    {{ $slot }}</x-ui.label>\n"
+        },
+        {
+            "path": "field-legend.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['variant' => 'legend'])\n\n<legend\n    data-slot=\"field-legend\"\n    data-variant=\"{{ $variant }}\"\n    {{ $attributes->twMerge(['class' => 'mb-3 font-medium data-[variant=legend]:text-base data-[variant=label]:text-sm']) }}\n>\n    {{ $slot }}\n</legend>\n"
+        },
+        {
+            "path": "field-separator.blade.php",
+            "type": "registry:ui",
+            "content": "@php\n    $hasContent = $slot->isNotEmpty();\n@endphp\n\n<div\n    data-slot=\"field-separator\"\n    data-content=\"{{ $hasContent ? 'true' : 'false' }}\"\n    {{ $attributes->twMerge(['class' => 'relative -my-2 h-5 text-sm group-data-[variant=outline]/field-group:-mb-2']) }}\n>\n    <x-ui.separator class=\"absolute inset-0 top-1/2\" />\n    @if ($hasContent)\n        <span\n            data-slot=\"field-separator-content\"\n            class=\"bg-background text-muted-foreground relative mx-auto block w-fit px-2\"\n        >{{ $slot }}</span>\n    @endif\n</div>\n"
+        },
+        {
+            "path": "field-set.blade.php",
+            "type": "registry:ui",
+            "content": "<fieldset\n    data-slot=\"field-set\"\n    {{ $attributes->twMerge(['class' => 'flex flex-col gap-6 has-[>[data-slot=checkbox-group]]:gap-3 has-[>[data-slot=radio-group]]:gap-3']) }}\n>\n    {{ $slot }}\n</fieldset>\n"
+        },
+        {
+            "path": "field-title.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"field-label\"\n    {{ $attributes->twMerge(['class' => 'flex w-fit items-center gap-2 text-sm leading-snug font-medium group-data-[disabled=true]/field:opacity-50']) }}\n>\n    {{ $slot }}\n</div>\n"
+        }
+    ]
+}

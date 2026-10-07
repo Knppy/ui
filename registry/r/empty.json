@@ -1,0 +1,43 @@
+{
+    "name": "empty",
+    "type": "registry:ui",
+    "title": "Empty",
+    "description": "Use the Empty component to display an empty state.",
+    "registryDependencies": [],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "empty.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"empty\"\n    {{ $attributes->twMerge(['class' => 'flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-lg border-dashed p-6 text-center text-balance md:p-12']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "empty-content.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"empty-content\"\n    {{ $attributes->twMerge(['class' => 'flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-sm text-balance']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "empty-description.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"empty-description\"\n    {{ $attributes->twMerge(['class' => 'text-sm/relaxed text-muted-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "empty-header.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"empty-header\"\n    {{ $attributes->twMerge(['class' => 'flex max-w-sm flex-col items-center gap-2 text-center']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "empty-media.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['variant' => 'default'])\n\n@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('mb-2 flex shrink-0 items-center justify-center [&_svg]:pointer-events-none [&_svg]:shrink-0')\n        ->add($variant === 'icon' ? \"flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground [&_svg:not([class*='size-'])]:size-6\" : 'bg-transparent')\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<div data-slot=\"empty-icon\" data-variant=\"{{ $variant }}\" {{ $attributes->twMerge(['class' => $classes]) }}>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "empty-title.blade.php",
+            "type": "registry:ui",
+            "content": "<div data-slot=\"empty-title\" {{ $attributes->twMerge(['class' => 'text-lg font-medium tracking-tight']) }}>\n    {{ $slot }}\n</div>\n"
+        }
+    ]
+}

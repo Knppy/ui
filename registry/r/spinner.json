@@ -1,0 +1,20 @@
+{
+    "name": "spinner",
+    "type": "registry:ui",
+    "title": "Spinner",
+    "description": "An indicator that can be used to show a loading state.",
+    "registryDependencies": [],
+    "dependencies": {
+        "composer": [
+            "mallardduck/blade-lucide-icons"
+        ],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "spinner.blade.php",
+            "type": "registry:ui",
+            "content": "<x-lucide-loader-2\n    role=\"status\"\n    aria-label=\"Loading\"\n    data-slot=\"spinner\"\n    {{ $attributes->twMerge(['class' => 'size-4 animate-spin']) }}\n/>\n"
+        }
+    ]
+}

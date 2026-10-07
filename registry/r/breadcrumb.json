@@ -1,0 +1,50 @@
+{
+    "name": "breadcrumb",
+    "type": "registry:ui",
+    "title": "Breadcrumb",
+    "description": "Displays the path to the current resource using a hierarchy of links.",
+    "registryDependencies": [],
+    "dependencies": {
+        "composer": [
+            "mallardduck/blade-lucide-icons"
+        ],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "breadcrumbs.blade.php",
+            "type": "registry:ui",
+            "content": "<nav aria-label=\"breadcrumb\" data-slot=\"breadcrumb\" {{ $attributes->twMerge([]) }}>{{ $slot }}</nav>\n"
+        },
+        {
+            "path": "breadcrumb-ellipsis.blade.php",
+            "type": "registry:ui",
+            "content": "@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('flex size-9 items-center justify-center')\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<span\n    data-slot=\"breadcrumb-ellipsis\"\n    role=\"presentation\"\n    aria-hidden=\"true\"\n    {{ $attributes->twMerge(['class' => $classes]) }}\n>\n    <x-lucide-ellipsis class=\"size-4\" />\n    <span class=\"sr-only\">{{ __('More') }}</span>\n</span>\n"
+        },
+        {
+            "path": "breadcrumb-item.blade.php",
+            "type": "registry:ui",
+            "content": "@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('inline-flex items-center gap-1.5')\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<li data-slot=\"breadcrumb-item\" {{ $attributes->twMerge(['class' => $classes]) }}>{{ $slot }}</li>\n"
+        },
+        {
+            "path": "breadcrumb-link.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'is' => 'a',\n])\n\n@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('transition-colors hover:text-foreground')\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<{{ $is }} data-slot=\"breadcrumb-link\" {{ $attributes->twMerge(['class' => $classes]) }}>{{ $slot }}</{{ $is }}>\n"
+        },
+        {
+            "path": "breadcrumb-list.blade.php",
+            "type": "registry:ui",
+            "content": "@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5')\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<ol data-slot=\"breadcrumb-list\" {{ $attributes->twMerge(['class' => $classes]) }}>\n    {{ $slot }}\n</ol>\n"
+        },
+        {
+            "path": "breadcrumb-page.blade.php",
+            "type": "registry:ui",
+            "content": "@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('text-foreground font-normal')\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<span\n    data-slot=\"breadcrumb-page\"\n    role=\"link\"\n    aria-disabled=\"true\"\n    aria-current=\"page\"\n    {{ $attributes->twMerge(['class' => $classes]) }}\n>{{ $slot }}</span>\n"
+        },
+        {
+            "path": "breadcrumb-separator.blade.php",
+            "type": "registry:ui",
+            "content": "@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('[&>svg]:size-3.5')\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<li\n    data-slot=\"breadcrumb-separator\"\n    role=\"presentation\"\n    aria-hidden=\"true\"\n    {{ $attributes->twMerge(['class' => $classes]) }}\n>\n    @if ($slot->isEmpty())\n        <x-lucide-chevron-right />\n    @else\n        {{ $slot }}\n    @endif\n</li>\n"
+        }
+    ]
+}

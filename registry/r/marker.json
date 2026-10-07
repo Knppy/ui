@@ -1,0 +1,28 @@
+{
+    "name": "marker",
+    "type": "registry:ui",
+    "title": "Marker",
+    "description": "Displays an inline status, system note, bordered row, or labeled separator in a conversation.",
+    "registryDependencies": [],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "marker.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'is' => 'div',\n    'variant' => 'default',\n])\n\n@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $variants = [\n        'default' => '',\n        'separator' => 'before:mr-1 before:h-px before:min-w-0 before:flex-1 before:bg-border after:ml-1 after:h-px after:min-w-0 after:flex-1 after:bg-border',\n        'border' => 'border-b border-border pb-2',\n    ];\n    $classes = Ui::classes()\n        ->add(\"group/marker relative flex min-h-4 w-full items-center gap-2 text-left text-sm text-muted-foreground [&_svg:not([class*='size-'])]:size-4 [a]:underline [a]:underline-offset-3 [a]:hover:text-foreground\")\n        ->add($variants[$variant] ?? $variants['default'])\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<{{ $is }}\n    data-slot=\"marker\"\n    data-variant=\"{{ $variant }}\"\n    {{ $attributes->twMerge(['class' => $classes]) }}\n    >{{ $slot }}</{{ $is }}\n>\n"
+        },
+        {
+            "path": "marker-content.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    data-slot=\"marker-content\"\n    {{ $attributes->twMerge(['class' => 'min-w-0 wrap-break-word group-data-[variant=separator]/marker:flex-none group-data-[variant=separator]/marker:text-center *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground']) }}\n>{{ $slot }}</span>\n"
+        },
+        {
+            "path": "marker-icon.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    data-slot=\"marker-icon\"\n    aria-hidden=\"true\"\n    {{ $attributes->twMerge(['class' => \"size-4 shrink-0 [&_svg:not([class*='size-'])]:size-4\"]) }}\n>{{ $slot }}</span>\n"
+        }
+    ]
+}
