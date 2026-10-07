@@ -9,6 +9,7 @@
   },
   "aliases": {
     "components": "resources/views/components",
-    "ui": "resources/views/components/ui"
+    "ui": "resources/views/components/ui",
+    "js": "resources/js"
   }
 }
