@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\File;
-use Ui\Ui\Registry\Builder;
+use Knppy\Ui\Registry\Builder;
 
 it('builds items with the source file content inlined', function () {
     $output = sys_get_temp_dir().'/knppy-build-'.uniqid();

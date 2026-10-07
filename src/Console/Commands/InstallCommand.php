@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Ui\Ui\Console\Commands;
+namespace Knppy\Ui\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Knppy\Ui\ColorScheme;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Ui\Ui\ColorScheme;
 
 #[AsCommand('ui:install', 'Installs Knppy UI into your project.')]
 class InstallCommand extends Command

@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Illuminate\View\ComponentAttributeBag;
+use Knppy\Ui\ClassBuilder;
 use TailwindMerge\TailwindMerge;
-use Ui\Ui\ClassBuilder;
 
 it('binds the class builder and tailwind merge as singletons', function () {
     expect(app(ClassBuilder::class))->toBe(app(ClassBuilder::class))

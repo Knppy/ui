@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ui\Ui\Registry;
+namespace Knppy\Ui\Registry;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;

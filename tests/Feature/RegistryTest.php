@@ -5,9 +5,9 @@ declare(strict_types=1);
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
-use Ui\Ui\Registry\Registry;
-use Ui\Ui\Registry\RegistryException;
-use Ui\Ui\Registry\RegistrySource;
+use Knppy\Ui\Registry\Registry;
+use Knppy\Ui\Registry\RegistryException;
+use Knppy\Ui\Registry\RegistrySource;
 
 it('resolves a bare name against the default registry', function () {
     Http::fake(['ui.knppy.com/r/button.json' => Http::response(registryPayload('button'))]);

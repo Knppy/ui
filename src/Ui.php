@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ui\Ui;
+namespace Knppy\Ui;
 
 class Ui
 {

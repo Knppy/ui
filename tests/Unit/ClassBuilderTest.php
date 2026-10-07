@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Ui\Ui\ClassBuilder;
+use Knppy\Ui\ClassBuilder;
 
 it('is empty by default', function () {
     expect((string) new ClassBuilder)->toBe('');

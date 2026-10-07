@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Ui\Ui\Ui;
+use Knppy\Ui\Ui;
 
 it('resolves the singleton', function () {
     expect(app(Ui::class))->toBeInstanceOf(Ui::class);

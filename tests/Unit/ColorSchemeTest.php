@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Ui\Ui\ColorScheme;
+use Knppy\Ui\ColorScheme;
 
 it('has the expected cases', function () {
     expect(array_map(fn (ColorScheme $c) => $c->value, ColorScheme::cases()))

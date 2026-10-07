@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ui\Ui;
+namespace Knppy\Ui;
 
 /**
  * The base color schemes that can be installed into a project.

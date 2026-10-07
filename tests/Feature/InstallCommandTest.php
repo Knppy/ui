@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\File;
-use Ui\Ui\ColorScheme;
+use Knppy\Ui\ColorScheme;
 
 beforeEach(function () {
     File::delete(base_path('components.json'));

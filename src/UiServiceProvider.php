@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Ui\Ui;
+namespace Knppy\Ui;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\ComponentAttributeBag;
+use Knppy\Ui\Console\Commands\AddCommand;
+use Knppy\Ui\Console\Commands\InstallCommand;
+use Knppy\Ui\Registry\Registry;
 use Psr\SimpleCache\CacheInterface;
 use TailwindMerge\Support\Config;
 use TailwindMerge\TailwindMerge;
-use Ui\Ui\Console\Commands\AddCommand;
-use Ui\Ui\Console\Commands\InstallCommand;
-use Ui\Ui\Registry\Registry;
 
 class UiServiceProvider extends ServiceProvider
 {

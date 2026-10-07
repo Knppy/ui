@@ -35,12 +35,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Ui\\Ui\\": "src/"
+      "Knppy\\Ui\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Ui\\Ui\\Tests\\": "tests/",
+      "Knppy\\Ui\\Tests\\": "tests/",
       "Workbench\\App\\": "workbench/app/",
       "Workbench\\Database\\Factories\\": "workbench/database/factories/",
       "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
@@ -93,10 +93,10 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Ui\\Ui\\UiServiceProvider"
+        "Knppy\\Ui\\UiServiceProvider"
       ],
       "aliases": {
-        "Ui": "Ui\\Ui\\Facades\\Ui"
+        "Ui": "Knppy\\Ui\\Facades\\Ui"
       }
     }
   },

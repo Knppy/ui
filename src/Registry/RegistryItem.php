@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ui\Ui\Registry;
+namespace Knppy\Ui\Registry;
 
 final readonly class RegistryItem
 {

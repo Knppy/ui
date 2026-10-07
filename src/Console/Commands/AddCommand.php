@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Ui\Ui\Console\Commands;
+namespace Knppy\Ui\Console\Commands;
 
 use Illuminate\Console\Command;
+use Knppy\Ui\Registry\Installer;
+use Knppy\Ui\Registry\InstallResult;
+use Knppy\Ui\Registry\PackageInstaller;
+use Knppy\Ui\Registry\Registry;
+use Knppy\Ui\Registry\RegistryException;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Ui\Ui\Registry\Installer;
-use Ui\Ui\Registry\InstallResult;
-use Ui\Ui\Registry\PackageInstaller;
-use Ui\Ui\Registry\Registry;
-use Ui\Ui\Registry\RegistryException;
 
 #[AsCommand('ui:add', 'Adds Knppy UI components to your project.')]
 class AddCommand extends Command
