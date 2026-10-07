@@ -13,11 +13,5 @@ it('returns the same instance from the container', function () {
 });
 
 it('merges the package config', function () {
-    expect(config('ui.placeholder'))->toBe('default');
-});
-
-it('registers the artisan command', function () {
-    $this->artisan('ui:placeholder')
-        ->expectsOutputToContain('Ui placeholder command executed.')
-        ->assertSuccessful();
+    expect(config('ui'))->toHaveKeys(['cache_store', 'twMerge']);
 });

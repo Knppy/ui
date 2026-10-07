@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace Ui\Ui;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
-use Ui\Ui\Console\Commands\UiCommand;
+use Illuminate\View\ComponentAttributeBag;
+use Psr\SimpleCache\CacheInterface;
+use TailwindMerge\Support\Config;
+use TailwindMerge\TailwindMerge;
+use Ui\Ui\Console\Commands\InstallCommand;
 
 class UiServiceProvider extends ServiceProvider
 {
@@ -16,6 +21,16 @@ class UiServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/ui.php', 'ui');
 
+        $this->app->singleton(ClassBuilder::class);
+        $this->app->singleton(TailwindMerge::class, function () {
+            Config::setAdditionalConfig(config('ui.twMerge', []));
+
+            return new TailwindMerge(
+                Config::getMergedConfig(),
+                $this->getCacheStore(),
+            );
+        });
+
         $this->app->singleton(Ui::class);
     }
 
@@ -24,6 +39,8 @@ class UiServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->bootAttributesBagMacros();
+
         if (! $this->app->runningInConsole()) {
             return;
         }
@@ -37,7 +54,29 @@ class UiServiceProvider extends ServiceProvider
         ], ['ui', 'ui-assets']);
 
         $this->commands([
-            UiCommand::class,
+            InstallCommand::class,
         ]);
+    }
+
+    /**
+     * Boot attributes bag macro's
+     */
+    private function bootAttributesBagMacros(): void
+    {
+        ComponentAttributeBag::macro('twMerge', function (...$args): ComponentAttributeBag {
+            /** @var ComponentAttributeBag $this */
+            $this->offsetSet('class', resolve(TailwindMerge::class)
+                ->merge($args, ($this->get('class', ''))));
+
+            return $this;
+        });
+    }
+
+    /**
+     * Get the cache store instance that will be used by Knppy UI.
+     */
+    private function getCacheStore(): CacheInterface
+    {
+        return Cache::memo(config('ui.cache_store'));
     }
 }
