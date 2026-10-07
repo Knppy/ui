@@ -166,3 +166,30 @@ it('fails for unknown components and registries', function (string $component) {
 
     $this->artisan('ui:add', ['components' => [$component]])->assertFailed();
 })->with(['nope', '@nope/button']);
+
+it('installs javascript files into the js alias and hints at the import', function () {
+    writeComponentsJson();
+    Http::fake(['ui.knppy.com/*' => Http::response(registryPayload('alpine', [
+        'type' => 'registry:js',
+        'files' => [
+            ['path' => 'ui.js', 'type' => 'registry:js', 'content' => 'loader'],
+            ['path' => 'ui/lib/id.js', 'type' => 'registry:js', 'content' => 'id'],
+        ],
+    ]))]);
+
+    $this->artisan('ui:add', ['components' => ['alpine'], '--skip-packages' => true])
+        ->expectsOutputToContain("import './ui.js';")
+        ->assertSuccessful();
+
+    expect(File::get(base_path('resources/js/ui.js')))->toBe('loader')
+        ->and(File::exists(base_path('resources/js/ui/lib/id.js')))->toBeTrue();
+});
+
+it('fails clearly when the js alias is missing', function () {
+    writeComponentsJson(['aliases' => ['ui' => 'resources/views/components/ui']]);
+    Http::fake(['ui.knppy.com/*' => Http::response(registryPayload('alpine', [
+        'files' => [['path' => 'ui.js', 'type' => 'registry:js', 'content' => 'loader']],
+    ]))]);
+
+    $this->artisan('ui:add', ['components' => ['alpine']])->assertFailed();
+});

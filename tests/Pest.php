@@ -31,7 +31,7 @@ function registryPayload(string $name, array $overrides = []): array
 function writeComponentsJson(array $overrides = []): void
 {
     File::put(base_path('components.json'), json_encode([
-        'aliases' => ['components' => 'resources/views/components', 'ui' => 'resources/views/components/ui'],
+        'aliases' => ['components' => 'resources/views/components', 'ui' => 'resources/views/components/ui', 'js' => 'resources/js'],
         ...$overrides,
     ], JSON_THROW_ON_ERROR));
 }

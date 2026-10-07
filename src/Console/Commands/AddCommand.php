@@ -73,6 +73,12 @@ class AddCommand extends Command
         foreach ($result->skipped as $path) {
             $this->line("   - $path already exists, skipped (use --overwrite).");
         }
+
+        foreach ($result->written as $path) {
+            if (str_ends_with($path, '/ui.js')) {
+                $this->components->info("Import it once in your app.js to register the Alpine components: import './ui.js';");
+            }
+        }
     }
 
     /**

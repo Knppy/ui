@@ -94,7 +94,11 @@ class Installer
      */
     private function aliasFor(string $type): string
     {
-        $alias = $type === 'registry:ui' ? 'ui' : 'components';
+        $alias = match ($type) {
+            'registry:ui' => 'ui',
+            'registry:js' => 'js',
+            default => 'components',
+        };
 
         $aliases = is_array($this->componentsJson['aliases'] ?? null) ? $this->componentsJson['aliases'] : [];
         $path = $aliases[$alias] ?? null;

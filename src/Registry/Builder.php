@@ -43,7 +43,7 @@ class Builder
 
             $item['files'] = array_map(fn (mixed $source): array => [
                 'path' => $this->targetPath((string) $source, $name),
-                'type' => $type,
+                'type' => $this->fileType((string) $source, $type),
                 'content' => $this->read($root.'/'.$source),
             ], $item['files']);
 
@@ -62,9 +62,21 @@ class Builder
      */
     private function targetPath(string $source, string $name): string
     {
+        if (str_starts_with($source, 'registry/js/')) {
+            return substr($source, strlen('registry/js/'));
+        }
+
         $prefix = "registry/ui/{$name}/";
 
         return str_starts_with($source, $prefix) ? substr($source, strlen($prefix)) : basename($source);
+    }
+
+    /**
+     * Get the registry type of a file: JavaScript files are installed in the js alias.
+     */
+    private function fileType(string $source, string $itemType): string
+    {
+        return str_ends_with($source, '.js') ? 'registry:js' : $itemType;
     }
 
     /**

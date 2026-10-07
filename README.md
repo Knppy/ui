@@ -53,7 +53,7 @@ php artisan ui:add button
 php artisan ui:add @knppy/button @acme/card --overwrite
 ```
 
-Files are written to the `aliases` paths in `components.json` (`aliases.ui` for `registry:ui` files, `aliases.components` otherwise). Existing files are skipped unless `--overwrite` is given. Registry dependencies are installed too; missing Composer and npm packages are installed automatically (`composer require` / `npm install` in the project root; npm only when a `package.json` exists). Pass `--skip-packages` to print the commands instead.
+Files are written to the `aliases` paths in `components.json` (`aliases.ui` for `registry:ui` files, `aliases.js` for `registry:js` files, `aliases.components` otherwise). Existing files are skipped unless `--overwrite` is given. Registry dependencies are installed too; missing Composer and npm packages are installed automatically (`composer require` / `npm install` in the project root; npm only when a `package.json` exists). Pass `--skip-packages` to print the commands instead.
 
 A bare name uses `default_registry`; `@namespace/name` picks a registry. Registries are configured in `config/ui.php` and can be extended per project in `components.json`:
 
@@ -66,6 +66,16 @@ A bare name uses `default_registry`; `@namespace/name` picks a registry. Registr
 ```
 
 A registry value is a URL template containing `{name}` or a local directory of `{name}.json` files. Each item is JSON with inline file `content` (shadcn style). If the remote `@knppy` registry is unavailable, the registry bundled with this package is used instead silently (pass `-v` to `ui:add` to see a notice; disable with `UI_REGISTRY_FALLBACK=false`); other registries never fall back.
+
+### Alpine.js components
+
+Components that need Alpine ship a small JS module (`resources/js/ui/dialog.js`) and depend on the `alpine` item, which installs the loader `resources/js/ui.js` and `alpinejs`. Import the loader once in your `app.js`:
+
+```js
+import './ui.js';
+```
+
+The loader uses Vite's `import.meta.glob('./ui/*.js')`, so every module `ui:add` drops into `resources/js/ui/` registers itself with Alpine automatically. Delete a module and it stops being registered. The loader also adds `x-data` to `<body>` (unless it already has one) so magics like `$toast` work anywhere on the page. Add `"js": "resources/js"` to `aliases` in `components.json` if it is missing.
 
 ## Changelog
 
