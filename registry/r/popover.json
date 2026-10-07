@@ -1,0 +1,57 @@
+{
+    "name": "popover",
+    "type": "registry:ui",
+    "title": "Popover",
+    "description": "Displays rich content in a portal, triggered by a button.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": [
+            "@alpinejs/anchor"
+        ]
+    },
+    "files": [
+        {
+            "path": "popover.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['open' => false])\n\n<span\n    x-data=\"uiPopover(@js($open))\"\n    x-modelable=\"open\"\n    x-on:keydown.escape.window=\"open = false\"\n    data-slot=\"popover\"\n    {{ $attributes }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "popover-anchor.blade.php",
+            "type": "registry:ui",
+            "content": "<span x-init=\"trigger = $el\" data-slot=\"popover-anchor\" {{ $attributes }}>{{ $slot }}</span>\n"
+        },
+        {
+            "path": "popover-content.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['align' => 'center', 'side' => 'bottom', 'sideOffset' => 4])\n\n@php($position = $side.($align === 'center' ? '' : '-'.$align))\n\n<template x-teleport=\"body\">\n    <div\n        x-cloak\n        x-show=\"open\"\n        x-transition\n        x-anchor.{{ $position }}.offset.{{ $sideOffset }}=\"trigger\"\n        x-on:click.outside=\"close()\"\n        x-bind:data-state=\"open ? 'open' : 'closed'\"\n        data-side=\"{{ $side }}\"\n        data-align=\"{{ $align }}\"\n        data-slot=\"popover-content\"\n        {{ $attributes->twMerge(['class' => 'z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-hidden']) }}\n    >\n        {{ $slot }}\n    </div>\n</template>\n"
+        },
+        {
+            "path": "popover-description.blade.php",
+            "type": "registry:ui",
+            "content": "<p data-slot=\"popover-description\" {{ $attributes->twMerge(['class' => 'text-muted-foreground']) }}>{{ $slot }}</p>\n"
+        },
+        {
+            "path": "popover-header.blade.php",
+            "type": "registry:ui",
+            "content": "<div data-slot=\"popover-header\" {{ $attributes->twMerge(['class' => 'flex flex-col gap-1 text-sm']) }}>{{ $slot }}</div>\n"
+        },
+        {
+            "path": "popover-title.blade.php",
+            "type": "registry:ui",
+            "content": "<h2 data-slot=\"popover-title\" {{ $attributes->twMerge(['class' => 'font-medium']) }}>{{ $slot }}</h2>\n"
+        },
+        {
+            "path": "popover-trigger.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    x-init=\"registerTrigger($el.firstElementChild)\"\n    x-effect=\"trigger?.setAttribute('aria-expanded', open)\"\n    x-on:click=\"toggle()\"\n    data-slot=\"popover-trigger\"\n    {{ $attributes->twMerge(['class' => 'contents']) }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "ui/popover.js",
+            "type": "registry:js",
+            "content": "import { anchor } from '@alpinejs/anchor';\nimport { use } from './lib/plugins.js';\n\nconst popover = (open = false) => ({\n    open,\n    trigger: null,\n    close() {\n        this.open = false;\n    },\n    registerTrigger(trigger) {\n        this.trigger = trigger;\n        trigger?.setAttribute('aria-haspopup', 'dialog');\n\n        if (trigger instanceof HTMLButtonElement && !trigger.hasAttribute('type')) {\n            trigger.type = 'button';\n        }\n    },\n    toggle() {\n        this.open = !this.open;\n    },\n});\n\nexport default function (Alpine) {\n    use(Alpine, anchor);\n    Alpine.data('uiPopover', popover);\n}\n"
+        }
+    ]
+}

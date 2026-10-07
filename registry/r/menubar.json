@@ -1,0 +1,103 @@
+{
+    "name": "menubar",
+    "type": "registry:ui",
+    "title": "Menubar",
+    "description": "A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.",
+    "registryDependencies": [
+        "alpine",
+        "alpine-menu"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": [
+            "@alpinejs/anchor"
+        ]
+    },
+    "files": [
+        {
+            "path": "menubar.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['value' => null])\n\n<div\n    x-data=\"uiMenubar(@js($value))\"\n    x-modelable=\"value\"\n    x-on:keydown=\"handleRootKeydown($event)\"\n    x-on:keydown.escape.window=\"closeMenu()\"\n    role=\"menubar\"\n    data-slot=\"menubar\"\n    {{ $attributes->twMerge(['class' => 'flex h-9 items-center gap-1 rounded-md border bg-background p-1 shadow-xs']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "menubar-checkbox-item.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['checked' => false, 'disabled' => false])\n\n<div\n    x-data=\"uiMenubarCheckbox(@js($checked))\"\n    x-modelable=\"checked\"\n    x-on:click=\"if (! @js($disabled)) toggleChecked()\"\n    x-bind:aria-checked=\"checked\"\n    x-bind:data-state=\"checked ? 'checked' : 'unchecked'\"\n    role=\"menuitemcheckbox\"\n    tabindex=\"{{ $disabled ? '-1' : '0' }}\"\n    data-slot=\"menubar-checkbox-item\"\n    @if ($disabled) data-disabled aria-disabled=\"true\" @endif\n    {{ $attributes->except('disabled')->twMerge(['class' => \"relative flex cursor-default items-center gap-2 rounded-xs py-1.5 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4\"]) }}\n>\n    <span aria-hidden=\"true\" class=\"pointer-events-none absolute left-2 flex size-3.5 items-center justify-center\">\n        <svg\n            x-show=\"checked\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            class=\"size-4\"\n        >\n            <path d=\"m5 12 4 4L19 6\" />\n        </svg>\n    </span>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "menubar-content.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['align' => 'start', 'sideOffset' => 8])\n\n@php($position = 'bottom'.($align === 'center' ? '' : '-'.$align))\n\n<template x-teleport=\"body\">\n    <div\n        x-cloak\n        x-show=\"isOpen(menu)\"\n        x-transition\n        x-init=\"registerContent(menu, $el)\"\n        x-anchor.{{ $position }}.offset.{{ $sideOffset }}=\"triggerFor(menuValue($el))\"\n        x-on:click.outside=\"closeMenu(false)\"\n        x-on:keydown=\"handleContentKeydown($event)\"\n        x-bind:data-state=\"isOpen(menu) ? 'open' : 'closed'\"\n        role=\"menu\"\n        tabindex=\"-1\"\n        data-slot=\"menubar-content\"\n        data-align=\"{{ $align }}\"\n        {{ $attributes->twMerge(['class' => 'z-50 min-w-48 overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md outline-hidden']) }}\n    >\n        {{ $slot }}\n    </div>\n</template>\n"
+        },
+        {
+            "path": "menubar-group.blade.php",
+            "type": "registry:ui",
+            "content": "<div role=\"group\" data-slot=\"menubar-group\" {{ $attributes }}>{{ $slot }}</div>\n"
+        },
+        {
+            "path": "menubar-item.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['inset' => false, 'variant' => 'default', 'disabled' => false])\n\n<div\n    role=\"menuitem\"\n    tabindex=\"{{ $disabled ? '-1' : '0' }}\"\n    x-on:click=\"selectItem($el)\"\n    data-slot=\"menubar-item\"\n    data-variant=\"{{ $variant }}\"\n    @if ($inset) data-inset @endif\n    @if ($disabled) data-disabled aria-disabled=\"true\" @endif\n    {{ $attributes->except('disabled')->twMerge(['class' => \"relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 \".($inset ? 'pl-8' : '')]) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "menubar-label.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['inset' => false])\n\n<div\n    data-slot=\"menubar-label\"\n    @if ($inset) data-inset @endif\n    {{ $attributes->twMerge(['class' => 'px-2 py-1.5 text-sm font-medium '.($inset ? 'pl-8' : '')]) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "menubar-menu.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['value' => (string) str()->uuid()])\n\n<div\n    x-data=\"{ menu: @js($value) }\"\n    data-slot=\"menubar-menu\"\n    data-value=\"{{ $value }}\"\n    {{ $attributes->twMerge(['class' => 'contents']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "menubar-portal.blade.php",
+            "type": "registry:ui",
+            "content": "<span data-slot=\"menubar-portal\" {{ $attributes->twMerge(['class' => 'contents']) }}>{{ $slot }}</span>\n"
+        },
+        {
+            "path": "menubar-radio-group.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['value' => null])\n\n<div\n    x-data=\"uiMenubarRadioGroup(@js($value))\"\n    x-modelable=\"selectedValue\"\n    role=\"group\"\n    data-slot=\"menubar-radio-group\"\n    {{ $attributes }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "menubar-radio-item.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['value', 'disabled' => false])\n\n<div\n    role=\"menuitemradio\"\n    tabindex=\"{{ $disabled ? '-1' : '0' }}\"\n    x-on:click=\"if (! @js($disabled)) selectValue(@js($value))\"\n    x-bind:aria-checked=\"selectedValue === @js($value)\"\n    x-bind:data-state=\"selectedValue === @js($value) ? 'checked' : 'unchecked'\"\n    data-slot=\"menubar-radio-item\"\n    @if ($disabled) data-disabled aria-disabled=\"true\" @endif\n    {{ $attributes->except('disabled')->twMerge(['class' => \"relative flex cursor-default items-center gap-2 rounded-xs py-1.5 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4\"]) }}\n>\n    <span aria-hidden=\"true\" class=\"pointer-events-none absolute left-2 flex size-3.5 items-center justify-center\">\n        <svg x-show=\"selectedValue === @js($value)\" viewBox=\"0 0 24 24\" fill=\"currentColor\" class=\"size-2\"><circle cx=\"12\" cy=\"12\" r=\"8\" /></svg>\n    </span>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "menubar-separator.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    role=\"separator\"\n    data-slot=\"menubar-separator\"\n    {{ $attributes->twMerge(['class' => '-mx-1 my-1 h-px bg-border']) }}\n></div>\n"
+        },
+        {
+            "path": "menubar-shortcut.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    data-slot=\"menubar-shortcut\"\n    {{ $attributes->twMerge(['class' => 'ml-auto text-xs tracking-widest text-muted-foreground']) }}\n>{{ $slot }}</span>\n"
+        },
+        {
+            "path": "menubar-sub.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    x-data=\"uiMenubarSub\"\n    x-effect=\"if (! isOpen(menu)) closeSub();\"\n    data-slot=\"menubar-sub\"\n    {{ $attributes->twMerge(['class' => 'contents']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "menubar-sub-content.blade.php",
+            "type": "registry:ui",
+            "content": "<template x-teleport=\"body\">\n    <div\n        x-cloak\n        x-show=\"open && isOpen(menu)\"\n        x-init=\"registerSubContent($el)\"\n        x-anchor.right-start.offset.4=\"trigger\"\n        x-on:mouseenter=\"openSub()\"\n        x-on:mouseleave=\"scheduleSubClose()\"\n        x-on:keydown.stop=\"handleSubKeydown($event)\"\n        x-on:keydown.arrow-left.prevent.stop=\"closeSub(true)\"\n        x-bind:data-state=\"open ? 'open' : 'closed'\"\n        role=\"menu\"\n        tabindex=\"-1\"\n        data-side=\"right\"\n        data-slot=\"menubar-sub-content\"\n        {{ $attributes->twMerge(['class' => 'z-50 min-w-32 overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg outline-hidden']) }}\n    >\n        {{ $slot }}\n    </div>\n</template>\n"
+        },
+        {
+            "path": "menubar-sub-trigger.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['inset' => false, 'disabled' => false])\n\n<div\n    x-init=\"registerSubTrigger($el)\"\n    x-on:mouseenter=\"if (! @js($disabled)) openSub()\"\n    x-on:mouseleave=\"scheduleSubClose()\"\n    x-on:click.stop=\"if (! @js($disabled)) openSub(true)\"\n    x-on:keydown.arrow-right.prevent.stop=\"openSub(true)\"\n    x-bind:aria-expanded=\"open\"\n    x-bind:data-state=\"open ? 'open' : 'closed'\"\n    role=\"menuitem\"\n    aria-haspopup=\"menu\"\n    tabindex=\"{{ $disabled ? '-1' : '0' }}\"\n    data-slot=\"menubar-sub-trigger\"\n    @if ($inset) data-inset @endif\n    @if ($disabled) data-disabled aria-disabled=\"true\" @endif\n    {{ $attributes->except('disabled')->twMerge(['class' => 'flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-none select-none focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 '.($inset ? 'pl-8' : '')]) }}\n>\n    {{ $slot }}\n    <svg aria-hidden=\"true\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"ml-auto size-4\"><path d=\"m9 18 6-6-6-6\" /></svg>\n</div>\n"
+        },
+        {
+            "path": "menubar-trigger.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['disabled' => false])\n\n<button\n    type=\"button\"\n    x-init=\"registerTrigger(menu, $el)\"\n    x-bind:aria-expanded=\"isOpen(menuValue($el))\"\n    x-bind:data-state=\"isOpen(menu) ? 'open' : 'closed'\"\n    x-on:click=\"if (! @js($disabled)) toggleMenu(menu)\"\n    x-on:mouseenter=\"if (activeMenu && ! @js($disabled)) openMenu(menu)\"\n    x-on:keydown=\"handleTriggerKeydown($event, menu)\"\n    role=\"menuitem\"\n    aria-haspopup=\"menu\"\n    data-slot=\"menubar-trigger\"\n    @if ($disabled) data-disabled aria-disabled=\"true\" disabled @endif\n    {{ $attributes->except('disabled')->twMerge(['class' => 'flex items-center rounded-sm px-2 py-1 text-sm font-medium outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground disabled:pointer-events-none disabled:opacity-50']) }}\n>\n    {{ $slot }}\n</button>\n"
+        },
+        {
+            "path": "ui/menubar.js",
+            "type": "registry:js",
+            "content": "import { anchor } from '@alpinejs/anchor';\nimport { use } from './lib/plugins.js';\nimport { menuNavigation, dropdownMenuCheckbox, dropdownMenuSub } from './lib/menu.js';\n\nconst menubarRadioGroup = (value = null) => ({\n    selectedValue: value,\n    selectValue(value) {\n        this.selectedValue = value;\n        this.$dispatch('change', value);\n        this.closeMenu?.();\n    },\n});\n\nconst menubar = (value = null) => ({\n    ...menuNavigation,\n    activeMenu: value,\n    triggers: {},\n    contents: {},\n    get value() {\n        return this.activeMenu;\n    },\n    set value(value) {\n        this.activeMenu = value;\n    },\n    registerTrigger(menu, trigger) {\n        this.triggers[menu] = trigger;\n        trigger?.setAttribute('aria-haspopup', 'menu');\n\n        if (trigger instanceof HTMLButtonElement && !trigger.hasAttribute('type')) {\n            trigger.type = 'button';\n        }\n    },\n    registerContent(menu, content) {\n        this.contents[menu] = content;\n    },\n    menuValue(element) {\n        return element.closest('[data-slot=\"menubar-menu\"]')?.dataset.value ?? this.menu;\n    },\n    triggerFor(menu) {\n        return this.triggers[menu] ?? null;\n    },\n    isOpen(menu) {\n        return this.activeMenu === menu;\n    },\n    openMenu(menu, focus = null) {\n        this.activeMenu = menu;\n\n        if (focus) {\n            this.$nextTick(() => this.focusItem(this.contents[menu], focus));\n        }\n    },\n    closeMenu(restoreFocus = true) {\n        const trigger = this.triggerFor(this.activeMenu);\n\n        this.activeMenu = null;\n\n        if (restoreFocus) {\n            this.$nextTick(() => trigger?.focus());\n        }\n    },\n    toggleMenu(menu) {\n        this.isOpen(menu) ? this.closeMenu(false) : this.openMenu(menu, 'first');\n    },\n    rootTriggers(root) {\n        return [...root.querySelectorAll('[data-slot=\"menubar-trigger\"]')]\n            .filter((trigger) => !trigger.hasAttribute('data-disabled'));\n    },\n    moveRoot(root, direction) {\n        const triggers = this.rootTriggers(root);\n        const current = triggers.indexOf(document.activeElement);\n        const index = direction === 'first'\n            ? 0\n            : direction === 'last'\n                ? triggers.length - 1\n                : (current + direction + triggers.length) % triggers.length;\n        const next = triggers[index];\n\n        next?.focus();\n\n        if (this.activeMenu && next) {\n            this.openMenu(next.closest('[data-slot=\"menubar-menu\"]')?.dataset.value);\n        }\n    },\n    handleRootKeydown(event) {\n        const directions = { ArrowRight: 1, ArrowLeft: -1, Home: 'first', End: 'last' };\n\n        if (event.target.dataset.slot === 'menubar-trigger' && directions[event.key] !== undefined) {\n            event.preventDefault();\n            this.moveRoot(event.currentTarget, directions[event.key]);\n        }\n    },\n    handleTriggerKeydown(event, menu) {\n        if (event.key === 'ArrowDown' || event.key === 'Enter' || event.key === ' ') {\n            event.preventDefault();\n            this.openMenu(menu, 'first');\n        } else if (event.key === 'ArrowUp') {\n            event.preventDefault();\n            this.openMenu(menu, 'last');\n        }\n    },\n    handleContentKeydown(event) {\n        if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {\n            event.preventDefault();\n            const root = this.triggerFor(this.activeMenu)?.closest('[role=\"menubar\"]');\n\n            if (root) {\n                this.triggerFor(this.activeMenu)?.focus();\n                this.moveRoot(root, event.key === 'ArrowRight' ? 1 : -1);\n                this.$nextTick(() => this.focusItem(this.contents[this.activeMenu], 'first'));\n            }\n            return;\n        }\n\n        this.handleMenuKeydown(event, () => this.closeMenu());\n    },\n    selectItem(item) {\n        if (!item.hasAttribute('data-disabled')) {\n            this.closeMenu();\n        }\n    },\n});\n\nexport default function (Alpine) {\n    use(Alpine, anchor);\n    Alpine.data('uiMenubar', menubar);\n    Alpine.data('uiMenubarCheckbox', dropdownMenuCheckbox);\n    Alpine.data('uiMenubarRadioGroup', menubarRadioGroup);\n    Alpine.data('uiMenubarSub', dropdownMenuSub);\n}\n"
+        }
+    ]
+}

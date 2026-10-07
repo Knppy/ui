@@ -1,0 +1,35 @@
+{
+    "name": "alpine",
+    "type": "registry:js",
+    "title": "Alpine",
+    "description": "Loads and registers the Alpine.js modules of every installed component.",
+    "registryDependencies": [],
+    "dependencies": {
+        "composer": [],
+        "npm": [
+            "alpinejs"
+        ]
+    },
+    "files": [
+        {
+            "path": "ui.js",
+            "type": "registry:js",
+            "content": "import Alpine from 'alpinejs';\n\n// Every module in ./ui registers its own Alpine data, stores and magics.\n// Adding a component with `php artisan ui:add` drops its module in here,\n// so it is picked up automatically.\nconst modules = import.meta.glob('./ui/*.js', { eager: true });\n\n// Alpine dispatches this event on `document` at the start of `Alpine.start()`,\n// so this works whether we start Alpine or Livewire's bundled instance does.\ndocument.addEventListener('alpine:init', () => {\n    // Alpine ignores directives outside an x-data scope, so make sure the\n    // whole page is one (e.g. for `x-on:click=\"$toast(...)\"` on plain buttons).\n    if (!document.body.hasAttribute('x-data')) {\n        document.body.setAttribute('x-data', '');\n    }\n\n    Object.values(modules).forEach((module) => {\n        if (typeof module.default === 'function') {\n            module.default(window.Alpine);\n        }\n    });\n}, { once: true });\n\n// Livewire bundles and starts its own Alpine. When it is on the page, let it\n// own Alpine to avoid running two conflicting instances.\ndocument.addEventListener('DOMContentLoaded', () => {\n    if (!window.Livewire) {\n        window.Alpine = Alpine;\n        Alpine.start();\n    }\n});\n"
+        },
+        {
+            "path": "ui/lib/id.js",
+            "type": "registry:js",
+            "content": "let componentId = 0;\n\n/**\n * Get a unique id for linking the parts of a component together.\n */\nexport const nextId = () => ++componentId;\n"
+        },
+        {
+            "path": "ui/lib/plugins.js",
+            "type": "registry:js",
+            "content": "const registered = new WeakMap();\n\n/**\n * Register an Alpine plugin once, however many components ask for it.\n */\nexport function use(Alpine, plugin) {\n    const plugins = registered.get(Alpine) ?? new Set();\n\n    if (!plugins.has(plugin)) {\n        plugins.add(plugin);\n        Alpine.plugin(plugin);\n    }\n\n    registered.set(Alpine, plugins);\n}\n"
+        },
+        {
+            "path": "ui/lib/disclosure.js",
+            "type": "registry:js",
+            "content": "export const disclosure = (open = false) => ({\n    open,\n    close() {\n        this.open = false;\n    },\n    toggle() {\n        this.open = !this.open;\n    },\n});\n"
+        }
+    ]
+}

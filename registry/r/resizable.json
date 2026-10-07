@@ -1,0 +1,35 @@
+{
+    "name": "resizable",
+    "type": "registry:ui",
+    "title": "Resizable",
+    "description": "Accessible resizable panel groups and layouts with keyboard support.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "resizable-handle.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['withHandle' => false])\n\n<div\n    role=\"separator\"\n    tabindex=\"0\"\n    aria-valuemin=\"0\"\n    aria-valuemax=\"100\"\n    x-bind:aria-orientation=\"orientation\"\n    x-on:pointerdown=\"startResize($event)\"\n    x-on:keydown=\"resizeWithKeyboard($event)\"\n    data-slot=\"resizable-handle\"\n    {{ $attributes->twMerge(['class' => 'relative flex w-px shrink-0 touch-none items-center justify-center bg-border outline-none after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 data-[orientation=vertical]:h-px data-[orientation=vertical]:w-full data-[orientation=vertical]:after:inset-x-0 data-[orientation=vertical]:after:inset-y-auto data-[orientation=vertical]:after:top-1/2 data-[orientation=vertical]:after:h-1 data-[orientation=vertical]:after:w-full data-[orientation=vertical]:after:translate-x-0 data-[orientation=vertical]:after:-translate-y-1/2 [&[data-orientation=vertical]>div]:rotate-90']) }}\n    x-bind:data-orientation=\"orientation\"\n>\n    @if ($withHandle)\n        <div class=\"bg-border z-10 flex h-4 w-3 items-center justify-center rounded-xs border\">\n            <svg class=\"size-2.5\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\">\n                <circle cx=\"9\" cy=\"12\" r=\"1\" />\n                <circle cx=\"9\" cy=\"5\" r=\"1\" />\n                <circle cx=\"9\" cy=\"19\" r=\"1\" />\n                <circle cx=\"15\" cy=\"12\" r=\"1\" />\n                <circle cx=\"15\" cy=\"5\" r=\"1\" />\n                <circle cx=\"15\" cy=\"19\" r=\"1\" />\n            </svg>\n        </div>\n    @endif\n</div>\n"
+        },
+        {
+            "path": "resizable-panel.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'defaultSize' => null,\n    'minSize' => 0,\n    'maxSize' => 100,\n])\n\n<div\n    data-slot=\"resizable-panel\"\n    @if ($defaultSize !== null) data-default-size=\"{{ $defaultSize }}\" @endif\n    data-min-size=\"{{ $minSize }}\"\n    data-max-size=\"{{ $maxSize }}\"\n    {{ $attributes->twMerge(['class' => 'min-h-0 min-w-0 shrink-0 overflow-auto']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "resizable-panel-group.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['orientation' => 'horizontal'])\n\n<div\n    x-data=\"uiResizable(@js($orientation))\"\n    x-init=\"initialize($el)\"\n    data-slot=\"resizable-panel-group\"\n    data-orientation=\"{{ $orientation }}\"\n    {{ $attributes->twMerge(['class' => 'flex h-full w-full data-[orientation=vertical]:flex-col']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "ui/resizable.js",
+            "type": "registry:js",
+            "content": "const resizable = (orientation = 'horizontal') => ({\n    orientation,\n    root: null,\n    initialize(root) {\n        this.root = root;\n        this.$nextTick(() => this.normalizePanels());\n    },\n    panels() {\n        return [...this.root.querySelectorAll(':scope > [data-slot=\"resizable-panel\"]')];\n    },\n    normalizePanels() {\n        const panels = this.panels();\n        const unspecified = panels.filter((panel) => !panel.dataset.defaultSize);\n        const specified = panels.reduce((total, panel) => total + Number(panel.dataset.defaultSize || 0), 0);\n        const fallback = Math.max(0, 100 - specified) / Math.max(1, unspecified.length);\n\n        panels.forEach((panel) => {\n            const size = Number(panel.dataset.defaultSize || fallback || (100 / panels.length));\n            panel.style.flexBasis = `${size}%`;\n        });\n        this.updateHandles();\n    },\n    adjacentPanels(handle) {\n        return [handle.previousElementSibling, handle.nextElementSibling];\n    },\n    limits(panel) {\n        return {\n            min: Number(panel.dataset.minSize || 0),\n            max: Number(panel.dataset.maxSize || 100),\n        };\n    },\n    resize(handle, delta) {\n        const [before, after] = this.adjacentPanels(handle);\n\n        if (!before || !after) {\n            return;\n        }\n\n        const beforeSize = parseFloat(before.style.flexBasis);\n        const afterSize = parseFloat(after.style.flexBasis);\n        const beforeLimits = this.limits(before);\n        const afterLimits = this.limits(after);\n        const minimumDelta = Math.max(beforeLimits.min - beforeSize, afterSize - afterLimits.max);\n        const maximumDelta = Math.min(beforeLimits.max - beforeSize, afterSize - afterLimits.min);\n        const constrained = Math.max(minimumDelta, Math.min(delta, maximumDelta));\n\n        before.style.flexBasis = `${beforeSize + constrained}%`;\n        after.style.flexBasis = `${afterSize - constrained}%`;\n        this.updateHandles();\n    },\n    startResize(event) {\n        event.preventDefault();\n        const handle = event.currentTarget;\n        const rect = this.root.getBoundingClientRect();\n        const size = this.orientation === 'vertical' ? rect.height : rect.width;\n        let previous = this.orientation === 'vertical' ? event.clientY : event.clientX;\n        const move = (moveEvent) => {\n            const current = this.orientation === 'vertical' ? moveEvent.clientY : moveEvent.clientX;\n            this.resize(handle, (current - previous) / size * 100);\n            previous = current;\n        };\n        const stop = () => {\n            window.removeEventListener('pointermove', move);\n            window.removeEventListener('pointerup', stop);\n        };\n\n        window.addEventListener('pointermove', move);\n        window.addEventListener('pointerup', stop, { once: true });\n    },\n    resizeWithKeyboard(event) {\n        const directions = this.orientation === 'vertical'\n            ? { ArrowUp: -2, ArrowDown: 2 }\n            : { ArrowLeft: -2, ArrowRight: 2 };\n\n        if (directions[event.key] !== undefined) {\n            event.preventDefault();\n            this.resize(event.currentTarget, directions[event.key]);\n        }\n    },\n    updateHandles() {\n        this.root.querySelectorAll(':scope > [data-slot=\"resizable-handle\"]').forEach((handle) => {\n            const before = handle.previousElementSibling;\n            handle.setAttribute('aria-valuenow', String(Math.round(parseFloat(before?.style.flexBasis || '0'))));\n        });\n    },\n});\n\nexport default function (Alpine) {\n    Alpine.data('uiResizable', resizable);\n}\n"
+        }
+    ]
+}

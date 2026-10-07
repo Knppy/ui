@@ -1,0 +1,20 @@
+{
+    "name": "alpine-menu",
+    "type": "registry:js",
+    "title": "Alpine Menu",
+    "description": "Shared keyboard navigation for the dropdown, context and menubar menus.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "ui/lib/menu.js",
+            "type": "registry:js",
+            "content": "const menuItems = (menu) => [...menu.querySelectorAll('[role^=\"menuitem\"]')]\n    .filter((item) => item.closest('[role=\"menu\"]') === menu && !item.hasAttribute('data-disabled'));\n\nexport const menuNavigation = {\n    focusItem(menu, direction = 'first') {\n        const items = menuItems(menu);\n        const current = items.indexOf(document.activeElement);\n        const index = direction === 'first'\n            ? 0\n            : direction === 'last'\n                ? items.length - 1\n                : (current + direction + items.length) % items.length;\n\n        items[index]?.focus();\n    },\n    handleMenuKeydown(event, close) {\n        const directions = { ArrowDown: 1, ArrowUp: -1, Home: 'first', End: 'last' };\n\n        if (directions[event.key] !== undefined) {\n            event.preventDefault();\n            this.focusItem(event.currentTarget, directions[event.key]);\n            return;\n        }\n\n        if (event.key === 'Escape') {\n            event.preventDefault();\n            close();\n            return;\n        }\n\n        if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {\n            const items = menuItems(event.currentTarget);\n            const query = event.key.toLocaleLowerCase();\n            const start = Math.max(0, items.indexOf(document.activeElement) + 1);\n            const ordered = [...items.slice(start), ...items.slice(0, start)];\n            ordered.find((item) => item.textContent.trim().toLocaleLowerCase().startsWith(query))?.focus();\n        }\n    },\n};\n\nexport const dropdownMenuCheckbox = (checked = false) => ({\n    checked,\n    toggleChecked() {\n        this.checked = !this.checked;\n        this.$dispatch('change', this.checked);\n        this.closeMenu?.();\n    },\n});\n\nexport const dropdownMenuRadioGroup = (value = null) => ({\n    value,\n    selectValue(value) {\n        this.value = value;\n        this.$dispatch('change', value);\n        this.closeMenu?.();\n    },\n});\n\nexport const dropdownMenuSub = () => ({\n    ...menuNavigation,\n    open: false,\n    trigger: null,\n    content: null,\n    timer: null,\n    registerSubTrigger(trigger) {\n        this.trigger = trigger;\n    },\n    registerSubContent(content) {\n        this.content = content;\n    },\n    openSub(focus = false) {\n        clearTimeout(this.timer);\n        this.open = true;\n\n        if (focus) {\n            this.$nextTick(() => this.focusItem(this.content, 'first'));\n        }\n    },\n    scheduleSubClose() {\n        clearTimeout(this.timer);\n        this.timer = setTimeout(() => this.open = false, 100);\n    },\n    closeSub(restoreFocus = false) {\n        clearTimeout(this.timer);\n        this.open = false;\n\n        if (restoreFocus) {\n            this.$nextTick(() => this.trigger?.focus());\n        }\n    },\n    handleSubKeydown(event) {\n        this.handleMenuKeydown(event, () => this.closeSub(true));\n    },\n});\n"
+        }
+    ]
+}

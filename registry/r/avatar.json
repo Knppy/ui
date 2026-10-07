@@ -1,0 +1,50 @@
+{
+    "name": "avatar",
+    "type": "registry:ui",
+    "title": "Avatar",
+    "description": "An image element with a fallback for representing the user.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "avatar.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['size' => 'default'])\n\n<span\n    x-data=\"uiAvatar\"\n    data-slot=\"avatar\"\n    data-size=\"{{ $size }}\"\n    {{ $attributes->twMerge(['class' => 'group/avatar relative flex size-8 shrink-0 overflow-hidden rounded-full select-none data-[size=lg]:size-10 data-[size=sm]:size-6']) }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "avatar-badge.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    data-slot=\"avatar-badge\"\n    {{ $attributes->twMerge(['class' => \"absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground ring-2 ring-background select-none group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2 group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2\"]) }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "avatar-fallback.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    x-show=\"! imageLoaded\"\n    data-slot=\"avatar-fallback\"\n    {{ $attributes->twMerge(['class' => 'flex size-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground group-data-[size=sm]/avatar:text-xs']) }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "avatar-group.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"avatar-group\"\n    {{ $attributes->twMerge(['class' => 'group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "avatar-group-count.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"avatar-group-count\"\n    {{ $attributes->twMerge(['class' => \"relative flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-sm text-muted-foreground ring-2 ring-background group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 [&>svg]:size-4 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3\"]) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "avatar-image.blade.php",
+            "type": "registry:ui",
+            "content": "<img\n    x-init=\"imageLoaded = $el.complete && $el.naturalWidth > 0\"\n    x-on:load=\"imageLoaded = true\"\n    x-on:error=\"imageLoaded = false\"\n    x-show=\"imageLoaded\"\n    data-slot=\"avatar-image\"\n    {{ $attributes->twMerge(['class' => 'aspect-square size-full']) }}\n/>\n"
+        },
+        {
+            "path": "ui/avatar.js",
+            "type": "registry:js",
+            "content": "export default function (Alpine) {\n    Alpine.data('uiAvatar', () => ({ imageLoaded: false }));\n}\n"
+        }
+    ]
+}

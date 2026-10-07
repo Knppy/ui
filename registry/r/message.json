@@ -1,0 +1,43 @@
+{
+    "name": "message",
+    "type": "registry:ui",
+    "title": "Message",
+    "description": "Displays a chat message with avatar, header, content and footer.",
+    "registryDependencies": [],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "message.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['align' => 'start'])\n\n<div\n    data-slot=\"message\"\n    data-align=\"{{ $align }}\"\n    {{ $attributes->twMerge(['class' => 'group/message relative flex w-full min-w-0 gap-2 text-sm data-[align=end]:flex-row-reverse']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "message-avatar.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"message-avatar\"\n    {{ $attributes->twMerge(['class' => 'flex w-fit min-w-8 shrink-0 items-center justify-center self-end overflow-hidden rounded-full bg-muted group-has-data-[slot=message-footer]/message:-translate-y-8']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "message-content.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"message-content\"\n    {{ $attributes->twMerge(['class' => 'flex w-full min-w-0 flex-col gap-2.5 wrap-break-word group-data-[align=end]/message:*:data-slot:self-end']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "message-footer.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"message-footer\"\n    {{ $attributes->twMerge(['class' => 'flex max-w-full min-w-0 items-center px-3 text-xs font-medium text-muted-foreground group-has-data-[variant=ghost]/message:px-0 group-data-[align=end]/message:justify-end']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "message-group.blade.php",
+            "type": "registry:ui",
+            "content": "<div data-slot=\"message-group\" {{ $attributes->twMerge(['class' => 'flex min-w-0 flex-col gap-2']) }}>{{ $slot }}</div>\n"
+        },
+        {
+            "path": "message-header.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"message-header\"\n    {{ $attributes->twMerge(['class' => 'flex max-w-full min-w-0 items-center px-3 text-xs font-medium text-muted-foreground group-has-data-[variant=ghost]/message:px-0']) }}\n>\n    {{ $slot }}\n</div>\n"
+        }
+    ]
+}

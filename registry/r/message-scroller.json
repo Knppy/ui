@@ -1,0 +1,51 @@
+{
+    "name": "message-scroller",
+    "type": "registry:ui",
+    "title": "Message Scroller",
+    "description": "A chat scroll container that anchors turns, opens saved transcripts, follows streamed responses, loads history without jumping, and jumps to any message.",
+    "registryDependencies": [
+        "alpine",
+        "button"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "message-scroller.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    x-data=\"uiMessageScroller\"\n    data-slot=\"message-scroller\"\n    {{ $attributes->twMerge(['class' => 'group/message-scroller relative flex size-full min-h-0 flex-col overflow-hidden']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "message-scroller-button.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'direction' => 'end',\n    'variant' => 'secondary',\n    'size' => 'icon-sm',\n])\n\n<x-ui.button\n    dataSlot=\"message-scroller-button\"\n    :variant=\"$variant\"\n    :size=\"$size\"\n    data-direction=\"{{ $direction }}\"\n    x-cloak\n    x-show=\"isButtonActive('{{ $direction }}')\"\n    x-bind:data-active=\"isButtonActive('{{ $direction }}')\"\n    x-bind:aria-hidden=\"! isButtonActive('{{ $direction }}')\"\n    x-bind:tabindex=\"isButtonActive('{{ $direction }}') ? 0 : -1\"\n    x-on:click=\"scrollToEdge('{{ $direction }}')\"\n    {{ $attributes->twMerge(['class' => 'border-border bg-background text-foreground absolute start-1/2 -translate-x-1/2 transition-[translate,scale,opacity] duration-200 hover:bg-muted hover:text-foreground data-[active=false]:pointer-events-none data-[active=false]:scale-95 data-[active=false]:opacity-0 data-[active=false]:duration-400 data-[active=true]:translate-y-0 data-[active=true]:scale-100 data-[active=true]:opacity-100 data-[direction=end]:bottom-4 data-[direction=end]:data-[active=false]:translate-y-full data-[direction=start]:top-4 data-[direction=start]:data-[active=false]:-translate-y-full data-[direction=start]:[&_svg]:rotate-180 rtl:translate-x-1/2']) }}\n>\n    @if ($slot->isEmpty())\n        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n            <path d=\"M12 5v14\" />\n            <path d=\"m19 12-7 7-7-7\" />\n        </svg>\n        <span class=\"sr-only\">{{ $direction === 'end' ? __('Scroll to end') : __('Scroll to start') }}</span>\n    @else\n        {{ $slot }}\n    @endif\n</x-ui.button>\n"
+        },
+        {
+            "path": "message-scroller-content.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"message-scroller-content\"\n    {{ $attributes->twMerge(['class' => 'flex h-max min-h-full flex-col gap-8']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "message-scroller-item.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['scrollAnchor' => false])\n\n<div\n    data-slot=\"message-scroller-item\"\n    @if ($scrollAnchor) data-scroll-anchor @endif\n    {{ $attributes->twMerge(['class' => 'min-w-0 shrink-0 [contain-intrinsic-size:auto_10rem] [content-visibility:auto]']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "message-scroller-provider.blade.php",
+            "type": "registry:ui",
+            "content": "<div data-slot=\"message-scroller-provider\" {{ $attributes->twMerge(['class' => 'contents']) }}>{{ $slot }}</div>\n"
+        },
+        {
+            "path": "message-scroller-viewport.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    x-init=\"initViewport($el)\"\n    x-on:scroll.passive=\"updateScrollState()\"\n    data-slot=\"message-scroller-viewport\"\n    {{ $attributes->twMerge(['class' => 'size-full min-h-0 min-w-0 overflow-y-auto overscroll-contain [scrollbar-gutter:stable] [scrollbar-width:thin] [contain:content]']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "ui/message-scroller.js",
+            "type": "registry:js",
+            "content": "const messageScroller = () => ({\n    viewport: null,\n    resizeObserver: null,\n    mutationObserver: null,\n    atStart: true,\n    atEnd: true,\n    initViewport(viewport) {\n        this.viewport = viewport;\n        this.$nextTick(() => this.scrollToEdge('end', 'auto'));\n        this.resizeObserver = new ResizeObserver(() => this.updateScrollState());\n        this.resizeObserver.observe(viewport);\n        this.mutationObserver = new MutationObserver(() => {\n            const shouldScroll = this.atEnd;\n\n            this.$nextTick(() => {\n                if (shouldScroll) {\n                    this.scrollToEdge('end', 'auto');\n                }\n                this.updateScrollState();\n            });\n        });\n        this.mutationObserver.observe(viewport, { childList: true, subtree: true, characterData: true });\n    },\n    updateScrollState() {\n        if (!this.viewport) {\n            return;\n        }\n\n        const maximum = this.viewport.scrollHeight - this.viewport.clientHeight;\n        this.atStart = this.viewport.scrollTop <= 1;\n        this.atEnd = maximum <= 1 || this.viewport.scrollTop >= maximum - 1;\n    },\n    scrollToEdge(direction, behavior = 'smooth') {\n        if (!this.viewport) {\n            return;\n        }\n\n        const top = direction === 'start' ? 0 : this.viewport.scrollHeight - this.viewport.clientHeight;\n\n        this.viewport.scrollTo({ top, behavior });\n        requestAnimationFrame(() => this.updateScrollState());\n    },\n    isButtonActive(direction) {\n        return direction === 'start' ? !this.atStart : !this.atEnd;\n    },\n});\n\nexport default function (Alpine) {\n    Alpine.data('uiMessageScroller', messageScroller);\n}\n"
+        }
+    ]
+}

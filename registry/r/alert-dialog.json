@@ -1,0 +1,83 @@
+{
+    "name": "alert-dialog",
+    "type": "registry:ui",
+    "title": "Alert Dialog",
+    "description": "A modal dialog that interrupts the user with important content and expects a response.",
+    "registryDependencies": [
+        "alpine",
+        "button"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": [
+            "@alpinejs/focus"
+        ]
+    },
+    "files": [
+        {
+            "path": "alert-dialog.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['open' => false])\n\n<div\n    x-data=\"uiDialog(@js($open))\"\n    x-modelable=\"open\"\n    x-on:keydown.escape.window=\"closeDialog()\"\n    data-slot=\"alert-dialog\"\n    {{ $attributes }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "alert-dialog-action.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['variant' => 'default', 'size' => 'default'])\n\n<x-ui.button\n    dataSlot=\"alert-dialog-action\"\n    :variant=\"$variant\"\n    :size=\"$size\"\n    x-on:click=\"closeDialog()\"\n    {{ $attributes }}\n>\n    {{ $slot }}</x-ui.button>\n"
+        },
+        {
+            "path": "alert-dialog-cancel.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['variant' => 'outline', 'size' => 'default'])\n\n<x-ui.button\n    dataSlot=\"alert-dialog-cancel\"\n    :variant=\"$variant\"\n    :size=\"$size\"\n    x-on:click=\"closeDialog()\"\n    {{ $attributes }}\n>\n    {{ $slot }}</x-ui.button>\n"
+        },
+        {
+            "path": "alert-dialog-content.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['size' => 'default'])\n\n<x-ui.alert-dialog-portal>\n    <x-ui.alert-dialog-overlay />\n    <div\n        x-cloak\n        x-show=\"open\"\n        x-transition\n        x-ref=\"content\"\n        x-trap.inert.noscroll=\"open\"\n        x-bind:id=\"`ui-dialog-${id}-content`\"\n        x-bind:aria-labelledby=\"titleId\"\n        x-bind:aria-describedby=\"descriptionId\"\n        x-bind:data-state=\"open ? 'open' : 'closed'\"\n        role=\"alertdialog\"\n        aria-modal=\"true\"\n        tabindex=\"-1\"\n        data-slot=\"alert-dialog-content\"\n        data-size=\"{{ $size }}\"\n        {{ $attributes->twMerge(['class' => 'group/alert-dialog-content fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg outline-none data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-lg']) }}\n    >\n        {{ $slot }}\n    </div>\n</x-ui.alert-dialog-portal>\n"
+        },
+        {
+            "path": "alert-dialog-description.blade.php",
+            "type": "registry:ui",
+            "content": "<p\n    x-bind:id=\"descriptionId\"\n    data-slot=\"alert-dialog-description\"\n    {{ $attributes->twMerge(['class' => 'text-sm text-muted-foreground']) }}\n>\n    {{ $slot }}\n</p>\n"
+        },
+        {
+            "path": "alert-dialog-footer.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"alert-dialog-footer\"\n    {{ $attributes->twMerge(['class' => 'flex flex-col-reverse gap-2 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2 sm:flex-row sm:justify-end']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "alert-dialog-header.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"alert-dialog-header\"\n    {{ $attributes->twMerge(['class' => 'grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center has-data-[slot=alert-dialog-media]:grid-rows-[auto_auto_1fr] has-data-[slot=alert-dialog-media]:gap-x-6 sm:group-data-[size=default]/alert-dialog-content:place-items-start sm:group-data-[size=default]/alert-dialog-content:text-left sm:group-data-[size=default]/alert-dialog-content:has-data-[slot=alert-dialog-media]:grid-rows-[auto_1fr]']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "alert-dialog-media.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"alert-dialog-media\"\n    {{ $attributes->twMerge(['class' => \"mb-2 inline-flex size-16 items-center justify-center rounded-md bg-muted sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-8\"]) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "alert-dialog-overlay.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    x-cloak\n    x-show=\"open\"\n    x-transition.opacity\n    x-bind:data-state=\"open ? 'open' : 'closed'\"\n    data-slot=\"alert-dialog-overlay\"\n    {{ $attributes->twMerge(['class' => 'fixed inset-0 z-50 bg-black/50']) }}\n></div>\n"
+        },
+        {
+            "path": "alert-dialog-portal.blade.php",
+            "type": "registry:ui",
+            "content": "<template x-teleport=\"body\">\n    <div data-slot=\"alert-dialog-portal\">{{ $slot }}</div>\n</template>\n"
+        },
+        {
+            "path": "alert-dialog-title.blade.php",
+            "type": "registry:ui",
+            "content": "<h2\n    x-bind:id=\"titleId\"\n    data-slot=\"alert-dialog-title\"\n    {{ $attributes->twMerge(['class' => 'text-lg font-semibold sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2']) }}\n>\n    {{ $slot }}\n</h2>\n"
+        },
+        {
+            "path": "alert-dialog-trigger.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    x-init=\"registerTrigger($el.firstElementChild)\"\n    x-effect=\"\n        trigger?.setAttribute('aria-expanded', open);\n        trigger?.setAttribute('aria-controls', `ui-dialog-${id}-content`);\n    \"\n    x-on:click=\"\n        openDialog($event.target.closest('button, a, input, select, textarea, [tabindex]') ?? $el.firstElementChild)\n    \"\n    data-slot=\"alert-dialog-trigger\"\n    {{ $attributes->twMerge(['class' => 'contents']) }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "ui/dialog.js",
+            "type": "registry:js",
+            "content": "import { focus } from '@alpinejs/focus';\nimport { use } from './lib/plugins.js';\nimport { nextId } from './lib/id.js';\n\nconst dialog = (open = false) => ({\n    open,\n    id: nextId(),\n    trigger: null,\n    get titleId() {\n        return `ui-dialog-${this.id}-title`;\n    },\n    get descriptionId() {\n        return `ui-dialog-${this.id}-description`;\n    },\n    registerTrigger(trigger) {\n        this.trigger = trigger;\n        trigger?.setAttribute('aria-haspopup', 'dialog');\n\n        if (trigger instanceof HTMLButtonElement && !trigger.hasAttribute('type')) {\n            trigger.type = 'button';\n        }\n    },\n    openDialog(trigger = null) {\n        this.trigger = trigger;\n        this.open = true;\n        this.$nextTick(() => {\n            const form = this.trigger?.closest('form');\n\n            if (form && this.$refs.content) {\n                form.id ||= `ui-dialog-${this.id}-form`;\n                this.$refs.content.querySelectorAll('button, fieldset, input, object, output, select, textarea')\n                    .forEach((control) => control.setAttribute('form', control.getAttribute('form') || form.id));\n            }\n\n            this.$refs.content?.focus();\n        });\n    },\n    closeDialog() {\n        if (!this.open) {\n            return;\n        }\n\n        this.open = false;\n        this.$nextTick(() => this.trigger?.focus());\n    },\n});\n\nexport default function (Alpine) {\n    use(Alpine, focus);\n    Alpine.data('uiDialog', dialog);\n}\n"
+        }
+    ]
+}

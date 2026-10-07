@@ -1,0 +1,40 @@
+{
+    "name": "input-otp",
+    "type": "registry:ui",
+    "title": "Input OTP",
+    "description": "Accessible one-time password component with copy-paste functionality.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "input-otp.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'value' => '',\n    'maxlength' => 6,\n    'inputmode' => 'text',\n    'containerClass' => null,\n])\n\n<div\n    x-data=\"uiInputOtp(@js($value), @js($maxlength))\"\n    x-modelable=\"value\"\n    data-slot=\"input-otp\"\n    {{ $attributes->whereStartsWith(['x-model', 'wire:model']) }}\n    {{ $attributes->only('class')->twMerge(['class' => 'relative flex items-center gap-2 has-disabled:opacity-50', $containerClass]) }}\n>\n    <input\n        x-ref=\"input\"\n        x-bind:value=\"value\"\n        x-on:input=\"update($event)\"\n        x-on:focus=\"\n            focused = true;\n            updateSelection($event);\n        \"\n        x-on:blur=\"focused = false\"\n        x-on:click=\"updateSelection($event)\"\n        x-on:keyup=\"updateSelection($event)\"\n        type=\"text\"\n        value=\"{{ $value }}\"\n        maxlength=\"{{ $maxlength }}\"\n        autocomplete=\"one-time-code\"\n        inputmode=\"{{ $inputmode }}\"\n        {{ $attributes->whereDoesntStartWith(['x-model', 'wire:model'])->except('class')->twMerge(['class' => 'pointer-events-none absolute inset-0 size-full opacity-0 disabled:cursor-not-allowed']) }}\n    />\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "input-otp-group.blade.php",
+            "type": "registry:ui",
+            "content": "<div data-slot=\"input-otp-group\" {{ $attributes->twMerge(['class' => 'flex items-center']) }}>{{ $slot }}</div>\n"
+        },
+        {
+            "path": "input-otp-separator.blade.php",
+            "type": "registry:ui",
+            "content": "<div data-slot=\"input-otp-separator\" role=\"separator\" {{ $attributes }}>\n    <svg aria-hidden=\"true\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"size-4\">\n        <path d=\"M5 12h14\" />\n    </svg>\n</div>\n"
+        },
+        {
+            "path": "input-otp-slot.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['index'])\n\n<div\n    x-on:click=\"focusAt({{ (int) $index }})\"\n    x-bind:data-active=\"isActive({{ (int) $index }})\"\n    data-slot=\"input-otp-slot\"\n    {{ $attributes->twMerge(['class' => 'relative flex h-9 w-9 cursor-text items-center justify-center border-y border-r border-input text-sm shadow-xs transition-all outline-none first:rounded-l-md first:border-l last:rounded-r-md aria-invalid:border-destructive data-[active=true]:z-10 data-[active=true]:border-ring data-[active=true]:ring-[3px] data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:border-destructive data-[active=true]:aria-invalid:ring-destructive/20 dark:bg-input/30 dark:data-[active=true]:aria-invalid:ring-destructive/40']) }}\n>\n    <span x-text=\"character({{ (int) $index }})\"></span>\n    <span\n        x-show=\"hasFakeCaret({{ (int) $index }})\"\n        aria-hidden=\"true\"\n        class=\"pointer-events-none absolute inset-0 flex items-center justify-center\"\n    >\n        <span class=\"bg-foreground h-4 w-px animate-pulse\"></span>\n    </span>\n</div>\n"
+        },
+        {
+            "path": "ui/input-otp.js",
+            "type": "registry:js",
+            "content": "const inputOtp = (value = '', maxLength = 6) => ({\n    value: String(value ?? '').slice(0, maxLength),\n    maxLength: Number(maxLength),\n    focused: false,\n    selection: 0,\n    get activeIndex() {\n        return Math.min(this.selection, this.maxLength - 1);\n    },\n    character(index) {\n        return this.value[index] ?? '';\n    },\n    isActive(index) {\n        return this.focused && this.activeIndex === index;\n    },\n    hasFakeCaret(index) {\n        return this.isActive(index) && !this.character(index);\n    },\n    update(event) {\n        this.value = event.currentTarget.value.slice(0, this.maxLength);\n        this.selection = event.currentTarget.selectionStart ?? this.value.length;\n\n        if (this.value.length === this.maxLength) {\n            this.$dispatch('complete', this.value);\n        }\n    },\n    updateSelection(event) {\n        this.selection = event.currentTarget.selectionStart ?? this.value.length;\n    },\n    focusAt(index) {\n        const position = Math.min(index, this.value.length);\n\n        this.$refs.input.focus();\n        this.$refs.input.setSelectionRange(position, position);\n        this.selection = position;\n    },\n});\n\nexport default function (Alpine) {\n    Alpine.data('uiInputOtp', inputOtp);\n}\n"
+        }
+    ]
+}

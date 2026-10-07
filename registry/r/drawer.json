@@ -1,0 +1,72 @@
+{
+    "name": "drawer",
+    "type": "registry:ui",
+    "title": "Drawer",
+    "description": "A drawer component for Blade.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": [
+            "@alpinejs/focus"
+        ]
+    },
+    "files": [
+        {
+            "path": "drawer.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'open' => false,\n    'direction' => 'bottom',\n    'dismissible' => true,\n])\n\n<div\n    x-data=\"uiDrawer(@js($open), @js($direction), @js($dismissible))\"\n    x-modelable=\"open\"\n    x-on:keydown.escape.window=\"if (dismissible) closeDrawer();\"\n    data-slot=\"drawer\"\n    {{ $attributes }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "drawer-close.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    x-init=\"\n        const close = $el.firstElementChild;\n        close?.setAttribute('data-slot', 'drawer-close');\n        if (close instanceof HTMLButtonElement && ! close.hasAttribute('type')) close.type = 'button';\n    \"\n    x-on:click=\"closeDrawer()\"\n    data-slot=\"drawer-close\"\n    {{ $attributes->twMerge(['class' => 'contents']) }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "drawer-content.blade.php",
+            "type": "registry:ui",
+            "content": "<x-ui.drawer-portal>\n    <x-ui.drawer-overlay />\n    <div\n        x-cloak\n        x-show=\"open\"\n        x-transition\n        x-ref=\"content\"\n        x-trap.inert.noscroll=\"open\"\n        x-bind:id=\"`ui-drawer-${id}-content`\"\n        x-bind:aria-labelledby=\"titleId\"\n        x-bind:aria-describedby=\"descriptionId\"\n        x-bind:data-state=\"open ? 'open' : 'closed'\"\n        x-bind:data-vaul-drawer-direction=\"direction\"\n        x-on:pointerdown=\"startDrag($event)\"\n        role=\"dialog\"\n        aria-modal=\"true\"\n        tabindex=\"-1\"\n        data-slot=\"drawer-content\"\n        {{ $attributes->twMerge(['class' => 'group/drawer-content fixed z-50 flex h-auto flex-col bg-background outline-none transition-transform duration-300 data-[state=closed]:duration-200 data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-lg data-[vaul-drawer-direction=top]:border-b data-[vaul-drawer-direction=top]:data-[state=closed]:-translate-y-full data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[80vh] data-[vaul-drawer-direction=bottom]:rounded-t-lg data-[vaul-drawer-direction=bottom]:border-t data-[vaul-drawer-direction=bottom]:data-[state=closed]:translate-y-full data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:border-l data-[vaul-drawer-direction=right]:data-[state=closed]:translate-x-full data-[vaul-drawer-direction=right]:sm:max-w-sm data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=left]:data-[state=closed]:-translate-x-full data-[vaul-drawer-direction=left]:sm:max-w-sm']) }}\n    >\n        <div class=\"bg-muted mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full group-data-[vaul-drawer-direction=bottom]/drawer-content:block\"></div>\n        {{ $slot }}\n    </div>\n</x-ui.drawer-portal>\n"
+        },
+        {
+            "path": "drawer-description.blade.php",
+            "type": "registry:ui",
+            "content": "<p\n    x-bind:id=\"descriptionId\"\n    data-slot=\"drawer-description\"\n    {{ $attributes->twMerge(['class' => 'text-sm text-muted-foreground']) }}\n>\n    {{ $slot }}\n</p>\n"
+        },
+        {
+            "path": "drawer-footer.blade.php",
+            "type": "registry:ui",
+            "content": "<div data-slot=\"drawer-footer\" {{ $attributes->twMerge(['class' => 'mt-auto flex flex-col gap-2 p-4']) }}>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "drawer-header.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"drawer-header\"\n    {{ $attributes->twMerge(['class' => 'flex flex-col gap-0.5 p-4 group-data-[vaul-drawer-direction=bottom]/drawer-content:text-center group-data-[vaul-drawer-direction=top]/drawer-content:text-center md:gap-1.5 md:text-left']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "drawer-overlay.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    x-cloak\n    x-show=\"open\"\n    x-transition.opacity\n    x-bind:data-state=\"open ? 'open' : 'closed'\"\n    x-on:click.self=\"if (dismissible) closeDrawer();\"\n    data-slot=\"drawer-overlay\"\n    {{ $attributes->twMerge(['class' => 'fixed inset-0 z-50 bg-black/50']) }}\n></div>\n"
+        },
+        {
+            "path": "drawer-portal.blade.php",
+            "type": "registry:ui",
+            "content": "<template x-teleport=\"body\">\n    <div data-slot=\"drawer-portal\">{{ $slot }}</div>\n</template>\n"
+        },
+        {
+            "path": "drawer-title.blade.php",
+            "type": "registry:ui",
+            "content": "<h2\n    x-bind:id=\"titleId\"\n    data-slot=\"drawer-title\"\n    {{ $attributes->twMerge(['class' => 'font-semibold text-foreground']) }}\n>\n    {{ $slot }}\n</h2>\n"
+        },
+        {
+            "path": "drawer-trigger.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    x-init=\"registerTrigger($el.firstElementChild)\"\n    x-effect=\"\n        trigger?.setAttribute('aria-expanded', open);\n        trigger?.setAttribute('aria-controls', `ui-drawer-${id}-content`);\n    \"\n    x-on:click=\"\n        openDrawer($event.target.closest('button, a, input, select, textarea, [tabindex]') ?? $el.firstElementChild)\n    \"\n    data-slot=\"drawer-trigger\"\n    {{ $attributes->twMerge(['class' => 'contents']) }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "ui/drawer.js",
+            "type": "registry:js",
+            "content": "import { focus } from '@alpinejs/focus';\nimport { use } from './lib/plugins.js';\nimport { nextId } from './lib/id.js';\n\nconst drawer = (open = false, direction = 'bottom', dismissible = true) => ({\n    open,\n    direction,\n    dismissible,\n    id: nextId(),\n    trigger: null,\n    get titleId() {\n        return `ui-drawer-${this.id}-title`;\n    },\n    get descriptionId() {\n        return `ui-drawer-${this.id}-description`;\n    },\n    registerTrigger(trigger) {\n        this.trigger = trigger;\n        trigger?.setAttribute('aria-haspopup', 'dialog');\n\n        if (trigger instanceof HTMLButtonElement && !trigger.hasAttribute('type')) {\n            trigger.type = 'button';\n        }\n    },\n    openDrawer(trigger = null) {\n        this.trigger = trigger ?? this.trigger;\n        this.open = true;\n        this.$nextTick(() => this.$refs.content?.focus());\n    },\n    closeDrawer() {\n        if (!this.open) {\n            return;\n        }\n\n        this.open = false;\n        this.$nextTick(() => this.trigger?.focus());\n    },\n    startDrag(event) {\n        if (!this.dismissible || event.button !== 0) {\n            return;\n        }\n\n        const content = event.currentTarget;\n        const vertical = this.direction === 'top' || this.direction === 'bottom';\n        const start = vertical ? event.clientY : event.clientX;\n        const startedAt = performance.now();\n        let distance = 0;\n        const sign = this.direction === 'top' || this.direction === 'left' ? -1 : 1;\n        const move = (moveEvent) => {\n            const current = vertical ? moveEvent.clientY : moveEvent.clientX;\n            distance = Math.max(0, (current - start) * sign);\n            content.style.transition = 'none';\n            content.style.transform = vertical\n                ? `translateY(${distance * sign}px)`\n                : `translateX(${distance * sign}px)`;\n        };\n        const stop = () => {\n            window.removeEventListener('pointermove', move);\n            window.removeEventListener('pointerup', stop);\n            const size = vertical ? content.offsetHeight : content.offsetWidth;\n            const velocity = distance / Math.max(1, performance.now() - startedAt);\n\n            content.style.transition = '';\n            content.style.transform = '';\n\n            if (distance > size * 0.25 || velocity > 0.5) {\n                this.closeDrawer();\n            }\n        };\n\n        window.addEventListener('pointermove', move);\n        window.addEventListener('pointerup', stop, { once: true });\n    },\n});\n\nexport default function (Alpine) {\n    use(Alpine, focus);\n    Alpine.data('uiDrawer', drawer);\n}\n"
+        }
+    ]
+}

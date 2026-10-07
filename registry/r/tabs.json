@@ -1,0 +1,40 @@
+{
+    "name": "tabs",
+    "type": "registry:ui",
+    "title": "Tabs",
+    "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "tabs.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'value' => null,\n    'orientation' => 'horizontal',\n])\n\n<div\n    x-data=\"uiTabs(@js($value), @js($orientation))\"\n    x-modelable=\"value\"\n    data-slot=\"tabs\"\n    data-orientation=\"{{ $orientation }}\"\n    {{ $attributes->twMerge(['class' => 'group/tabs flex gap-2 data-[orientation=horizontal]:flex-col']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "tabs-content.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['value'])\n\n<div\n    x-cloak\n    x-show=\"value === @js($value)\"\n    role=\"tabpanel\"\n    tabindex=\"0\"\n    x-bind:id=\"contentId(@js($value))\"\n    x-bind:aria-labelledby=\"triggerId(@js($value))\"\n    x-bind:data-state=\"value === @js($value) ? 'active' : 'inactive'\"\n    data-slot=\"tabs-content\"\n    {{ $attributes->twMerge(['class' => 'flex-1 outline-none']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "tabs-list.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['variant' => 'default'])\n\n@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('group/tabs-list inline-flex w-fit items-center justify-center rounded-lg p-[3px] text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none')\n        ->add($variant === 'line' ? 'gap-1 bg-transparent' : 'bg-muted')\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<div\n    role=\"tablist\"\n    x-bind:aria-orientation=\"orientation\"\n    x-on:keydown.right=\"if (orientation === 'horizontal') move($event, 1);\"\n    x-on:keydown.left=\"if (orientation === 'horizontal') move($event, -1);\"\n    x-on:keydown.down=\"if (orientation === 'vertical') move($event, 1);\"\n    x-on:keydown.up=\"if (orientation === 'vertical') move($event, -1);\"\n    x-on:keydown.home=\"move($event, 'first')\"\n    x-on:keydown.end=\"move($event, 'last')\"\n    data-slot=\"tabs-list\"\n    data-variant=\"{{ $variant }}\"\n    {{ $attributes->twMerge(['class' => $classes]) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "tabs-trigger.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['value'])\n\n<button\n    type=\"button\"\n    role=\"tab\"\n    data-slot=\"tabs-trigger\"\n    data-value=\"{{ $value }}\"\n    x-on:click=\"value = @js($value)\"\n    x-bind:id=\"triggerId(@js($value))\"\n    x-bind:aria-controls=\"contentId(@js($value))\"\n    x-bind:aria-selected=\"value === @js($value)\"\n    x-bind:data-state=\"value === @js($value) ? 'active' : 'inactive'\"\n    x-bind:tabindex=\"value === @js($value) ? 0 : -1\"\n    {{ $attributes->twMerge(['class' => \"relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap text-foreground/60 transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100\"]) }}\n>\n    {{ $slot }}\n</button>\n"
+        },
+        {
+            "path": "ui/tabs.js",
+            "type": "registry:js",
+            "content": "import { nextId } from './lib/id.js';\n\nconst tabs = (value = null, orientation = 'horizontal') => ({\n    value,\n    orientation,\n    id: nextId(),\n    select(tab) {\n        if (!tab.disabled) {\n            this.value = tab.dataset.value;\n            tab.focus();\n        }\n    },\n    move(event, direction) {\n        const tabs = [...event.currentTarget.querySelectorAll('[role=\"tab\"]:not(:disabled)')];\n        const current = tabs.indexOf(document.activeElement);\n        const next = direction === 'first'\n            ? tabs[0]\n            : direction === 'last'\n                ? tabs.at(-1)\n                : tabs[(current + direction + tabs.length) % tabs.length];\n\n        if (next) {\n            event.preventDefault();\n            this.select(next);\n        }\n    },\n    triggerId(tab) {\n        return `ui-tabs-${this.id}-trigger-${tab}`;\n    },\n    contentId(tab) {\n        return `ui-tabs-${this.id}-content-${tab}`;\n    },\n});\n\nexport default function (Alpine) {\n    Alpine.data('uiTabs', tabs);\n}\n"
+        }
+    ]
+}

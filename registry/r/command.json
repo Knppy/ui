@@ -1,0 +1,66 @@
+{
+    "name": "command",
+    "type": "registry:ui",
+    "title": "Command",
+    "description": "Command menu for search and quick actions.",
+    "registryDependencies": [
+        "alpine",
+        "dialog"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "command.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    x-data=\"uiCommand\"\n    x-init=\"initialize($el)\"\n    data-slot=\"command\"\n    {{ $attributes->twMerge(['class' => 'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "command-dialog.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'title' => 'Command Palette',\n    'description' => 'Search for a command to run...',\n    'open' => false,\n    'showCloseButton' => true,\n])\n\n<x-ui.dialog :open=\"$open\" {{ $attributes->whereStartsWith(['x-model', 'wire:model']) }}>\n    <x-ui.dialog-header class=\"sr-only\">\n        <x-ui.dialog-title>{{ $title }}</x-ui.dialog-title>\n        <x-ui.dialog-description>{{ $description }}</x-ui.dialog-description>\n    </x-ui.dialog-header>\n    <x-ui.dialog-content\n        :show-close-button=\"$showCloseButton\"\n        {{ $attributes->whereDoesntStartWith(['x-model', 'wire:model'])->twMerge(['class' => 'overflow-hidden p-0']) }}\n    >\n        <x-ui.command class=\"[&_[data-slot=command-group]>div:first-child]:px-2 [&_[data-slot=command-group]>div:first-child]:font-medium [&_[data-slot=command-group]>div:first-child]:text-muted-foreground [&_[data-slot=command-group]]:px-2 [&_[data-slot=command-input-wrapper]_svg]:size-5 [&_[data-slot=command-input]]:h-12 [&_[data-slot=command-item]]:px-2 [&_[data-slot=command-item]]:py-3 [&_[data-slot=command-item]_svg]:size-5 **:data-[slot=command-input-wrapper]:h-12\">\n            {{ $slot }}\n        </x-ui.command>\n    </x-ui.dialog-content>\n</x-ui.dialog>\n"
+        },
+        {
+            "path": "command-empty.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    x-show=\"visibleCount === 0\"\n    role=\"status\"\n    data-slot=\"command-empty\"\n    {{ $attributes->twMerge(['class' => 'py-6 text-center text-sm']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "command-group.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['heading' => null])\n\n<div\n    role=\"group\"\n    @if ($heading) aria-label=\"{{ $heading }}\" @endif\n    data-slot=\"command-group\"\n    {{ $attributes->twMerge(['class' => 'overflow-hidden p-1 text-foreground']) }}\n>\n    @if ($heading)\n        <div class=\"text-muted-foreground px-2 py-1.5 text-xs font-medium\">{{ $heading }}</div>\n    @endif\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "command-input.blade.php",
+            "type": "registry:ui",
+            "content": "<div data-slot=\"command-input-wrapper\" class=\"flex h-9 items-center gap-2 border-b px-3\">\n    <svg class=\"size-4 shrink-0 opacity-50\" aria-hidden=\"true\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n        <circle cx=\"11\" cy=\"11\" r=\"8\" />\n        <path d=\"m21 21-4.3-4.3\" />\n    </svg>\n    <input\n        type=\"text\"\n        role=\"combobox\"\n        aria-autocomplete=\"list\"\n        x-model=\"query\"\n        x-on:input=\"filter($event.currentTarget.value)\"\n        x-on:keydown=\"handleKeydown($event)\"\n        x-bind:aria-expanded=\"visibleItems.length > 0\"\n        data-slot=\"command-input\"\n        {{ $attributes->twMerge(['class' => 'flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50']) }}\n    />\n</div>\n"
+        },
+        {
+            "path": "command-item.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'value' => null,\n    'disabled' => false,\n])\n\n<div\n    role=\"option\"\n    tabindex=\"-1\"\n    data-slot=\"command-item\"\n    data-value=\"{{ $value ?? '' }}\"\n    data-selected=\"false\"\n    @if ($disabled) data-disabled=\"true\" aria-disabled=\"true\" @endif\n    x-init=\"$el.dataset.value ||= $el.textContent.trim()\"\n    x-on:pointermove=\"activate($el)\"\n    x-on:click=\"select($el)\"\n    {{ $attributes->twMerge(['class' => 'relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none hover:bg-accent hover:text-accent-foreground data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=\\'size-\\'])]:size-4 [&_svg:not([class*=\\'text-\\'])]:text-muted-foreground']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "command-list.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    role=\"listbox\"\n    data-slot=\"command-list\"\n    {{ $attributes->twMerge(['class' => 'max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "command-separator.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    role=\"separator\"\n    data-slot=\"command-separator\"\n    {{ $attributes->twMerge(['class' => '-mx-1 h-px bg-border']) }}\n></div>\n"
+        },
+        {
+            "path": "command-shortcut.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    data-slot=\"command-shortcut\"\n    {{ $attributes->twMerge(['class' => 'ml-auto text-xs tracking-widest text-muted-foreground']) }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "ui/command.js",
+            "type": "registry:js",
+            "content": "const command = () => ({\n    query: '',\n    root: null,\n    activeIndex: -1,\n    visibleCount: 0,\n    get items() {\n        return this.root ? [...this.root.querySelectorAll('[role=\"option\"]')] : [];\n    },\n    get visibleItems() {\n        return this.items.filter((item) => !item.hidden && !item.hasAttribute('data-disabled'));\n    },\n    initialize(root) {\n        this.root = root;\n        this.$nextTick(() => this.filter());\n    },\n    matches(item) {\n        const query = this.query.trim().toLocaleLowerCase();\n        const value = item.dataset.value || item.textContent.trim();\n\n        return !query || value.toLocaleLowerCase().includes(query);\n    },\n    filter(query = this.query) {\n        this.query = query;\n        this.items.forEach((item) => {\n            item.hidden = !this.matches(item);\n            item.style.display = item.hidden ? 'none' : '';\n        });\n        this.root.querySelectorAll('[data-slot=\"command-group\"]').forEach((group) => {\n            group.hidden = !group.querySelector('[role=\"option\"]:not([hidden])');\n            group.style.display = group.hidden ? 'none' : '';\n        });\n        this.root.querySelectorAll('[data-slot=\"command-separator\"]').forEach((separator) => {\n            let before = separator.previousElementSibling;\n            let after = separator.nextElementSibling;\n\n            while (before && before.dataset.slot !== 'command-group') {\n                before = before.previousElementSibling;\n            }\n            while (after && after.dataset.slot !== 'command-group') {\n                after = after.nextElementSibling;\n            }\n\n            separator.hidden = !before || before.hidden || !after || after.hidden;\n            separator.style.display = separator.hidden ? 'none' : '';\n        });\n        this.visibleCount = this.visibleItems.length;\n        this.activeIndex = this.visibleItems.length ? 0 : -1;\n        this.updateSelection();\n    },\n    activate(item) {\n        if (item.hidden || item.hasAttribute('data-disabled')) {\n            return;\n        }\n\n        this.activeIndex = this.visibleItems.indexOf(item);\n        this.updateSelection();\n    },\n    move(direction) {\n        const items = this.visibleItems;\n\n        if (!items.length) {\n            return;\n        }\n\n        if (direction === 'first' || direction === 'last') {\n            this.activeIndex = direction === 'first' ? 0 : items.length - 1;\n        } else {\n            this.activeIndex = (this.activeIndex + direction + items.length) % items.length;\n        }\n\n        this.updateSelection();\n        items[this.activeIndex]?.scrollIntoView({ block: 'nearest' });\n    },\n    updateSelection() {\n        this.items.forEach((item) => {\n            item.dataset.selected = 'false';\n            item.setAttribute('aria-selected', 'false');\n        });\n\n        if (this.activeIndex >= 0) {\n            this.visibleItems[this.activeIndex].dataset.selected = 'true';\n            this.visibleItems[this.activeIndex].setAttribute('aria-selected', 'true');\n        }\n    },\n    select(item) {\n        if (!item || item.hasAttribute('data-disabled')) {\n            return;\n        }\n\n        this.$dispatch('select', item.dataset.value);\n    },\n    handleKeydown(event) {\n        if (event.key === 'Enter' && this.activeIndex >= 0) {\n            event.preventDefault();\n            this.select(this.visibleItems[this.activeIndex]);\n            return;\n        }\n\n        const directions = { ArrowDown: 1, ArrowUp: -1, Home: 'first', End: 'last' };\n\n        if (directions[event.key] !== undefined) {\n            event.preventDefault();\n            this.move(directions[event.key]);\n        }\n    },\n});\n\nexport default function (Alpine) {\n    Alpine.data('uiCommand', command);\n}\n"
+        }
+    ]
+}

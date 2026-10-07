@@ -1,0 +1,35 @@
+{
+    "name": "collapsible",
+    "type": "registry:ui",
+    "title": "Collapsible",
+    "description": "An interactive component which expands/collapses a panel.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "collapsible.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['open' => false])\n\n<div\n    x-data=\"uiCollapsible(@js($open))\"\n    x-modelable=\"open\"\n    x-bind:data-state=\"open ? 'open' : 'closed'\"\n    data-slot=\"collapsible\"\n    {{ $attributes }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "collapsible-content.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    x-cloak\n    x-show=\"open\"\n    x-bind:data-state=\"open ? 'open' : 'closed'\"\n    data-slot=\"collapsible-content\"\n    {{ $attributes }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "collapsible-trigger.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    x-on:click=\"toggle\"\n    x-effect=\"{!! '$el.firstElementChild?.setAttribute(\\'aria-expanded\\', open.toString())' !!}\"\n    x-bind:data-state=\"open ? 'open' : 'closed'\"\n    data-slot=\"collapsible-trigger\"\n    {{ $attributes->twMerge(['class' => 'contents']) }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "ui/collapsible.js",
+            "type": "registry:js",
+            "content": "import { disclosure } from './lib/disclosure.js';\n\nexport default function (Alpine) {\n    Alpine.data('uiCollapsible', disclosure);\n}\n"
+        }
+    ]
+}

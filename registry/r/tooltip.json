@@ -1,0 +1,42 @@
+{
+    "name": "tooltip",
+    "type": "registry:ui",
+    "title": "Tooltip",
+    "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": [
+            "@alpinejs/anchor"
+        ]
+    },
+    "files": [
+        {
+            "path": "tooltip.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['delayDuration' => null])\n\n<span\n    x-data=\"uiTooltip(@js($delayDuration) ?? $data.uiTooltipDelay ?? 0)\"\n    x-on:keydown.escape.window=\"hide()\"\n    data-slot=\"tooltip\"\n    {{ $attributes }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "tooltip-content.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['align' => 'center', 'side' => 'top', 'sideOffset' => 0])\n\n@php($position = $side.($align === 'center' ? '' : '-'.$align))\n\n<template x-teleport=\"body\">\n    <div\n        x-cloak\n        x-show=\"open\"\n        x-transition:enter=\"transition ease-out duration-100\"\n        x-transition:enter-start=\"opacity-0 scale-95\"\n        x-transition:enter-end=\"opacity-100 scale-100\"\n        x-transition:leave=\"transition ease-in duration-75\"\n        x-transition:leave-start=\"opacity-100 scale-100\"\n        x-transition:leave-end=\"opacity-0 scale-95\"\n        x-anchor.{{ $position }}.offset.{{ $sideOffset }}=\"trigger\"\n        x-bind:id=\"contentId\"\n        x-bind:data-state=\"open ? 'open' : 'closed'\"\n        role=\"tooltip\"\n        data-side=\"{{ $side }}\"\n        data-align=\"{{ $align }}\"\n        data-slot=\"tooltip-content\"\n        @class([\n            'relative z-50 w-fit rounded-md bg-foreground px-3 py-1.5 text-xs text-balance text-background shadow-md',\n            '-translate-y-2' => $side === 'top',\n            'translate-y-2' => $side === 'bottom',\n            '-translate-x-2' => $side === 'left',\n            'translate-x-2' => $side === 'right',\n            $attributes->get('class'),\n        ])\n        {{ $attributes->except('class') }}\n    >\n        {{ $slot }}\n        <span\n            aria-hidden=\"true\"\n            @class([\n                'absolute size-2.5 rotate-45 rounded-[2px] bg-foreground',\n                'top-full left-1/2 -translate-x-1/2 -translate-y-1/2' => $side === 'top',\n                'bottom-full left-1/2 -translate-x-1/2 translate-y-1/2' => $side === 'bottom',\n                'top-1/2 left-full -translate-x-1/2 -translate-y-1/2' => $side === 'left',\n                'top-1/2 right-full translate-x-1/2 -translate-y-1/2' => $side === 'right',\n            ])\n        ></span>\n    </div>\n</template>\n"
+        },
+        {
+            "path": "tooltip-provider.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['delayDuration' => 0])\n\n<span\n    x-data=\"{ uiTooltipDelay: {{ (int) $delayDuration }} }\"\n    data-slot=\"tooltip-provider\"\n    {{ $attributes }}\n>{{ $slot }}</span>\n"
+        },
+        {
+            "path": "tooltip-trigger.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    x-init=\"registerTrigger($el.firstElementChild)\"\n    x-effect=\"trigger?.setAttribute('aria-describedby', open ? contentId : '')\"\n    x-on:mouseover=\"show()\"\n    x-on:mouseout=\"if (! $el.contains($event.relatedTarget)) hide();\"\n    x-on:focusin=\"show()\"\n    x-on:focusout=\"if (! $el.contains($event.relatedTarget)) hide();\"\n    data-slot=\"tooltip-trigger\"\n    {{ $attributes->twMerge(['class' => 'contents']) }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "ui/tooltip.js",
+            "type": "registry:js",
+            "content": "import { anchor } from '@alpinejs/anchor';\nimport { use } from './lib/plugins.js';\nimport { nextId } from './lib/id.js';\n\nconst tooltip = (delay = 0) => ({\n    open: false,\n    timer: null,\n    id: nextId(),\n    trigger: null,\n    get contentId() {\n        return `ui-tooltip-${this.id}`;\n    },\n    registerTrigger(trigger) {\n        this.trigger = trigger;\n\n        if (trigger instanceof HTMLButtonElement && !trigger.hasAttribute('type')) {\n            trigger.type = 'button';\n        }\n\n    },\n    show() {\n        clearTimeout(this.timer);\n        this.timer = setTimeout(() => this.open = true, delay);\n    },\n    hide() {\n        clearTimeout(this.timer);\n        this.open = false;\n    },\n});\n\nexport default function (Alpine) {\n    use(Alpine, anchor);\n    Alpine.data('uiTooltip', tooltip);\n}\n"
+        }
+    ]
+}

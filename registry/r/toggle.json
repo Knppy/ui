@@ -1,0 +1,25 @@
+{
+    "name": "toggle",
+    "type": "registry:ui",
+    "title": "Toggle",
+    "description": "A two-state button that can be either on or off.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "toggle.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'pressed' => false,\n    'variant' => 'default',\n    'size' => 'default',\n])\n\n@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('group/toggle inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-[color,box-shadow] outline-none hover:bg-muted hover:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=\\'size-\\'])]:size-4')\n        ->add($variant === 'outline' ? 'border border-input bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground' : 'bg-transparent')\n        ->add(match ($size) {\n            'sm' => 'h-8 min-w-8 px-1.5',\n            'lg' => 'h-10 min-w-10 px-2.5',\n            default => 'h-9 min-w-9 px-2',\n        })\n        ->add($attributes['class'] ?? '');\n@endphp\n\n<button\n    type=\"button\"\n    x-data=\"uiToggle(@js($pressed))\"\n    x-modelable=\"pressed\"\n    x-on:click=\"toggle\"\n    x-bind:aria-pressed=\"pressed\"\n    x-bind:data-state=\"pressed ? 'on' : 'off'\"\n    data-slot=\"toggle\"\n    data-variant=\"{{ $variant }}\"\n    data-size=\"{{ $size }}\"\n    {{ $attributes->twMerge(['class' => $classes]) }}\n>\n    {{ $slot }}\n</button>\n"
+        },
+        {
+            "path": "ui/toggle.js",
+            "type": "registry:js",
+            "content": "const toggle = (pressed = false) => ({\n    pressed,\n    toggle() {\n        this.pressed = !this.pressed;\n    },\n});\n\nexport default function (Alpine) {\n    Alpine.data('uiToggle', toggle);\n}\n"
+        }
+    ]
+}

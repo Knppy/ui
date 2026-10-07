@@ -1,0 +1,136 @@
+{
+    "name": "sidebar",
+    "type": "registry:ui",
+    "title": "Sidebar",
+    "description": "A composable, themeable and customizable sidebar component.",
+    "registryDependencies": [
+        "alpine",
+        "tooltip"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "sidebar.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'side' => 'left',\n    'variant' => 'sidebar',\n    'collapsible' => 'offcanvas',\n])\n\n@if ($collapsible === 'none')\n    <aside\n        data-slot=\"sidebar\"\n        data-sidebar=\"sidebar\"\n        data-side=\"{{ $side }}\"\n        data-variant=\"{{ $variant }}\"\n        data-collapsible=\"none\"\n        {{ $attributes->twMerge(['class' => 'flex h-svh w-(--sidebar-width) flex-col bg-sidebar text-sidebar-foreground']) }}\n    >\n        {{ $slot }}\n    </aside>\n@else\n    <div\n        class=\"group peer text-sidebar-foreground\"\n        x-bind:data-state=\"state\"\n        x-bind:data-mobile=\"isMobile || null\"\n        x-bind:data-collapsible=\"! isMobile && state === 'collapsed' ? @js($collapsible) : ''\"\n        data-side=\"{{ $side }}\"\n        data-variant=\"{{ $variant }}\"\n        data-collapse-mode=\"{{ $collapsible }}\"\n        data-slot=\"sidebar\"\n    >\n        <div\n            data-slot=\"sidebar-gap\"\n            class=\"relative hidden w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[collapsible=offcanvas]:w-0 group-data-[variant=floating]:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1rem)] group-data-[variant=inset]:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1rem)] md:block\"\n        ></div>\n        <div\n            x-show=\"! isMobile || openMobile\"\n            x-on:click.self=\"closeMobile()\"\n            x-transition.opacity\n            class=\"absolute inset-0 z-40 bg-black/50 md:hidden\"\n        ></div>\n        <aside\n            x-bind:aria-hidden=\"isMobile && ! openMobile\"\n            x-bind:style=\"sidebarStyle(@js($side), @js($collapsible))\"\n            data-slot=\"sidebar-container\"\n            {{ $attributes->twMerge(['class' => 'absolute inset-y-0 z-50 flex h-full w-(--sidebar-width-mobile) transition-[left,right,width,transform] duration-200 ease-linear md:z-10 md:w-(--sidebar-width) group-data-[side=left]:left-0 group-data-[side=right]:right-0 md:group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[variant=floating]:p-2 group-data-[variant=inset]:p-2']) }}\n            x-bind:data-mobile-open=\"openMobile || null\"\n        >\n            <div\n                data-slot=\"sidebar-inner\"\n                data-sidebar=\"sidebar\"\n                class=\"bg-sidebar group-data-[variant=floating]:border-sidebar-border group-data-[variant=inset]:border-sidebar-border flex h-full w-full flex-col group-data-[side=left]:border-r group-data-[side=right]:border-l group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm group-data-[variant=inset]:rounded-lg group-data-[variant=inset]:border group-data-[variant=inset]:shadow-sm\"\n            >\n                <div class=\"sr-only\">\n                    <h2>Sidebar</h2>\n                    <p>Displays the mobile sidebar.</p>\n                </div>\n                {{ $slot }}\n            </div>\n        </aside>\n    </div>\n@endif\n"
+        },
+        {
+            "path": "sidebar-content.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"sidebar-content\"\n    data-sidebar=\"content\"\n    {{ $attributes->twMerge(['class' => 'flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "sidebar-footer.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"sidebar-footer\"\n    data-sidebar=\"footer\"\n    {{ $attributes->twMerge(['class' => 'flex flex-col gap-2 p-2']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "sidebar-group.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"sidebar-group\"\n    data-sidebar=\"group\"\n    {{ $attributes->twMerge(['class' => 'relative flex w-full min-w-0 flex-col p-2']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "sidebar-group-action.blade.php",
+            "type": "registry:ui",
+            "content": "<button\n    type=\"button\"\n    data-slot=\"sidebar-group-action\"\n    data-sidebar=\"group-action\"\n    {{ $attributes->twMerge(['class' => 'absolute top-3.5 right-3 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground outline-none hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring group-data-[collapsible=icon]:hidden [&>svg]:size-4']) }}\n>\n    {{ $slot }}\n</button>\n"
+        },
+        {
+            "path": "sidebar-group-content.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"sidebar-group-content\"\n    data-sidebar=\"group-content\"\n    {{ $attributes->twMerge(['class' => 'w-full text-sm']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "sidebar-group-label.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"sidebar-group-label\"\n    data-sidebar=\"group-label\"\n    {{ $attributes->twMerge(['class' => 'flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 outline-none transition-[margin,opacity] duration-200 group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0 [&>svg]:size-4 [&>svg]:shrink-0']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "sidebar-header.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"sidebar-header\"\n    data-sidebar=\"header\"\n    {{ $attributes->twMerge(['class' => 'flex flex-col gap-2 p-2']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "sidebar-input.blade.php",
+            "type": "registry:ui",
+            "content": "<input\n    data-slot=\"sidebar-input\"\n    data-sidebar=\"input\"\n    {{ $attributes->twMerge(['class' => 'h-8 w-full rounded-md border border-input bg-background px-3 text-sm shadow-none outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50']) }}\n/>\n"
+        },
+        {
+            "path": "sidebar-inset.blade.php",
+            "type": "registry:ui",
+            "content": "<main\n    data-slot=\"sidebar-inset\"\n    {{ $attributes->twMerge(['class' => 'relative flex w-full flex-1 flex-col bg-background md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm']) }}\n>\n    {{ $slot }}\n</main>\n"
+        },
+        {
+            "path": "sidebar-menu.blade.php",
+            "type": "registry:ui",
+            "content": "<ul\n    data-slot=\"sidebar-menu\"\n    data-sidebar=\"menu\"\n    {{ $attributes->twMerge(['class' => 'flex w-full min-w-0 flex-col gap-1']) }}\n>\n    {{ $slot }}\n</ul>\n"
+        },
+        {
+            "path": "sidebar-menu-action.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['showOnHover' => false])\n\n<button\n    type=\"button\"\n    data-slot=\"sidebar-menu-action\"\n    data-sidebar=\"menu-action\"\n    @if ($showOnHover) data-show-on-hover @endif\n    {{ $attributes->twMerge(['class' => 'absolute top-1.5 right-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground outline-none hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring group-data-[collapsible=icon]:hidden data-[show-on-hover]:opacity-0 data-[show-on-hover]:group-focus-within/menu-item:opacity-100 data-[show-on-hover]:group-hover/menu-item:opacity-100 [&>svg]:size-4']) }}\n>\n    {{ $slot }}\n</button>\n"
+        },
+        {
+            "path": "sidebar-menu-badge.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    data-slot=\"sidebar-menu-badge\"\n    data-sidebar=\"menu-badge\"\n    {{ $attributes->twMerge(['class' => 'pointer-events-none absolute top-1.5 right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium text-sidebar-foreground tabular-nums group-data-[collapsible=icon]:hidden']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "sidebar-menu-button.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'is' => 'button',\n    'active' => false,\n    'variant' => 'default',\n    'size' => 'default',\n    'tooltip' => null,\n])\n\n@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8 group-data-[collapsible=icon]:p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0')\n        ->add($variant === 'outline' ? 'bg-background shadow-[0_0_0_1px_var(--sidebar-border)]' : '')\n        ->add(match ($size) {\n            'sm' => 'h-7 text-xs',\n            'lg' => 'h-12 text-sm group-data-[collapsible=icon]:p-0',\n            default => 'h-8 text-sm',\n        });\n@endphp\n\n@if ($tooltip)\n    <x-ui.tooltip :delay-duration=\"0\">\n        <x-ui.tooltip-trigger>\n            <{{ $is }}\n                @if ($is === 'button') type=\"button\" @endif\n                data-slot=\"sidebar-menu-button\"\n                data-sidebar=\"menu-button\"\n                data-size=\"{{ $size }}\"\n                data-active=\"{{ $active ? 'true' : 'false' }}\"\n                {{ $attributes->twMerge(['class' => $classes]) }}\n            >\n                {{ $slot }}\n            </{{ $is }}>\n        </x-ui.tooltip-trigger>\n        <x-ui.tooltip-content side=\"right\" align=\"center\" x-show=\"state === 'collapsed' && ! isMobile\">\n            {{ $tooltip }}\n        </x-ui.tooltip-content>\n    </x-ui.tooltip>\n@else\n    <{{ $is }}\n        @if ($is === 'button') type=\"button\" @endif\n        data-slot=\"sidebar-menu-button\"\n        data-sidebar=\"menu-button\"\n        data-size=\"{{ $size }}\"\n        data-active=\"{{ $active ? 'true' : 'false' }}\"\n        {{ $attributes->twMerge(['class' => $classes]) }}\n    >\n        {{ $slot }}\n    </{{ $is }}>\n@endif\n"
+        },
+        {
+            "path": "sidebar-menu-item.blade.php",
+            "type": "registry:ui",
+            "content": "<li\n    data-slot=\"sidebar-menu-item\"\n    data-sidebar=\"menu-item\"\n    {{ $attributes->twMerge(['class' => 'group/menu-item relative']) }}\n>\n    {{ $slot }}\n</li>\n"
+        },
+        {
+            "path": "sidebar-menu-skeleton.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['showIcon' => false])\n\n<div\n    data-slot=\"sidebar-menu-skeleton\"\n    data-sidebar=\"menu-skeleton\"\n    {{ $attributes->twMerge(['class' => 'flex h-8 items-center gap-2 rounded-md px-2']) }}\n>\n    @if ($showIcon)\n        <div data-sidebar=\"menu-skeleton-icon\" class=\"bg-muted size-4 animate-pulse rounded-md\"></div>\n    @endif\n    <div data-sidebar=\"menu-skeleton-text\" class=\"bg-muted h-4 w-2/3 max-w-full flex-1 animate-pulse rounded-md\"></div>\n</div>\n"
+        },
+        {
+            "path": "sidebar-menu-sub.blade.php",
+            "type": "registry:ui",
+            "content": "<ul\n    data-slot=\"sidebar-menu-sub\"\n    data-sidebar=\"menu-sub\"\n    {{ $attributes->twMerge(['class' => 'mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5 group-data-[collapsible=icon]:hidden']) }}\n>\n    {{ $slot }}\n</ul>\n"
+        },
+        {
+            "path": "sidebar-menu-sub-button.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'is' => 'a',\n    'active' => false,\n    'size' => 'md',\n])\n\n<{{ $is }}\n    data-slot=\"sidebar-menu-sub-button\"\n    data-sidebar=\"menu-sub-button\"\n    data-size=\"{{ $size }}\"\n    data-active=\"{{ $active ? 'true' : 'false' }}\"\n    {{ $attributes->twMerge(['class' => 'flex h-7 min-w-0 items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground outline-none hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground data-[size=sm]:text-xs data-[size=md]:text-sm group-data-[collapsible=icon]:hidden [&>span:last-child]:truncate [&>svg]:size-4']) }}\n>\n    {{ $slot }}\n</{{ $is }}>\n"
+        },
+        {
+            "path": "sidebar-menu-sub-item.blade.php",
+            "type": "registry:ui",
+            "content": "<li\n    data-slot=\"sidebar-menu-sub-item\"\n    data-sidebar=\"menu-sub-item\"\n    {{ $attributes->twMerge(['class' => 'group/menu-sub-item relative']) }}\n>\n    {{ $slot }}\n</li>\n"
+        },
+        {
+            "path": "sidebar-provider.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['defaultOpen' => true])\n\n<div\n    x-data=\"uiSidebar(@js($defaultOpen))\"\n    x-modelable=\"open\"\n    x-on:keydown.window=\"handleShortcut($event)\"\n    x-bind:data-state=\"state\"\n    data-slot=\"sidebar-wrapper\"\n    {{ $attributes->except('style')->twMerge(['class' => 'group/sidebar-wrapper relative flex min-h-svh w-full overflow-hidden bg-sidebar']) }}\n    style=\"--sidebar-width: 16rem; --sidebar-width-mobile: 18rem; --sidebar-width-icon: 3rem; {{ $attributes->get('style') }}\"\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "sidebar-rail.blade.php",
+            "type": "registry:ui",
+            "content": "<button\n    type=\"button\"\n    tabindex=\"-1\"\n    aria-label=\"Toggle Sidebar\"\n    title=\"Toggle Sidebar\"\n    data-slot=\"sidebar-rail\"\n    data-sidebar=\"rail\"\n    x-on:click=\"toggleSidebar()\"\n    {{ $attributes->twMerge(['class' => 'absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all after:absolute after:inset-y-0 after:left-1/2 after:w-px hover:after:bg-sidebar-border group-data-[side=left]:-right-4 group-data-[side=right]:left-0 sm:flex']) }}\n></button>\n"
+        },
+        {
+            "path": "sidebar-separator.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    role=\"separator\"\n    data-slot=\"sidebar-separator\"\n    data-sidebar=\"separator\"\n    {{ $attributes->twMerge(['class' => 'mx-2 h-px w-auto shrink-0 bg-sidebar-border']) }}\n></div>\n"
+        },
+        {
+            "path": "sidebar-trigger.blade.php",
+            "type": "registry:ui",
+            "content": "<button\n    type=\"button\"\n    data-slot=\"sidebar-trigger\"\n    data-sidebar=\"trigger\"\n    aria-label=\"Toggle Sidebar\"\n    x-on:click=\"toggleSidebar()\"\n    {{ $attributes->twMerge(['class' => 'inline-flex size-7 items-center justify-center rounded-md text-sm outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring']) }}\n>\n    <svg aria-hidden=\"true\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" class=\"size-4\">\n        <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" />\n        <path d=\"M9 3v18\" />\n    </svg>\n    <span class=\"sr-only\">Toggle Sidebar</span>\n</button>\n"
+        },
+        {
+            "path": "ui/sidebar.js",
+            "type": "registry:js",
+            "content": "const sidebar = (open = true) => ({\n    open,\n    openMobile: false,\n    isMobile: false,\n    media: null,\n    get state() {\n        return this.open ? 'expanded' : 'collapsed';\n    },\n    init() {\n        const saved = document.cookie.split('; ')\n            .find((cookie) => cookie.startsWith('sidebar_state='))\n            ?.split('=')[1];\n\n        if (saved === 'true' || saved === 'false') {\n            this.open = saved === 'true';\n        }\n\n        this.media = window.matchMedia('(max-width: 767px)');\n        this.isMobile = this.media.matches;\n        this.media.addEventListener('change', (event) => {\n            this.isMobile = event.matches;\n            if (!this.isMobile) {\n                this.openMobile = false;\n            }\n        });\n    },\n    setOpen(open) {\n        this.open = open;\n        document.cookie = `sidebar_state=${open}; path=/; max-age=604800; SameSite=Lax`;\n        this.$dispatch('sidebar-change', open);\n    },\n    toggleSidebar() {\n        if (this.isMobile) {\n            this.openMobile = !this.openMobile;\n            return;\n        }\n\n        this.setOpen(!this.open);\n    },\n    closeMobile() {\n        this.openMobile = false;\n    },\n    sidebarStyle(side, collapsible) {\n        const hidden = side === 'left' ? 'translateX(-100%)' : 'translateX(100%)';\n\n        if (this.isMobile) {\n            return { transform: this.openMobile ? 'translateX(0)' : hidden };\n        }\n\n        return {\n            transform: !this.open && collapsible === 'offcanvas' ? hidden : 'translateX(0)',\n        };\n    },\n    handleShortcut(event) {\n        if (event.key.toLocaleLowerCase() === 'b' && (event.metaKey || event.ctrlKey)) {\n            event.preventDefault();\n            this.toggleSidebar();\n        }\n    },\n});\n\nexport default function (Alpine) {\n    Alpine.data('uiSidebar', sidebar);\n}\n"
+        }
+    ]
+}

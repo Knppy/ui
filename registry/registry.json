@@ -3,6 +3,28 @@
   "homepage": "https://ui.knppy.com",
   "items": [
     {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": [
+          "@alpinejs/collapse"
+        ]
+      },
+      "files": [
+        "registry/ui/accordion/accordion.blade.php",
+        "registry/ui/accordion/accordion-content.blade.php",
+        "registry/ui/accordion/accordion-item.blade.php",
+        "registry/ui/accordion/accordion-trigger.blade.php",
+        "registry/js/ui/accordion.js"
+      ]
+    },
+    {
       "name": "alert",
       "type": "registry:ui",
       "title": "Alert",
@@ -16,6 +38,72 @@
         "registry/ui/alert/alert.blade.php",
         "registry/ui/alert/alert-description.blade.php",
         "registry/ui/alert/alert-title.blade.php"
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "A modal dialog that interrupts the user with important content and expects a response.",
+      "registryDependencies": [
+        "alpine",
+        "button"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": [
+          "@alpinejs/focus"
+        ]
+      },
+      "files": [
+        "registry/ui/alert-dialog/alert-dialog.blade.php",
+        "registry/ui/alert-dialog/alert-dialog-action.blade.php",
+        "registry/ui/alert-dialog/alert-dialog-cancel.blade.php",
+        "registry/ui/alert-dialog/alert-dialog-content.blade.php",
+        "registry/ui/alert-dialog/alert-dialog-description.blade.php",
+        "registry/ui/alert-dialog/alert-dialog-footer.blade.php",
+        "registry/ui/alert-dialog/alert-dialog-header.blade.php",
+        "registry/ui/alert-dialog/alert-dialog-media.blade.php",
+        "registry/ui/alert-dialog/alert-dialog-overlay.blade.php",
+        "registry/ui/alert-dialog/alert-dialog-portal.blade.php",
+        "registry/ui/alert-dialog/alert-dialog-title.blade.php",
+        "registry/ui/alert-dialog/alert-dialog-trigger.blade.php",
+        "registry/js/ui/dialog.js"
+      ]
+    },
+    {
+      "name": "alpine",
+      "type": "registry:js",
+      "title": "Alpine",
+      "description": "Loads and registers the Alpine.js modules of every installed component.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": [
+          "alpinejs"
+        ]
+      },
+      "files": [
+        "registry/js/ui.js",
+        "registry/js/ui/lib/id.js",
+        "registry/js/ui/lib/plugins.js",
+        "registry/js/ui/lib/disclosure.js"
+      ]
+    },
+    {
+      "name": "alpine-menu",
+      "type": "registry:js",
+      "title": "Alpine Menu",
+      "description": "Shared keyboard navigation for the dropdown, context and menubar menus.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/js/ui/lib/menu.js"
       ]
     },
     {
@@ -54,6 +142,28 @@
         "registry/ui/attachment/attachment-media.blade.php",
         "registry/ui/attachment/attachment-title.blade.php",
         "registry/ui/attachment/attachment-trigger.blade.php"
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "An image element with a fallback for representing the user.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/avatar/avatar.blade.php",
+        "registry/ui/avatar/avatar-badge.blade.php",
+        "registry/ui/avatar/avatar-fallback.blade.php",
+        "registry/ui/avatar/avatar-group.blade.php",
+        "registry/ui/avatar/avatar-group-count.blade.php",
+        "registry/ui/avatar/avatar-image.blade.php",
+        "registry/js/ui/avatar.js"
       ]
     },
     {
@@ -142,6 +252,23 @@
       ]
     },
     {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "A calendar component that allows users to select a date or a range of dates.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/calendar/calendar.blade.php",
+        "registry/js/ui/calendar.js"
+      ]
+    },
+    {
       "name": "card",
       "type": "registry:ui",
       "title": "Card",
@@ -162,6 +289,186 @@
       ]
     },
     {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "A carousel with motion and swipe.",
+      "registryDependencies": [
+        "alpine",
+        "button"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/carousel/carousel.blade.php",
+        "registry/ui/carousel/carousel-content.blade.php",
+        "registry/ui/carousel/carousel-item.blade.php",
+        "registry/ui/carousel/carousel-next.blade.php",
+        "registry/ui/carousel/carousel-previous.blade.php",
+        "registry/js/ui/carousel.js"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "A control that allows the user to toggle between checked and not checked.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/checkbox/checkbox.blade.php",
+        "registry/js/ui/checkbox.js"
+      ]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "An interactive component which expands/collapses a panel.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/collapsible/collapsible.blade.php",
+        "registry/ui/collapsible/collapsible-content.blade.php",
+        "registry/ui/collapsible/collapsible-trigger.blade.php",
+        "registry/js/ui/collapsible.js"
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Autocomplete input with a list of suggestions.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": [
+          "@floating-ui/dom"
+        ]
+      },
+      "files": [
+        "registry/ui/combobox/combobox.blade.php",
+        "registry/ui/combobox/combobox-chip.blade.php",
+        "registry/ui/combobox/combobox-chips.blade.php",
+        "registry/ui/combobox/combobox-chips-input.blade.php",
+        "registry/ui/combobox/combobox-clear.blade.php",
+        "registry/ui/combobox/combobox-collection.blade.php",
+        "registry/ui/combobox/combobox-content.blade.php",
+        "registry/ui/combobox/combobox-empty.blade.php",
+        "registry/ui/combobox/combobox-group.blade.php",
+        "registry/ui/combobox/combobox-input.blade.php",
+        "registry/ui/combobox/combobox-item.blade.php",
+        "registry/ui/combobox/combobox-label.blade.php",
+        "registry/ui/combobox/combobox-list.blade.php",
+        "registry/ui/combobox/combobox-separator.blade.php",
+        "registry/ui/combobox/combobox-trigger.blade.php",
+        "registry/ui/combobox/combobox-value.blade.php",
+        "registry/js/ui/combobox.js"
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Command menu for search and quick actions.",
+      "registryDependencies": [
+        "alpine",
+        "dialog"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/command/command.blade.php",
+        "registry/ui/command/command-dialog.blade.php",
+        "registry/ui/command/command-empty.blade.php",
+        "registry/ui/command/command-group.blade.php",
+        "registry/ui/command/command-input.blade.php",
+        "registry/ui/command/command-item.blade.php",
+        "registry/ui/command/command-list.blade.php",
+        "registry/ui/command/command-separator.blade.php",
+        "registry/ui/command/command-shortcut.blade.php",
+        "registry/js/ui/command.js"
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Displays a menu of actions triggered by a right click.",
+      "registryDependencies": [
+        "alpine",
+        "alpine-menu"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": [
+          "@alpinejs/anchor"
+        ]
+      },
+      "files": [
+        "registry/ui/context-menu/context-menu.blade.php",
+        "registry/ui/context-menu/context-menu-checkbox-item.blade.php",
+        "registry/ui/context-menu/context-menu-content.blade.php",
+        "registry/ui/context-menu/context-menu-group.blade.php",
+        "registry/ui/context-menu/context-menu-item.blade.php",
+        "registry/ui/context-menu/context-menu-label.blade.php",
+        "registry/ui/context-menu/context-menu-portal.blade.php",
+        "registry/ui/context-menu/context-menu-radio-group.blade.php",
+        "registry/ui/context-menu/context-menu-radio-item.blade.php",
+        "registry/ui/context-menu/context-menu-separator.blade.php",
+        "registry/ui/context-menu/context-menu-shortcut.blade.php",
+        "registry/ui/context-menu/context-menu-sub.blade.php",
+        "registry/ui/context-menu/context-menu-sub-content.blade.php",
+        "registry/ui/context-menu/context-menu-sub-trigger.blade.php",
+        "registry/ui/context-menu/context-menu-trigger.blade.php",
+        "registry/js/ui/context-menu.js"
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": [
+          "@alpinejs/focus"
+        ]
+      },
+      "files": [
+        "registry/ui/dialog/dialog.blade.php",
+        "registry/ui/dialog/dialog-close.blade.php",
+        "registry/ui/dialog/dialog-content.blade.php",
+        "registry/ui/dialog/dialog-description.blade.php",
+        "registry/ui/dialog/dialog-footer.blade.php",
+        "registry/ui/dialog/dialog-header.blade.php",
+        "registry/ui/dialog/dialog-overlay.blade.php",
+        "registry/ui/dialog/dialog-portal.blade.php",
+        "registry/ui/dialog/dialog-title.blade.php",
+        "registry/ui/dialog/dialog-trigger.blade.php",
+        "registry/js/ui/dialog.js"
+      ]
+    },
+    {
       "name": "direction-provider",
       "type": "registry:ui",
       "title": "Direction Provider",
@@ -173,6 +480,68 @@
       },
       "files": [
         "registry/ui/direction-provider/direction-provider.blade.php"
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "A drawer component for Blade.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": [
+          "@alpinejs/focus"
+        ]
+      },
+      "files": [
+        "registry/ui/drawer/drawer.blade.php",
+        "registry/ui/drawer/drawer-close.blade.php",
+        "registry/ui/drawer/drawer-content.blade.php",
+        "registry/ui/drawer/drawer-description.blade.php",
+        "registry/ui/drawer/drawer-footer.blade.php",
+        "registry/ui/drawer/drawer-header.blade.php",
+        "registry/ui/drawer/drawer-overlay.blade.php",
+        "registry/ui/drawer/drawer-portal.blade.php",
+        "registry/ui/drawer/drawer-title.blade.php",
+        "registry/ui/drawer/drawer-trigger.blade.php",
+        "registry/js/ui/drawer.js"
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Displays a menu to the user, such as a set of actions or functions, triggered by a button.",
+      "registryDependencies": [
+        "alpine",
+        "alpine-menu"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": [
+          "@alpinejs/anchor"
+        ]
+      },
+      "files": [
+        "registry/ui/dropdown-menu/dropdown-menu.blade.php",
+        "registry/ui/dropdown-menu/dropdown-menu-checkbox-item.blade.php",
+        "registry/ui/dropdown-menu/dropdown-menu-content.blade.php",
+        "registry/ui/dropdown-menu/dropdown-menu-group.blade.php",
+        "registry/ui/dropdown-menu/dropdown-menu-item.blade.php",
+        "registry/ui/dropdown-menu/dropdown-menu-label.blade.php",
+        "registry/ui/dropdown-menu/dropdown-menu-portal.blade.php",
+        "registry/ui/dropdown-menu/dropdown-menu-radio-group.blade.php",
+        "registry/ui/dropdown-menu/dropdown-menu-radio-item.blade.php",
+        "registry/ui/dropdown-menu/dropdown-menu-separator.blade.php",
+        "registry/ui/dropdown-menu/dropdown-menu-shortcut.blade.php",
+        "registry/ui/dropdown-menu/dropdown-menu-sub.blade.php",
+        "registry/ui/dropdown-menu/dropdown-menu-sub-content.blade.php",
+        "registry/ui/dropdown-menu/dropdown-menu-sub-trigger.blade.php",
+        "registry/ui/dropdown-menu/dropdown-menu-trigger.blade.php",
+        "registry/js/ui/dropdown-menu.js"
       ]
     },
     {
@@ -221,6 +590,27 @@
       ]
     },
     {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "For sighted users to preview content available behind a link.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": [
+          "@alpinejs/anchor"
+        ]
+      },
+      "files": [
+        "registry/ui/hover-card/hover-card.blade.php",
+        "registry/ui/hover-card/hover-card-content.blade.php",
+        "registry/ui/hover-card/hover-card-trigger.blade.php",
+        "registry/js/ui/hover-card.js"
+      ]
+    },
+    {
       "name": "input",
       "type": "registry:ui",
       "title": "Input",
@@ -232,6 +622,47 @@
       },
       "files": [
         "registry/ui/input/input.blade.php"
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Displays an input with inline or stacked addons and actions.",
+      "registryDependencies": [
+        "button"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/input-group/input-group.blade.php",
+        "registry/ui/input-group/input-group-addon.blade.php",
+        "registry/ui/input-group/input-group-button.blade.php",
+        "registry/ui/input-group/input-group-input.blade.php",
+        "registry/ui/input-group/input-group-text.blade.php",
+        "registry/ui/input-group/input-group-textarea.blade.php"
+      ]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "Accessible one-time password component with copy-paste functionality.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/input-otp/input-otp.blade.php",
+        "registry/ui/input-otp/input-otp-group.blade.php",
+        "registry/ui/input-otp/input-otp-separator.blade.php",
+        "registry/ui/input-otp/input-otp-slot.blade.php",
+        "registry/js/ui/input-otp.js"
       ]
     },
     {
@@ -305,6 +736,83 @@
       ]
     },
     {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.",
+      "registryDependencies": [
+        "alpine",
+        "alpine-menu"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": [
+          "@alpinejs/anchor"
+        ]
+      },
+      "files": [
+        "registry/ui/menubar/menubar.blade.php",
+        "registry/ui/menubar/menubar-checkbox-item.blade.php",
+        "registry/ui/menubar/menubar-content.blade.php",
+        "registry/ui/menubar/menubar-group.blade.php",
+        "registry/ui/menubar/menubar-item.blade.php",
+        "registry/ui/menubar/menubar-label.blade.php",
+        "registry/ui/menubar/menubar-menu.blade.php",
+        "registry/ui/menubar/menubar-portal.blade.php",
+        "registry/ui/menubar/menubar-radio-group.blade.php",
+        "registry/ui/menubar/menubar-radio-item.blade.php",
+        "registry/ui/menubar/menubar-separator.blade.php",
+        "registry/ui/menubar/menubar-shortcut.blade.php",
+        "registry/ui/menubar/menubar-sub.blade.php",
+        "registry/ui/menubar/menubar-sub-content.blade.php",
+        "registry/ui/menubar/menubar-sub-trigger.blade.php",
+        "registry/ui/menubar/menubar-trigger.blade.php",
+        "registry/js/ui/menubar.js"
+      ]
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "Displays a chat message with avatar, header, content and footer.",
+      "registryDependencies": [],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/message/message.blade.php",
+        "registry/ui/message/message-avatar.blade.php",
+        "registry/ui/message/message-content.blade.php",
+        "registry/ui/message/message-footer.blade.php",
+        "registry/ui/message/message-group.blade.php",
+        "registry/ui/message/message-header.blade.php"
+      ]
+    },
+    {
+      "name": "message-scroller",
+      "type": "registry:ui",
+      "title": "Message Scroller",
+      "description": "A chat scroll container that anchors turns, opens saved transcripts, follows streamed responses, loads history without jumping, and jumps to any message.",
+      "registryDependencies": [
+        "alpine",
+        "button"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/message-scroller/message-scroller.blade.php",
+        "registry/ui/message-scroller/message-scroller-button.blade.php",
+        "registry/ui/message-scroller/message-scroller-content.blade.php",
+        "registry/ui/message-scroller/message-scroller-item.blade.php",
+        "registry/ui/message-scroller/message-scroller-provider.blade.php",
+        "registry/ui/message-scroller/message-scroller-viewport.blade.php",
+        "registry/js/ui/message-scroller.js"
+      ]
+    },
+    {
       "name": "native-select",
       "type": "registry:ui",
       "title": "Native Select",
@@ -320,6 +828,30 @@
         "registry/ui/native-select/native-select.blade.php",
         "registry/ui/native-select/native-select-optgroup.blade.php",
         "registry/ui/native-select/native-select-option.blade.php"
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "A collection of links for navigating websites.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/navigation-menu/navigation-menu.blade.php",
+        "registry/ui/navigation-menu/navigation-menu-content.blade.php",
+        "registry/ui/navigation-menu/navigation-menu-indicator.blade.php",
+        "registry/ui/navigation-menu/navigation-menu-item.blade.php",
+        "registry/ui/navigation-menu/navigation-menu-link.blade.php",
+        "registry/ui/navigation-menu/navigation-menu-list.blade.php",
+        "registry/ui/navigation-menu/navigation-menu-trigger.blade.php",
+        "registry/ui/navigation-menu/navigation-menu-viewport.blade.php",
+        "registry/js/ui/navigation-menu.js"
       ]
     },
     {
@@ -347,6 +879,31 @@
       ]
     },
     {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Displays rich content in a portal, triggered by a button.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": [
+          "@alpinejs/anchor"
+        ]
+      },
+      "files": [
+        "registry/ui/popover/popover.blade.php",
+        "registry/ui/popover/popover-anchor.blade.php",
+        "registry/ui/popover/popover-content.blade.php",
+        "registry/ui/popover/popover-description.blade.php",
+        "registry/ui/popover/popover-header.blade.php",
+        "registry/ui/popover/popover-title.blade.php",
+        "registry/ui/popover/popover-trigger.blade.php",
+        "registry/js/ui/popover.js"
+      ]
+    },
+    {
       "name": "progress",
       "type": "registry:ui",
       "title": "Progress",
@@ -358,6 +915,89 @@
       },
       "files": [
         "registry/ui/progress/progress.blade.php"
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/radio-group/radio-group.blade.php",
+        "registry/ui/radio-group/radio-group-item.blade.php",
+        "registry/js/ui/radio-group.js"
+      ]
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Accessible resizable panel groups and layouts with keyboard support.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/resizable/resizable-handle.blade.php",
+        "registry/ui/resizable/resizable-panel.blade.php",
+        "registry/ui/resizable/resizable-panel-group.blade.php",
+        "registry/js/ui/resizable.js"
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "Augments native scroll functionality for custom, cross-browser styling.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/scroll-area/scroll-area.blade.php",
+        "registry/ui/scroll-area/scroll-bar.blade.php",
+        "registry/js/ui/scroll-area.js"
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Displays a list of options for the user to pick from—triggered by a button.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": [
+          "@floating-ui/dom"
+        ]
+      },
+      "files": [
+        "registry/ui/select/select.blade.php",
+        "registry/ui/select/select-content.blade.php",
+        "registry/ui/select/select-group.blade.php",
+        "registry/ui/select/select-item.blade.php",
+        "registry/ui/select/select-label.blade.php",
+        "registry/ui/select/select-scroll-down-button.blade.php",
+        "registry/ui/select/select-scroll-up-button.blade.php",
+        "registry/ui/select/select-separator.blade.php",
+        "registry/ui/select/select-trigger.blade.php",
+        "registry/ui/select/select-value.blade.php",
+        "registry/js/ui/select.js"
       ]
     },
     {
@@ -375,6 +1015,74 @@
       ]
     },
     {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Extends the Dialog component to display content that complements the main content of the screen.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": [
+          "@alpinejs/focus"
+        ]
+      },
+      "files": [
+        "registry/ui/sheet/sheet.blade.php",
+        "registry/ui/sheet/sheet-close.blade.php",
+        "registry/ui/sheet/sheet-content.blade.php",
+        "registry/ui/sheet/sheet-description.blade.php",
+        "registry/ui/sheet/sheet-footer.blade.php",
+        "registry/ui/sheet/sheet-header.blade.php",
+        "registry/ui/sheet/sheet-overlay.blade.php",
+        "registry/ui/sheet/sheet-portal.blade.php",
+        "registry/ui/sheet/sheet-title.blade.php",
+        "registry/ui/sheet/sheet-trigger.blade.php",
+        "registry/js/ui/dialog.js"
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "A composable, themeable and customizable sidebar component.",
+      "registryDependencies": [
+        "alpine",
+        "tooltip"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/sidebar/sidebar.blade.php",
+        "registry/ui/sidebar/sidebar-content.blade.php",
+        "registry/ui/sidebar/sidebar-footer.blade.php",
+        "registry/ui/sidebar/sidebar-group.blade.php",
+        "registry/ui/sidebar/sidebar-group-action.blade.php",
+        "registry/ui/sidebar/sidebar-group-content.blade.php",
+        "registry/ui/sidebar/sidebar-group-label.blade.php",
+        "registry/ui/sidebar/sidebar-header.blade.php",
+        "registry/ui/sidebar/sidebar-input.blade.php",
+        "registry/ui/sidebar/sidebar-inset.blade.php",
+        "registry/ui/sidebar/sidebar-menu.blade.php",
+        "registry/ui/sidebar/sidebar-menu-action.blade.php",
+        "registry/ui/sidebar/sidebar-menu-badge.blade.php",
+        "registry/ui/sidebar/sidebar-menu-button.blade.php",
+        "registry/ui/sidebar/sidebar-menu-item.blade.php",
+        "registry/ui/sidebar/sidebar-menu-skeleton.blade.php",
+        "registry/ui/sidebar/sidebar-menu-sub.blade.php",
+        "registry/ui/sidebar/sidebar-menu-sub-button.blade.php",
+        "registry/ui/sidebar/sidebar-menu-sub-item.blade.php",
+        "registry/ui/sidebar/sidebar-provider.blade.php",
+        "registry/ui/sidebar/sidebar-rail.blade.php",
+        "registry/ui/sidebar/sidebar-separator.blade.php",
+        "registry/ui/sidebar/sidebar-trigger.blade.php",
+        "registry/js/ui/sidebar.js"
+      ]
+    },
+    {
       "name": "skeleton",
       "type": "registry:ui",
       "title": "Skeleton",
@@ -386,6 +1094,40 @@
       },
       "files": [
         "registry/ui/skeleton/skeleton.blade.php"
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "An input where the user selects a value from within a given range.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/slider/slider.blade.php",
+        "registry/js/ui/slider.js"
+      ]
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Sonner",
+      "description": "A succinct message that is displayed temporarily.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/sonner/sonner.blade.php",
+        "registry/js/ui/sonner.js"
       ]
     },
     {
@@ -402,6 +1144,23 @@
       },
       "files": [
         "registry/ui/spinner/spinner.blade.php"
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "A control that allows the user to toggle between checked and not checked.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/switch/switch.blade.php",
+        "registry/js/ui/switch.js"
       ]
     },
     {
@@ -426,6 +1185,26 @@
       ]
     },
     {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/tabs/tabs.blade.php",
+        "registry/ui/tabs/tabs-content.blade.php",
+        "registry/ui/tabs/tabs-list.blade.php",
+        "registry/ui/tabs/tabs-trigger.blade.php",
+        "registry/js/ui/tabs.js"
+      ]
+    },
+    {
       "name": "textarea",
       "type": "registry:ui",
       "title": "Textarea",
@@ -437,6 +1216,63 @@
       },
       "files": [
         "registry/ui/textarea/textarea.blade.php"
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A two-state button that can be either on or off.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/toggle/toggle.blade.php",
+        "registry/js/ui/toggle.js"
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "A set of two-state buttons that can be toggled on or off.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": []
+      },
+      "files": [
+        "registry/ui/toggle-group/toggle-group.blade.php",
+        "registry/ui/toggle-group/toggle-group-item.blade.php",
+        "registry/js/ui/toggle-group.js"
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+      "registryDependencies": [
+        "alpine"
+      ],
+      "dependencies": {
+        "composer": [],
+        "npm": [
+          "@alpinejs/anchor"
+        ]
+      },
+      "files": [
+        "registry/ui/tooltip/tooltip.blade.php",
+        "registry/ui/tooltip/tooltip-content.blade.php",
+        "registry/ui/tooltip/tooltip-provider.blade.php",
+        "registry/ui/tooltip/tooltip-trigger.blade.php",
+        "registry/js/ui/tooltip.js"
       ]
     }
   ]

@@ -1,0 +1,72 @@
+{
+    "name": "sheet",
+    "type": "registry:ui",
+    "title": "Sheet",
+    "description": "Extends the Dialog component to display content that complements the main content of the screen.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": [
+            "@alpinejs/focus"
+        ]
+    },
+    "files": [
+        {
+            "path": "sheet.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['open' => false])\n\n<div\n    x-data=\"uiDialog(@js($open))\"\n    x-modelable=\"open\"\n    x-on:keydown.escape.window=\"closeDialog()\"\n    data-slot=\"sheet\"\n    {{ $attributes }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "sheet-close.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    x-init=\"\n        const close = $el.firstElementChild;\n        close?.setAttribute('data-slot', 'sheet-close');\n        if (close instanceof HTMLButtonElement && ! close.hasAttribute('type')) close.type = 'button';\n    \"\n    x-on:click=\"closeDialog()\"\n    data-slot=\"sheet-close\"\n    {{ $attributes->twMerge(['class' => 'contents']) }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "sheet-content.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'side' => 'right',\n    'showCloseButton' => true,\n])\n\n@php\n    use Knppy\\Ui\\Facades\\Ui;\n\n    $classes = Ui::classes()\n        ->add('fixed z-50 flex flex-col gap-4 bg-background shadow-lg outline-none transition ease-in-out')\n        ->add(match ($side) {\n            'top' => 'inset-x-0 top-0 h-auto border-b',\n            'bottom' => 'inset-x-0 bottom-0 h-auto border-t',\n            'left' => 'inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm',\n            default => 'inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm',\n        });\n\n    $closedClass = match ($side) {\n        'top' => '-translate-y-full',\n        'bottom' => 'translate-y-full',\n        'left' => '-translate-x-full',\n        default => 'translate-x-full',\n    };\n@endphp\n\n<x-ui.sheet-portal>\n    <x-ui.sheet-overlay />\n    <div\n        x-cloak\n        x-show=\"open\"\n        x-transition:enter=\"duration-500\"\n        x-transition:enter-start=\"{{ $closedClass }}\"\n        x-transition:enter-end=\"translate-x-0 translate-y-0\"\n        x-transition:leave=\"duration-300\"\n        x-transition:leave-start=\"translate-x-0 translate-y-0\"\n        x-transition:leave-end=\"{{ $closedClass }}\"\n        x-ref=\"content\"\n        x-trap.inert.noscroll=\"open\"\n        x-bind:id=\"`ui-dialog-${id}-content`\"\n        x-bind:aria-labelledby=\"titleId\"\n        x-bind:aria-describedby=\"descriptionId\"\n        x-bind:data-state=\"open ? 'open' : 'closed'\"\n        role=\"dialog\"\n        aria-modal=\"true\"\n        tabindex=\"-1\"\n        data-slot=\"sheet-content\"\n        data-side=\"{{ $side }}\"\n        {{ $attributes->twMerge(['class' => $classes]) }}\n    >\n        {{ $slot }}\n\n        @if ($showCloseButton)\n            <button\n                type=\"button\"\n                x-on:click=\"closeDialog()\"\n                data-slot=\"sheet-close\"\n                class=\"ring-offset-background focus:ring-ring [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none\"\n            >\n                <svg aria-hidden=\"true\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M18 6 6 18M6 6l12 12\" /></svg>\n                <span class=\"sr-only\">Close</span>\n            </button>\n        @endif\n    </div>\n</x-ui.sheet-portal>\n"
+        },
+        {
+            "path": "sheet-description.blade.php",
+            "type": "registry:ui",
+            "content": "<p\n    x-bind:id=\"descriptionId\"\n    data-slot=\"sheet-description\"\n    {{ $attributes->twMerge(['class' => 'text-sm text-muted-foreground']) }}\n>\n    {{ $slot }}\n</p>\n"
+        },
+        {
+            "path": "sheet-footer.blade.php",
+            "type": "registry:ui",
+            "content": "<div data-slot=\"sheet-footer\" {{ $attributes->twMerge(['class' => 'mt-auto flex flex-col gap-2 p-4']) }}>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "sheet-header.blade.php",
+            "type": "registry:ui",
+            "content": "<div data-slot=\"sheet-header\" {{ $attributes->twMerge(['class' => 'flex flex-col gap-1.5 p-4']) }}>{{ $slot }}</div>\n"
+        },
+        {
+            "path": "sheet-overlay.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    x-cloak\n    x-show=\"open\"\n    x-transition.opacity\n    x-bind:data-state=\"open ? 'open' : 'closed'\"\n    x-on:click.self=\"closeDialog()\"\n    data-slot=\"sheet-overlay\"\n    {{ $attributes->twMerge(['class' => 'fixed inset-0 z-50 bg-black/50']) }}\n></div>\n"
+        },
+        {
+            "path": "sheet-portal.blade.php",
+            "type": "registry:ui",
+            "content": "<template x-teleport=\"body\">\n    <div data-slot=\"sheet-portal\">{{ $slot }}</div>\n</template>\n"
+        },
+        {
+            "path": "sheet-title.blade.php",
+            "type": "registry:ui",
+            "content": "<h2\n    x-bind:id=\"titleId\"\n    data-slot=\"sheet-title\"\n    {{ $attributes->twMerge(['class' => 'font-semibold text-foreground']) }}\n>\n    {{ $slot }}\n</h2>\n"
+        },
+        {
+            "path": "sheet-trigger.blade.php",
+            "type": "registry:ui",
+            "content": "<span\n    x-init=\"registerTrigger($el.firstElementChild)\"\n    x-effect=\"\n        trigger?.setAttribute('aria-expanded', open);\n        trigger?.setAttribute('aria-controls', `ui-dialog-${id}-content`);\n    \"\n    x-on:click=\"\n        openDialog($event.target.closest('button, a, input, select, textarea, [tabindex]') ?? $el.firstElementChild)\n    \"\n    data-slot=\"sheet-trigger\"\n    {{ $attributes->twMerge(['class' => 'contents']) }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "ui/dialog.js",
+            "type": "registry:js",
+            "content": "import { focus } from '@alpinejs/focus';\nimport { use } from './lib/plugins.js';\nimport { nextId } from './lib/id.js';\n\nconst dialog = (open = false) => ({\n    open,\n    id: nextId(),\n    trigger: null,\n    get titleId() {\n        return `ui-dialog-${this.id}-title`;\n    },\n    get descriptionId() {\n        return `ui-dialog-${this.id}-description`;\n    },\n    registerTrigger(trigger) {\n        this.trigger = trigger;\n        trigger?.setAttribute('aria-haspopup', 'dialog');\n\n        if (trigger instanceof HTMLButtonElement && !trigger.hasAttribute('type')) {\n            trigger.type = 'button';\n        }\n    },\n    openDialog(trigger = null) {\n        this.trigger = trigger;\n        this.open = true;\n        this.$nextTick(() => {\n            const form = this.trigger?.closest('form');\n\n            if (form && this.$refs.content) {\n                form.id ||= `ui-dialog-${this.id}-form`;\n                this.$refs.content.querySelectorAll('button, fieldset, input, object, output, select, textarea')\n                    .forEach((control) => control.setAttribute('form', control.getAttribute('form') || form.id));\n            }\n\n            this.$refs.content?.focus();\n        });\n    },\n    closeDialog() {\n        if (!this.open) {\n            return;\n        }\n\n        this.open = false;\n        this.$nextTick(() => this.trigger?.focus());\n    },\n});\n\nexport default function (Alpine) {\n    use(Alpine, focus);\n    Alpine.data('uiDialog', dialog);\n}\n"
+        }
+    ]
+}

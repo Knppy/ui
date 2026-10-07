@@ -1,0 +1,37 @@
+{
+    "name": "hover-card",
+    "type": "registry:ui",
+    "title": "Hover Card",
+    "description": "For sighted users to preview content available behind a link.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": [
+            "@alpinejs/anchor"
+        ]
+    },
+    "files": [
+        {
+            "path": "hover-card.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['openDelay' => 700, 'closeDelay' => 300])\n\n<span\n    x-data=\"uiHoverCard({{ (int) $openDelay }}, {{ (int) $closeDelay }})\"\n    x-on:keydown.escape.window=\"open = false\"\n    data-slot=\"hover-card\"\n    {{ $attributes }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "hover-card-content.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['align' => 'center', 'side' => 'bottom', 'sideOffset' => 4])\n\n@php($position = $side.($align === 'center' ? '' : '-'.$align))\n\n<template x-teleport=\"body\">\n    <div\n        x-cloak\n        x-show=\"open\"\n        x-transition\n        x-anchor.{{ $position }}.offset.{{ $sideOffset }}=\"trigger\"\n        x-on:mouseenter=\"cancelClose()\"\n        x-on:mouseleave=\"scheduleClose()\"\n        x-bind:data-state=\"open ? 'open' : 'closed'\"\n        data-side=\"{{ $side }}\"\n        data-align=\"{{ $align }}\"\n        data-slot=\"hover-card-content\"\n        {{ $attributes->twMerge(['class' => 'z-50 w-64 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-hidden']) }}\n    >\n        {{ $slot }}\n    </div>\n</template>\n"
+        },
+        {
+            "path": "hover-card-trigger.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'delay' => null,\n    'closeDelay' => null,\n])\n\n<span\n    x-init=\"registerTrigger($el.firstElementChild, @js($delay === null ? null : (int) $delay), @js($closeDelay === null ? null : (int) $closeDelay))\"\n    x-on:mouseenter=\"scheduleOpen()\"\n    x-on:mouseleave=\"scheduleClose()\"\n    x-on:focusin=\"scheduleOpen()\"\n    x-on:focusout=\"scheduleClose()\"\n    data-slot=\"hover-card-trigger\"\n    {{ $attributes->twMerge(['class' => 'contents']) }}\n>\n    {{ $slot }}\n</span>\n"
+        },
+        {
+            "path": "ui/hover-card.js",
+            "type": "registry:js",
+            "content": "import { anchor } from '@alpinejs/anchor';\nimport { use } from './lib/plugins.js';\n\nconst hoverCard = (openDelay = 700, closeDelay = 300) => ({\n    open: false,\n    openDelay,\n    closeDelay,\n    trigger: null,\n    timer: null,\n    registerTrigger(trigger, delay = null, closeDelay = null) {\n        this.trigger = trigger;\n\n        if (delay !== null) {\n            this.openDelay = delay;\n        }\n\n        if (closeDelay !== null) {\n            this.closeDelay = closeDelay;\n        }\n\n        if (trigger instanceof HTMLButtonElement && !trigger.hasAttribute('type')) {\n            trigger.type = 'button';\n        }\n    },\n    scheduleOpen() {\n        clearTimeout(this.timer);\n        this.timer = setTimeout(() => this.open = true, this.openDelay);\n    },\n    scheduleClose() {\n        clearTimeout(this.timer);\n        this.timer = setTimeout(() => this.open = false, this.closeDelay);\n    },\n    cancelClose() {\n        clearTimeout(this.timer);\n    },\n});\n\nexport default function (Alpine) {\n    use(Alpine, anchor);\n    Alpine.data('uiHoverCard', hoverCard);\n}\n"
+        }
+    ]
+}

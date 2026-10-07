@@ -1,0 +1,46 @@
+{
+    "name": "carousel",
+    "type": "registry:ui",
+    "title": "Carousel",
+    "description": "A carousel with motion and swipe.",
+    "registryDependencies": [
+        "alpine",
+        "button"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "carousel.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['orientation' => 'horizontal'])\n\n<div\n    x-data=\"uiCarousel(@js($orientation))\"\n    x-on:keydown.capture=\"handleKeydown($event)\"\n    role=\"region\"\n    aria-roledescription=\"carousel\"\n    data-slot=\"carousel\"\n    data-orientation=\"{{ $orientation }}\"\n    {{ $attributes->twMerge(['class' => 'group/carousel relative']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "carousel-content.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    x-init=\"initialize($el)\"\n    x-on:scroll.passive=\"update()\"\n    data-slot=\"carousel-content\"\n    {{ $attributes->twMerge(['class' => 'flex snap-mandatory overflow-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden group-data-[orientation=horizontal]/carousel:-ml-4 group-data-[orientation=horizontal]/carousel:snap-x group-data-[orientation=vertical]/carousel:-mt-4 group-data-[orientation=vertical]/carousel:max-h-full group-data-[orientation=vertical]/carousel:flex-col group-data-[orientation=vertical]/carousel:snap-y']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "carousel-item.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    role=\"group\"\n    aria-roledescription=\"slide\"\n    data-slot=\"carousel-item\"\n    {{ $attributes->twMerge(['class' => 'min-w-0 shrink-0 grow-0 basis-full snap-start group-data-[orientation=horizontal]/carousel:pl-4 group-data-[orientation=vertical]/carousel:pt-4']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "carousel-next.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'variant' => 'outline',\n    'size' => 'icon',\n])\n\n<x-ui.button\n    type=\"button\"\n    dataSlot=\"carousel-next\"\n    :variant=\"$variant\"\n    :size=\"$size\"\n    x-on:click=\"scrollNext()\"\n    x-bind:disabled=\"! canScrollNext\"\n    {{ $attributes->twMerge(['class' => 'absolute size-8 rounded-full group-data-[orientation=horizontal]/carousel:top-1/2 group-data-[orientation=horizontal]/carousel:-right-12 group-data-[orientation=horizontal]/carousel:-translate-y-1/2 group-data-[orientation=vertical]/carousel:-bottom-12 group-data-[orientation=vertical]/carousel:left-1/2 group-data-[orientation=vertical]/carousel:-translate-x-1/2 group-data-[orientation=vertical]/carousel:rotate-90']) }}\n>\n    <svg aria-hidden=\"true\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"m12 5 7 7-7 7M5 12h14\" /></svg>\n    <span class=\"sr-only\">Next slide</span>\n</x-ui.button>\n"
+        },
+        {
+            "path": "carousel-previous.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'variant' => 'outline',\n    'size' => 'icon',\n])\n\n<x-ui.button\n    type=\"button\"\n    dataSlot=\"carousel-previous\"\n    :variant=\"$variant\"\n    :size=\"$size\"\n    x-on:click=\"scrollPrevious()\"\n    x-bind:disabled=\"! canScrollPrevious\"\n    {{ $attributes->twMerge(['class' => 'absolute size-8 rounded-full group-data-[orientation=horizontal]/carousel:top-1/2 group-data-[orientation=horizontal]/carousel:-left-12 group-data-[orientation=horizontal]/carousel:-translate-y-1/2 group-data-[orientation=vertical]/carousel:-top-12 group-data-[orientation=vertical]/carousel:left-1/2 group-data-[orientation=vertical]/carousel:-translate-x-1/2 group-data-[orientation=vertical]/carousel:rotate-90']) }}\n>\n    <svg aria-hidden=\"true\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"m12 19-7-7 7-7M19 12H5\" /></svg>\n    <span class=\"sr-only\">Previous slide</span>\n</x-ui.button>\n"
+        },
+        {
+            "path": "ui/carousel.js",
+            "type": "registry:js",
+            "content": "const carousel = (orientation = 'horizontal') => ({\n    orientation,\n    viewport: null,\n    resizeObserver: null,\n    canScrollPrevious: false,\n    canScrollNext: false,\n    initialize(viewport) {\n        this.viewport = viewport;\n        this.resizeObserver = new ResizeObserver(() => this.update());\n        this.resizeObserver.observe(viewport);\n        this.$nextTick(() => this.update());\n    },\n    update() {\n        if (!this.viewport) {\n            return;\n        }\n\n        const position = this.orientation === 'vertical' ? this.viewport.scrollTop : this.viewport.scrollLeft;\n        const viewportSize = this.orientation === 'vertical' ? this.viewport.clientHeight : this.viewport.clientWidth;\n        const scrollSize = this.orientation === 'vertical' ? this.viewport.scrollHeight : this.viewport.scrollWidth;\n\n        this.canScrollPrevious = position > 1;\n        this.canScrollNext = position < scrollSize - viewportSize - 1;\n    },\n    scroll(direction) {\n        const item = this.viewport?.querySelector('[data-slot=\"carousel-item\"]');\n\n        if (!item) {\n            return;\n        }\n\n        this.viewport.scrollBy({\n            [this.orientation === 'vertical' ? 'top' : 'left']: direction * (this.orientation === 'vertical' ? item.offsetHeight : item.offsetWidth),\n            behavior: 'smooth',\n        });\n    },\n    scrollPrevious() {\n        this.scroll(-1);\n    },\n    scrollNext() {\n        this.scroll(1);\n    },\n    handleKeydown(event) {\n        const directions = this.orientation === 'vertical'\n            ? { ArrowUp: -1, ArrowDown: 1 }\n            : { ArrowLeft: -1, ArrowRight: 1 };\n\n        if (directions[event.key] !== undefined) {\n            event.preventDefault();\n            this.scroll(directions[event.key]);\n        }\n    },\n});\n\nexport default function (Alpine) {\n    Alpine.data('uiCarousel', carousel);\n}\n"
+        }
+    ]
+}

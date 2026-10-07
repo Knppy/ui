@@ -1,0 +1,30 @@
+{
+    "name": "scroll-area",
+    "type": "registry:ui",
+    "title": "Scroll Area",
+    "description": "Augments native scroll functionality for custom, cross-browser styling.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "scroll-area.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'orientation' => 'vertical',\n    'type' => 'hover',\n])\n\n<div\n    x-data=\"uiScrollArea\"\n    x-init=\"initialize($el)\"\n    data-slot=\"scroll-area\"\n    data-type=\"{{ $type }}\"\n    {{ $attributes->twMerge(['class' => 'relative overflow-hidden']) }}\n>\n    <div\n        tabindex=\"0\"\n        data-slot=\"scroll-area-viewport\"\n        x-on:scroll.passive=\"update()\"\n        class=\"[&::-webkit-scrollbar]:hidden focus-visible:ring-ring/50 size-full [scrollbar-width:none] overflow-auto rounded-[inherit] outline-none focus-visible:ring-[3px] focus-visible:outline-1\"\n    >\n        {{ $slot }}\n    </div>\n    <x-ui.scroll-bar :orientation=\"$orientation\" />\n</div>\n"
+        },
+        {
+            "path": "scroll-bar.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['orientation' => 'vertical'])\n\n<div\n    aria-hidden=\"true\"\n    data-slot=\"scroll-area-scrollbar\"\n    data-orientation=\"{{ $orientation }}\"\n    x-on:pointerdown=\"startDrag($event, @js($orientation))\"\n    {{ $attributes->twMerge(['class' => 'absolute flex touch-none p-px transition-colors select-none data-[orientation=horizontal]:inset-x-0 data-[orientation=horizontal]:bottom-0 data-[orientation=horizontal]:h-2.5 data-[orientation=horizontal]:flex-col data-[orientation=vertical]:inset-y-0 data-[orientation=vertical]:end-0 data-[orientation=vertical]:w-2.5']) }}\n>\n    <div data-slot=\"scroll-area-thumb\" class=\"bg-border relative flex-1 rounded-full\"></div>\n</div>\n"
+        },
+        {
+            "path": "ui/scroll-area.js",
+            "type": "registry:js",
+            "content": "const scrollArea = () => ({\n    root: null,\n    viewport: null,\n    resizeObserver: null,\n    mutationObserver: null,\n    initialize(root) {\n        this.root = root;\n        this.viewport = root.querySelector('[data-slot=\"scroll-area-viewport\"]');\n        this.$nextTick(() => this.update());\n        this.resizeObserver = new ResizeObserver(() => this.update());\n        this.resizeObserver.observe(this.viewport);\n        this.mutationObserver = new MutationObserver(() => this.$nextTick(() => this.update()));\n        this.mutationObserver.observe(this.viewport, { childList: true, subtree: true, characterData: true });\n    },\n    update() {\n        if (!this.viewport) {\n            return;\n        }\n\n        this.updateThumb('vertical', this.viewport.clientHeight, this.viewport.scrollHeight, this.viewport.scrollTop);\n        this.updateThumb('horizontal', this.viewport.clientWidth, this.viewport.scrollWidth, this.viewport.scrollLeft);\n    },\n    updateThumb(orientation, viewportSize, scrollSize, scrollPosition) {\n        const scrollbar = this.root.querySelector(`[data-orientation=\"${orientation}\"]`);\n        const thumb = scrollbar?.querySelector('[data-slot=\"scroll-area-thumb\"]');\n\n        if (!scrollbar || !thumb) {\n            return;\n        }\n\n        const trackSize = orientation === 'vertical' ? scrollbar.clientHeight : scrollbar.clientWidth;\n        const thumbSize = scrollSize > 0 ? Math.max(18, trackSize * viewportSize / scrollSize) : trackSize;\n        const travel = Math.max(0, trackSize - thumbSize);\n        const maximum = Math.max(0, scrollSize - viewportSize);\n        const offset = maximum > 0 ? travel * scrollPosition / maximum : 0;\n\n        scrollbar.hidden = maximum <= 1;\n        thumb.style[orientation === 'vertical' ? 'height' : 'width'] = `${thumbSize}px`;\n        thumb.style.transform = orientation === 'vertical'\n            ? `translateY(${offset}px)`\n            : `translateX(${offset}px)`;\n    },\n    startDrag(event, orientation) {\n        event.preventDefault();\n        const scrollbar = event.currentTarget;\n        const thumb = scrollbar.querySelector('[data-slot=\"scroll-area-thumb\"]');\n        const startPointer = orientation === 'vertical' ? event.clientY : event.clientX;\n        const startScroll = orientation === 'vertical' ? this.viewport.scrollTop : this.viewport.scrollLeft;\n        const trackSize = orientation === 'vertical' ? scrollbar.clientHeight : scrollbar.clientWidth;\n        const thumbSize = orientation === 'vertical' ? thumb.clientHeight : thumb.clientWidth;\n        const maximum = orientation === 'vertical'\n            ? this.viewport.scrollHeight - this.viewport.clientHeight\n            : this.viewport.scrollWidth - this.viewport.clientWidth;\n        const move = (moveEvent) => {\n            const pointer = orientation === 'vertical' ? moveEvent.clientY : moveEvent.clientX;\n            const next = startScroll + (pointer - startPointer) * maximum / Math.max(1, trackSize - thumbSize);\n\n            if (orientation === 'vertical') {\n                this.viewport.scrollTop = next;\n            } else {\n                this.viewport.scrollLeft = next;\n            }\n        };\n        const stop = () => {\n            window.removeEventListener('pointermove', move);\n            window.removeEventListener('pointerup', stop);\n        };\n\n        window.addEventListener('pointermove', move);\n        window.addEventListener('pointerup', stop, { once: true });\n    },\n});\n\nexport default function (Alpine) {\n    Alpine.data('uiScrollArea', scrollArea);\n}\n"
+        }
+    ]
+}

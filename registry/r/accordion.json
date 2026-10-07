@@ -1,0 +1,42 @@
+{
+    "name": "accordion",
+    "type": "registry:ui",
+    "title": "Accordion",
+    "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": [
+            "@alpinejs/collapse"
+        ]
+    },
+    "files": [
+        {
+            "path": "accordion.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'value' => null,\n    'type' => 'single',\n    'collapsible' => true,\n])\n\n<div\n    x-data=\"uiAccordion(@js($value), @js($type), @js($collapsible))\"\n    x-modelable=\"value\"\n    data-slot=\"accordion\"\n    {{ $attributes }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "accordion-content.blade.php",
+            "type": "registry:ui",
+            "content": "<div\n    x-cloak\n    x-show=\"isOpen(accordionItem)\"\n    x-collapse\n    role=\"region\"\n    x-bind:id=\"$id('accordion-content')\"\n    x-bind:aria-labelledby=\"$id('accordion-trigger')\"\n    x-bind:data-state=\"isOpen(accordionItem) ? 'open' : 'closed'\"\n    data-slot=\"accordion-content\"\n    class=\"overflow-hidden text-sm\"\n>\n    <div {{ $attributes->twMerge(['class' => 'pt-0 pb-4']) }}>{{ $slot }}</div>\n</div>\n"
+        },
+        {
+            "path": "accordion-item.blade.php",
+            "type": "registry:ui",
+            "content": "@props(['value'])\n\n<div\n    x-data=\"{ accordionItem: @js($value) }\"\n    x-id=\"['accordion-trigger', 'accordion-content']\"\n    x-bind:data-state=\"isOpen(accordionItem) ? 'open' : 'closed'\"\n    data-slot=\"accordion-item\"\n    data-value=\"{{ $value }}\"\n    {{ $attributes->twMerge(['class' => 'border-b last:border-b-0']) }}\n>\n    {{ $slot }}\n</div>\n"
+        },
+        {
+            "path": "accordion-trigger.blade.php",
+            "type": "registry:ui",
+            "content": "<h3 class=\"flex\">\n    <button\n        type=\"button\"\n        x-on:click=\"toggle(accordionItem)\"\n        x-bind:id=\"$id('accordion-trigger')\"\n        x-bind:aria-controls=\"$id('accordion-content')\"\n        x-bind:aria-expanded=\"isOpen(accordionItem)\"\n        x-bind:data-state=\"isOpen(accordionItem) ? 'open' : 'closed'\"\n        data-slot=\"accordion-trigger\"\n        {{ $attributes->twMerge(['class' => 'flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180']) }}\n    >\n        {{ $slot }}\n        <svg\n            aria-hidden=\"true\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            class=\"text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200\"\n        >\n            <path d=\"m6 9 6 6 6-6\" />\n        </svg>\n    </button>\n</h3>\n"
+        },
+        {
+            "path": "ui/accordion.js",
+            "type": "registry:js",
+            "content": "import { collapse } from '@alpinejs/collapse';\nimport { use } from './lib/plugins.js';\n\nconst accordion = (value = null, type = 'single', collapsible = true) => ({\n    value: type === 'multiple' ? (Array.isArray(value) ? value : []) : value,\n    isOpen(item) {\n        return this.type === 'multiple' ? this.value.includes(item) : this.value === item;\n    },\n    toggle(item) {\n        if (this.type === 'multiple') {\n            this.value = this.isOpen(item)\n                ? this.value.filter((value) => value !== item)\n                : [...this.value, item];\n            return;\n        }\n\n        if (this.value !== item || this.collapsible) {\n            this.value = this.value === item ? null : item;\n        }\n    },\n    type,\n    collapsible,\n});\n\nexport default function (Alpine) {\n    use(Alpine, collapse);\n    Alpine.data('uiAccordion', accordion);\n}\n"
+        }
+    ]
+}

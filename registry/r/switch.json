@@ -1,0 +1,25 @@
+{
+    "name": "switch",
+    "type": "registry:ui",
+    "title": "Switch",
+    "description": "A control that allows the user to toggle between checked and not checked.",
+    "registryDependencies": [
+        "alpine"
+    ],
+    "dependencies": {
+        "composer": [],
+        "npm": []
+    },
+    "files": [
+        {
+            "path": "switch.blade.php",
+            "type": "registry:ui",
+            "content": "@props([\n    'checked' => false,\n    'size' => 'default',\n])\n\n<label\n    x-data=\"uiSwitch(@js($checked))\"\n    x-modelable=\"open\"\n    x-bind:data-state=\"open ? 'checked' : 'unchecked'\"\n    data-slot=\"switch\"\n    data-size=\"{{ $size }}\"\n    {{ $attributes->whereStartsWith(['x-model', 'wire:model']) }}\n    {{ $attributes->only('class')->twMerge(['class' => 'peer group/switch relative inline-flex shrink-0 cursor-pointer items-center rounded-full border border-transparent shadow-xs transition-all outline-none has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50 has-disabled:cursor-not-allowed has-disabled:opacity-50 data-[size=default]:h-[1.15rem] data-[size=default]:w-8 data-[size=sm]:h-3.5 data-[size=sm]:w-6 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input dark:data-[state=unchecked]:bg-input/80']) }}\n>\n    <input\n        type=\"checkbox\"\n        role=\"switch\"\n        @checked($checked)\n        x-model=\"open\"\n        class=\"sr-only\"\n        {{ $attributes->whereDoesntStartWith(['x-model', 'wire:model'])->except('class') }}\n    />\n    <span\n        aria-hidden=\"true\"\n        data-slot=\"switch-thumb\"\n        x-bind:data-state=\"open ? 'checked' : 'unchecked'\"\n        class=\"bg-background dark:data-[state=checked]:bg-primary-foreground dark:data-[state=unchecked]:bg-foreground pointer-events-none block rounded-full ring-0 transition-transform group-data-[size=default]/switch:size-4 group-data-[size=sm]/switch:size-3 data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0\"\n    ></span>\n</label>\n"
+        },
+        {
+            "path": "ui/switch.js",
+            "type": "registry:js",
+            "content": "import { disclosure } from './lib/disclosure.js';\n\nexport default function (Alpine) {\n    Alpine.data('uiSwitch', disclosure);\n}\n"
+        }
+    ]
+}
