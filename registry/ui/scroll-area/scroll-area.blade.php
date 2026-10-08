@@ -14,7 +14,7 @@
         tabindex="0"
         data-slot="scroll-area-viewport"
         x-on:scroll.passive="update()"
-        class="[&::-webkit-scrollbar]:hidden focus-visible:ring-ring/50 size-full [scrollbar-width:none] overflow-auto rounded-[inherit] outline-none focus-visible:ring-[3px] focus-visible:outline-1"
+        class="[&::-webkit-scrollbar]:hidden focus-visible:ring-ring/50 size-full overflow-auto rounded-[inherit] outline-none [scrollbar-width:none] focus-visible:ring-[3px] focus-visible:outline-1"
     >
         {{ $slot }}
     </div>
