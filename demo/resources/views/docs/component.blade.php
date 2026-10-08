@@ -34,6 +34,16 @@
         @endif
     </div>
 
+    <div class="bg-muted/40 mt-6 flex items-center gap-2 rounded-lg border px-3 py-2 font-mono text-sm"
+         x-data="{ copied: false, copy() { navigator.clipboard.writeText('php artisan blatui:add {{ $slug }}'); this.copied = true; setTimeout(() => this.copied = false, 1500); } }">
+        <x-lucide-terminal class="text-muted-foreground size-4 shrink-0" />
+        <span class="flex-1 truncate">php artisan blatui:add {{ $slug }}</span>
+        <button type="button" @click="copy()" aria-label="Copy install command" class="text-muted-foreground hover:text-foreground shrink-0">
+            <x-lucide-copy class="size-4" x-show="!copied" aria-hidden="true" />
+            <x-lucide-check class="size-4 text-emerald-500" x-show="copied" x-cloak aria-hidden="true" />
+        </button>
+    </div>
+
     @foreach ($notes as $note)
         <div class="mt-4 flex gap-2.5 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3.5 py-2.5 text-sm text-amber-900 dark:text-amber-200">
             <x-lucide-triangle-alert class="mt-0.5 size-4 shrink-0" aria-hidden="true" />
