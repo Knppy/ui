@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>Ui</h1>
+    <h1>Knppy UI</h1>
 </div>
 
 <p align="center">
@@ -10,7 +10,13 @@
     <a href="https://packagist.org/packages/knppy/ui"><img src="https://img.shields.io/packagist/dt/knppy/ui.svg?style=flat-square" alt="Total Downloads"></a>
 </p>
 
-Knppy UI is a robust Shadcn/ui port for Laravel applications.
+Knppy UI is a robust Shadcn/ui port for Laravel applications. Components are Blade views plus small Alpine modules that are copied into your project, so you own and can edit the code.
+
+## Requirements
+
+- PHP 8.3+ and Laravel 12 or 13
+- Tailwind CSS v4 and Vite (the components are styled with Tailwind classes)
+- Node and npm (Alpine.js and its plugins are installed through npm)
 
 ## Installation
 
@@ -42,11 +48,36 @@ php artisan vendor:publish --tag="ui-assets"
 
 ## Usage
 
-<!-- Add a basic usage example here. -->
+```bash
+php artisan ui:install
+php artisan ui:add button card dialog
+```
+
+Then use them as anonymous Blade components:
+
+```blade
+<x-ui.card>
+    <x-ui.card-header>
+        <x-ui.card-title>Team</x-ui.card-title>
+    </x-ui.card-header>
+    <x-ui.card-content>
+        <x-ui.button variant="outline">Invite</x-ui.button>
+    </x-ui.card-content>
+</x-ui.card>
+```
+
+Families use flat kebab-case names (`dialog`, `dialog-trigger`, `dialog-content`, ...), not dotted ones. Pass extra classes with `class`; they are merged with the component defaults through `tailwind-merge`.
+
+### Setup
+
+`ui:install` asks for a base color (currently only `neutral`; or pass `--baseColor=neutral`) and writes two files:
+
+- `components.json`, which holds the `aliases` paths and any extra registries. It refuses to run when the file already exists unless you pass `--force`.
+- `resources/css/app.css`, the Tailwind v4 entry with the theme variables (light and dark). It is overwritten, so back up an existing file first.
+
+Make sure `app.css` is compiled by Vite. Dark mode is class based (`.dark`).
 
 ### Adding Components
-
-Run `php artisan ui:install` once to create `components.json`, then add components from a registry:
 
 ```bash
 php artisan ui:add button
@@ -86,13 +117,21 @@ import './ui.js';
 
 The loader uses Vite's `import.meta.glob('./ui/*.js')`, so every module `ui:add` drops into `resources/js/ui/` registers itself with Alpine automatically. Delete a module and it stops being registered. The loader also adds `x-data` to `<body>` (unless it already has one) so magics like `$toast` work anywhere on the page. Add `"js": "resources/js"` to `aliases` in `components.json` if it is missing.
 
+### Livewire
+
+When Livewire is on the page, its bundled Alpine instance is used and the loader does not start a second one. Components that expose state through `x-modelable` (for example `dialog`, `select`, `checkbox`, `switch`, `slider`, `tabs`) accept `x-model` and `wire:model`.
+
+### Helpers
+
+`Ui::classes('base')->add('more')` builds class strings, and `$attributes->twMerge('base classes')` merges a component attribute bag with Tailwind-aware conflict resolution. Tune the merger (class groups, prefix, theme) under `twMerge` in `config/ui.php`.
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## Contributing
 
-Thank you for considering contributing to Ui! Please review our [contributing guide](.github/CONTRIBUTING.md) to get started.
+Thank you for considering contributing to Knppy UI! Please review our [contributing guide](.github/CONTRIBUTING.md) to get started.
 
 ## Security Vulnerabilities
 
@@ -105,4 +144,4 @@ Please review [our security policy](.github/SECURITY.md) on how to report securi
 
 ## License
 
-Ui is open-sourced software licensed under the [MIT license](LICENSE.md).
+Knppy UI is open-sourced software licensed under the [MIT license](LICENSE.md).
