@@ -9,7 +9,8 @@ use RuntimeException;
 
 /**
  * Builds the distributable registry/r/{name}.json items (with inline file
- * content) from registry/registry.json and the source files it lists.
+ * content) and the registry/r/registry.json listing from registry/registry.json
+ * and the source files it lists.
  */
 class Builder
 {
@@ -25,13 +26,15 @@ class Builder
     public function build(string $root, string $output): array
     {
         $index = json_decode($this->read($root.'/registry/registry.json'), true, 512, JSON_THROW_ON_ERROR);
-        $items = is_array($index) && is_array($index['items'] ?? null) ? $index['items'] : [];
+        $index = is_array($index) ? $index : [];
+        $items = is_array($index['items'] ?? null) ? $index['items'] : [];
 
         if (! is_dir($output) && ! mkdir($output, 0755, true) && ! is_dir($output)) {
             throw new RuntimeException("Unable to create directory [{$output}].");
         }
 
         $written = [];
+        $listing = [];
 
         foreach ($items as $item) {
             if (! is_array($item) || ! is_string($item['name'] ?? null) || ! is_array($item['files'] ?? null)) {
@@ -39,6 +42,7 @@ class Builder
             }
 
             $name = $item['name'];
+            $listing[] = array_diff_key($item, ['files' => true]);
             $type = is_string($item['type'] ?? null) ? $item['type'] : 'registry:ui';
 
             $item['files'] = array_map(fn (mixed $source): array => [
@@ -53,6 +57,13 @@ class Builder
 
             $written[] = $path;
         }
+
+        $path = $output.'/registry.json';
+        $summary = [...array_diff_key($index, ['items' => true]), 'items' => $listing];
+
+        file_put_contents($path, json_encode($summary, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."\n");
+
+        $written[] = $path;
 
         return $written;
     }

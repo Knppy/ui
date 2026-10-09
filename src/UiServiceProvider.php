@@ -9,6 +9,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\View\ComponentAttributeBag;
 use Knppy\Ui\Console\Commands\AddCommand;
 use Knppy\Ui\Console\Commands\InstallCommand;
+use Knppy\Ui\Console\Commands\ListCommand;
 use Knppy\Ui\Registry\Registry;
 use Psr\SimpleCache\CacheInterface;
 use TailwindMerge\Support\Config;
@@ -64,6 +65,7 @@ class UiServiceProvider extends ServiceProvider
         $this->commands([
             AddCommand::class,
             InstallCommand::class,
+            ListCommand::class,
         ]);
     }
 

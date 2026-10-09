@@ -23,17 +23,45 @@ class Installer
      */
     public static function fromProject(Registry $registry): self
     {
+        $json = self::componentsJson();
+
+        if ($json === null) {
+            throw RegistryException::missingComponentsJson();
+        }
+
+        return new self(self::withProjectRegistries($registry, $json), $json);
+    }
+
+    /**
+     * Merge the registries of the project's components.json (if any) into a registry.
+     */
+    public static function projectRegistry(Registry $registry): Registry
+    {
+        return self::withProjectRegistries($registry, self::componentsJson() ?? []);
+    }
+
+    /**
+     * Read the project's components.json.
+     *
+     * @return array<mixed>|null
+     */
+    private static function componentsJson(): ?array
+    {
         $path = base_path('components.json');
 
         $json = File::isFile($path) ? json_decode(File::get($path), true) : null;
 
-        if (! is_array($json)) {
-            throw RegistryException::missingComponentsJson();
-        }
+        return is_array($json) ? $json : null;
+    }
 
+    /**
+     * @param  array<mixed>  $json
+     */
+    private static function withProjectRegistries(Registry $registry, array $json): Registry
+    {
         $registries = is_array($json['registries'] ?? null) ? array_filter($json['registries'], is_string(...)) : [];
 
-        return new self($registry->withRegistries($registries), $json);
+        return $registry->withRegistries($registries);
     }
 
     /**

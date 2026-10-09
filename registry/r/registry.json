@@ -1,0 +1,800 @@
+{
+    "name": "knppy",
+    "homepage": "https://ui.knppy.com",
+    "items": [
+        {
+            "name": "accordion",
+            "type": "registry:ui",
+            "title": "Accordion",
+            "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": [
+                    "@alpinejs/collapse"
+                ]
+            }
+        },
+        {
+            "name": "alert",
+            "type": "registry:ui",
+            "title": "Alert",
+            "description": "Displays a callout for user attention.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "alert-dialog",
+            "type": "registry:ui",
+            "title": "Alert Dialog",
+            "description": "A modal dialog that interrupts the user with important content and expects a response.",
+            "registryDependencies": [
+                "alpine",
+                "button"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": [
+                    "@alpinejs/focus"
+                ]
+            }
+        },
+        {
+            "name": "alpine",
+            "type": "registry:js",
+            "title": "Alpine",
+            "description": "Loads and registers the Alpine.js modules of every installed component.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": [
+                    "alpinejs"
+                ]
+            }
+        },
+        {
+            "name": "alpine-menu",
+            "type": "registry:js",
+            "title": "Alpine Menu",
+            "description": "Shared keyboard navigation for the dropdown, context and menubar menus.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "aspect-ratio",
+            "type": "registry:ui",
+            "title": "Aspect Ratio",
+            "description": "Displays content within a desired ratio.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "attachment",
+            "type": "registry:ui",
+            "title": "Attachment",
+            "description": "Displays a file or image attachment with media, metadata, upload state, and actions.",
+            "registryDependencies": [
+                "button"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "avatar",
+            "type": "registry:ui",
+            "title": "Avatar",
+            "description": "An image element with a fallback for representing the user.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "badge",
+            "type": "registry:ui",
+            "title": "Badge",
+            "description": "Displays a badge or a component that looks like a badge.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "breadcrumb",
+            "type": "registry:ui",
+            "title": "Breadcrumb",
+            "description": "Displays the path to the current resource using a hierarchy of links.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [
+                    "mallardduck/blade-lucide-icons"
+                ],
+                "npm": []
+            }
+        },
+        {
+            "name": "bubble",
+            "type": "registry:ui",
+            "title": "Bubble",
+            "description": "Displays conversational content in a message bubble. Supports variants, alignment, grouping, reactions, and collapsible content.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "button",
+            "type": "registry:ui",
+            "title": "Button",
+            "description": "Displays a button or a component that looks like a button.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "button-group",
+            "type": "registry:ui",
+            "title": "Button Group",
+            "description": "A container that groups related buttons together with consistent styling.",
+            "registryDependencies": [
+                "button"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "calendar",
+            "type": "registry:ui",
+            "title": "Calendar",
+            "description": "A calendar component that allows users to select a date or a range of dates.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "card",
+            "type": "registry:ui",
+            "title": "Card",
+            "description": "Displays a card with header, content, and footer.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "carousel",
+            "type": "registry:ui",
+            "title": "Carousel",
+            "description": "A carousel with motion and swipe.",
+            "registryDependencies": [
+                "alpine",
+                "button"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "checkbox",
+            "type": "registry:ui",
+            "title": "Checkbox",
+            "description": "A control that allows the user to toggle between checked and not checked.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "collapsible",
+            "type": "registry:ui",
+            "title": "Collapsible",
+            "description": "An interactive component which expands/collapses a panel.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "combobox",
+            "type": "registry:ui",
+            "title": "Combobox",
+            "description": "Autocomplete input with a list of suggestions.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": [
+                    "@floating-ui/dom"
+                ]
+            }
+        },
+        {
+            "name": "command",
+            "type": "registry:ui",
+            "title": "Command",
+            "description": "Command menu for search and quick actions.",
+            "registryDependencies": [
+                "alpine",
+                "dialog"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "context-menu",
+            "type": "registry:ui",
+            "title": "Context Menu",
+            "description": "Displays a menu of actions triggered by a right click.",
+            "registryDependencies": [
+                "alpine",
+                "alpine-menu"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": [
+                    "@alpinejs/anchor"
+                ]
+            }
+        },
+        {
+            "name": "dialog",
+            "type": "registry:ui",
+            "title": "Dialog",
+            "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": [
+                    "@alpinejs/focus"
+                ]
+            }
+        },
+        {
+            "name": "direction-provider",
+            "type": "registry:ui",
+            "title": "Direction Provider",
+            "description": "Sets the text direction for its children.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "drawer",
+            "type": "registry:ui",
+            "title": "Drawer",
+            "description": "A drawer component for Blade.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": [
+                    "@alpinejs/focus"
+                ]
+            }
+        },
+        {
+            "name": "dropdown-menu",
+            "type": "registry:ui",
+            "title": "Dropdown Menu",
+            "description": "Displays a menu to the user, such as a set of actions or functions, triggered by a button.",
+            "registryDependencies": [
+                "alpine",
+                "alpine-menu"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": [
+                    "@alpinejs/anchor"
+                ]
+            }
+        },
+        {
+            "name": "empty",
+            "type": "registry:ui",
+            "title": "Empty",
+            "description": "Use the Empty component to display an empty state.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "field",
+            "type": "registry:ui",
+            "title": "Field",
+            "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
+            "registryDependencies": [
+                "label",
+                "separator"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "hover-card",
+            "type": "registry:ui",
+            "title": "Hover Card",
+            "description": "For sighted users to preview content available behind a link.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": [
+                    "@alpinejs/anchor"
+                ]
+            }
+        },
+        {
+            "name": "input",
+            "type": "registry:ui",
+            "title": "Input",
+            "description": "A text input component for forms and user data entry with built-in styling and accessibility features.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "input-group",
+            "type": "registry:ui",
+            "title": "Input Group",
+            "description": "Displays an input with inline or stacked addons and actions.",
+            "registryDependencies": [
+                "button"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "input-otp",
+            "type": "registry:ui",
+            "title": "Input OTP",
+            "description": "Accessible one-time password component with copy-paste functionality.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "item",
+            "type": "registry:ui",
+            "title": "Item",
+            "description": "A versatile component for displaying content with media, title, description, and actions.",
+            "registryDependencies": [
+                "separator"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "kbd",
+            "type": "registry:ui",
+            "title": "Kbd",
+            "description": "Used to display textual user input from keyboard.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "label",
+            "type": "registry:ui",
+            "title": "Label",
+            "description": "Renders an accessible label associated with controls.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "marker",
+            "type": "registry:ui",
+            "title": "Marker",
+            "description": "Displays an inline status, system note, bordered row, or labeled separator in a conversation.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "menubar",
+            "type": "registry:ui",
+            "title": "Menubar",
+            "description": "A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.",
+            "registryDependencies": [
+                "alpine",
+                "alpine-menu"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": [
+                    "@alpinejs/anchor"
+                ]
+            }
+        },
+        {
+            "name": "message",
+            "type": "registry:ui",
+            "title": "Message",
+            "description": "Displays a chat message with avatar, header, content and footer.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "message-scroller",
+            "type": "registry:ui",
+            "title": "Message Scroller",
+            "description": "A chat scroll container that anchors turns, opens saved transcripts, follows streamed responses, loads history without jumping, and jumps to any message.",
+            "registryDependencies": [
+                "alpine",
+                "button"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "native-select",
+            "type": "registry:ui",
+            "title": "Native Select",
+            "description": "A styled native HTML select element with consistent design system integration.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [
+                    "mallardduck/blade-lucide-icons"
+                ],
+                "npm": []
+            }
+        },
+        {
+            "name": "navigation-menu",
+            "type": "registry:ui",
+            "title": "Navigation Menu",
+            "description": "A collection of links for navigating websites.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "pagination",
+            "type": "registry:ui",
+            "title": "Pagination",
+            "description": "Pagination with page navigation, next and previous links.",
+            "registryDependencies": [
+                "button"
+            ],
+            "dependencies": {
+                "composer": [
+                    "mallardduck/blade-lucide-icons"
+                ],
+                "npm": []
+            }
+        },
+        {
+            "name": "popover",
+            "type": "registry:ui",
+            "title": "Popover",
+            "description": "Displays rich content in a portal, triggered by a button.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": [
+                    "@alpinejs/anchor"
+                ]
+            }
+        },
+        {
+            "name": "progress",
+            "type": "registry:ui",
+            "title": "Progress",
+            "description": "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "radio-group",
+            "type": "registry:ui",
+            "title": "Radio Group",
+            "description": "A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "resizable",
+            "type": "registry:ui",
+            "title": "Resizable",
+            "description": "Accessible resizable panel groups and layouts with keyboard support.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "scroll-area",
+            "type": "registry:ui",
+            "title": "Scroll Area",
+            "description": "Augments native scroll functionality for custom, cross-browser styling.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "select",
+            "type": "registry:ui",
+            "title": "Select",
+            "description": "Displays a list of options for the user to pick from—triggered by a button.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": [
+                    "@floating-ui/dom"
+                ]
+            }
+        },
+        {
+            "name": "separator",
+            "type": "registry:ui",
+            "title": "Separator",
+            "description": "Visually or semantically separates content.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "sheet",
+            "type": "registry:ui",
+            "title": "Sheet",
+            "description": "Extends the Dialog component to display content that complements the main content of the screen.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": [
+                    "@alpinejs/focus"
+                ]
+            }
+        },
+        {
+            "name": "sidebar",
+            "type": "registry:ui",
+            "title": "Sidebar",
+            "description": "A composable, themeable and customizable sidebar component.",
+            "registryDependencies": [
+                "alpine",
+                "tooltip"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "skeleton",
+            "type": "registry:ui",
+            "title": "Skeleton",
+            "description": "Use to show a placeholder while content is loading.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "slider",
+            "type": "registry:ui",
+            "title": "Slider",
+            "description": "An input where the user selects a value from within a given range.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "sonner",
+            "type": "registry:ui",
+            "title": "Sonner",
+            "description": "A succinct message that is displayed temporarily.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "spinner",
+            "type": "registry:ui",
+            "title": "Spinner",
+            "description": "An indicator that can be used to show a loading state.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [
+                    "mallardduck/blade-lucide-icons"
+                ],
+                "npm": []
+            }
+        },
+        {
+            "name": "switch",
+            "type": "registry:ui",
+            "title": "Switch",
+            "description": "A control that allows the user to toggle between checked and not checked.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "table",
+            "type": "registry:ui",
+            "title": "Table",
+            "description": "A responsive table component.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "tabs",
+            "type": "registry:ui",
+            "title": "Tabs",
+            "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "textarea",
+            "type": "registry:ui",
+            "title": "Textarea",
+            "description": "Displays a form textarea or a component that looks like a textarea.",
+            "registryDependencies": [],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "toggle",
+            "type": "registry:ui",
+            "title": "Toggle",
+            "description": "A two-state button that can be either on or off.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "toggle-group",
+            "type": "registry:ui",
+            "title": "Toggle Group",
+            "description": "A set of two-state buttons that can be toggled on or off.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": []
+            }
+        },
+        {
+            "name": "tooltip",
+            "type": "registry:ui",
+            "title": "Tooltip",
+            "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+            "registryDependencies": [
+                "alpine"
+            ],
+            "dependencies": {
+                "composer": [],
+                "npm": [
+                    "@alpinejs/anchor"
+                ]
+            }
+        }
+    ]
+}

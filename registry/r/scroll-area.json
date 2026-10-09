@@ -14,7 +14,7 @@
         {
             "path": "scroll-area.blade.php",
             "type": "registry:ui",
-            "content": "@props([\n    'orientation' => 'vertical',\n    'type' => 'hover',\n])\n\n<div\n    x-data=\"uiScrollArea\"\n    x-init=\"initialize($el)\"\n    data-slot=\"scroll-area\"\n    data-type=\"{{ $type }}\"\n    {{ $attributes->twMerge(['class' => 'relative overflow-hidden']) }}\n>\n    <div\n        tabindex=\"0\"\n        data-slot=\"scroll-area-viewport\"\n        x-on:scroll.passive=\"update()\"\n        class=\"[&::-webkit-scrollbar]:hidden focus-visible:ring-ring/50 size-full [scrollbar-width:none] overflow-auto rounded-[inherit] outline-none focus-visible:ring-[3px] focus-visible:outline-1\"\n    >\n        {{ $slot }}\n    </div>\n    <x-ui.scroll-bar :orientation=\"$orientation\" />\n</div>\n"
+            "content": "@props([\n    'orientation' => 'vertical',\n    'type' => 'hover',\n])\n\n<div\n    x-data=\"uiScrollArea\"\n    x-init=\"initialize($el)\"\n    data-slot=\"scroll-area\"\n    data-type=\"{{ $type }}\"\n    {{ $attributes->twMerge(['class' => 'relative overflow-hidden']) }}\n>\n    <div\n        tabindex=\"0\"\n        data-slot=\"scroll-area-viewport\"\n        x-on:scroll.passive=\"update()\"\n        class=\"[&::-webkit-scrollbar]:hidden focus-visible:ring-ring/50 size-full overflow-auto rounded-[inherit] outline-none [scrollbar-width:none] focus-visible:ring-[3px] focus-visible:outline-1\"\n    >\n        {{ $slot }}\n    </div>\n    <x-ui.scroll-bar :orientation=\"$orientation\" />\n</div>\n"
         },
         {
             "path": "scroll-bar.blade.php",

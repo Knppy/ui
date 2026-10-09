@@ -115,9 +115,7 @@ class Registry
     {
         $template = $this->registries[$namespace] ?? throw RegistryException::unknownRegistry($namespace);
 
-        $location = Str::contains($template, '{name}')
-            ? Str::replace('{name}', $name, $template)
-            : rtrim($template, '/').'/'.$name.'.json';
+        $location = $this->locate($template, $name);
 
         $isRemote = Str::startsWith($location, ['http://', 'https://']);
 
@@ -146,6 +144,79 @@ class Registry
                 throw $exception;
             }
         }
+    }
+
+    /**
+     * List the items of a registry from its registry.json index, falling back to the bundled one if allowed.
+     *
+     * @return list<RegistryListing>
+     *
+     * @throws RegistryException
+     */
+    public function list(?string $namespace = null): array
+    {
+        $namespace ??= $this->default;
+
+        $template = $this->registries[$namespace] ?? throw RegistryException::unknownRegistry($namespace);
+
+        $location = $this->locate($template, 'registry');
+        $isRemote = Str::startsWith($location, ['http://', 'https://']);
+
+        try {
+            return $this->listing($this->fetch($location, $isRemote), $isRemote ? RegistrySource::Remote : RegistrySource::Local, $location);
+        } catch (RegistryException $exception) {
+            $fallback = $this->fallbacks[$namespace] ?? null;
+
+            if (! $isRemote || $fallback === null) {
+                throw $exception;
+            }
+
+            $fallbackLocation = rtrim($fallback, '/').'/registry.json';
+
+            try {
+                return $this->listing($this->fetch($fallbackLocation, false), RegistrySource::Fallback, $fallbackLocation);
+            } catch (RegistryException) {
+                throw $exception;
+            }
+        }
+    }
+
+    /**
+     * Get the namespace used when a reference has none.
+     */
+    public function defaultNamespace(): string
+    {
+        return $this->default;
+    }
+
+    /**
+     * Parse the items of a decoded registry index.
+     *
+     * @param  array<mixed>  $data
+     * @return list<RegistryListing>
+     *
+     * @throws RegistryException
+     */
+    private function listing(array $data, RegistrySource $source, string $location): array
+    {
+        if (! is_array($data['items'] ?? null)) {
+            throw RegistryException::invalidItem($location, 'missing items');
+        }
+
+        return array_values(array_map(
+            fn (mixed $item): RegistryListing => RegistryListing::fromArray($item, $source, $location),
+            $data['items'],
+        ));
+    }
+
+    /**
+     * Get the location of a named JSON file in a registry.
+     */
+    private function locate(string $template, string $name): string
+    {
+        return Str::contains($template, '{name}')
+            ? Str::replace('{name}', $name, $template)
+            : rtrim($template, '/').'/'.$name.'.json';
     }
 
     /**

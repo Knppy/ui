@@ -18,6 +18,18 @@ it('builds items with the source file content inlined', function () {
         ->and($item['files'][0]['content'])->toBe(File::get(__DIR__.'/../../registry/ui/button/button.blade.php'));
 });
 
+it('writes a registry.json listing without file contents', function () {
+    $output = sys_get_temp_dir().'/knppy-build-'.uniqid();
+
+    (new Builder)->build(__DIR__.'/../..', $output);
+
+    $index = json_decode(File::get($output.'/registry.json'), true);
+    File::deleteDirectory($output);
+
+    expect($index['name'])->toBe('knppy')
+        ->and(collect($index['items'])->firstWhere('name', 'button'))->toHaveKey('description')->not->toHaveKey('files');
+});
+
 it('keeps the committed registry/r in sync with the sources', function () {
     $output = sys_get_temp_dir().'/knppy-build-'.uniqid();
 
