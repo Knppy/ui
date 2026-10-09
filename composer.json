@@ -5,9 +5,18 @@
   "keywords": [
     "laravel",
     "knppy",
-    "ui"
+    "ui",
+    "shadcn",
+    "blade",
+    "alpinejs",
+    "tailwindcss",
+    "components"
   ],
   "homepage": "https://github.com/knppy/ui",
+  "support": {
+    "issues": "https://github.com/knppy/ui/issues",
+    "source": "https://github.com/knppy/ui"
+  },
   "license": "MIT",
   "authors": [
     {
