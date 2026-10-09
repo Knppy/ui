@@ -70,6 +70,8 @@ php artisan ui:add button
 php artisan ui:add @knppy/button @acme/card --overwrite
 ```
 
+Run `ui:add` without names to search the default registry and pick components interactively, or pass `--all` to add every component of the default registry.
+
 To see what a registry offers, run `ui:list` (optionally with a registry such as `@acme`; the default registry is used otherwise):
 
 ```bash

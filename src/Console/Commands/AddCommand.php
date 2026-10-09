@@ -10,7 +10,10 @@ use Knppy\Ui\Registry\InstallResult;
 use Knppy\Ui\Registry\PackageInstaller;
 use Knppy\Ui\Registry\Registry;
 use Knppy\Ui\Registry\RegistryException;
+use Knppy\Ui\Registry\RegistryListing;
 use Symfony\Component\Console\Attribute\AsCommand;
+
+use function Laravel\Prompts\multisearch;
 
 #[AsCommand('ui:add', 'Adds Knppy UI components to your project.')]
 class AddCommand extends Command
@@ -19,7 +22,8 @@ class AddCommand extends Command
      * The command signature.
      */
     protected $signature = 'ui:add
-        {components* : Component names, e.g. button or @registry/button}
+        {components?* : Component names, e.g. button or @registry/button (omit to search)}
+        {--all : Add every component of the default registry}
         {--overwrite : Overwrite files that already exist}
         {--skip-packages : Do not install the required Composer and npm packages}
     ';
@@ -37,12 +41,20 @@ class AddCommand extends Command
         try {
             $installer = Installer::fromProject($registry);
 
+            $components = $this->selectComponents($installer->registry());
+
+            if ($components === []) {
+                $this->components->error('No components given. Pass component names, use --all, or run interactively.');
+
+                return self::FAILURE;
+            }
+
             $result = new InstallResult;
 
-            foreach ((array) $this->argument('components') as $component) {
-                $this->components->info('Adding '.(is_string($component) ? $component : '').'...');
+            foreach ($components as $component) {
+                $this->components->info("Adding $component...");
 
-                $result = $result->merge($installer->install((string) $component, (bool) $this->option('overwrite')));
+                $result = $result->merge($installer->install($component, (bool) $this->option('overwrite')));
             }
         } catch (RegistryException $exception) {
             $this->components->error($exception->getMessage());
@@ -53,6 +65,43 @@ class AddCommand extends Command
         $this->report($result);
 
         return $this->installPackages($result, $packages);
+    }
+
+    /**
+     * Resolve the component references from the arguments, --all or an interactive search.
+     *
+     * @return list<string>
+     *
+     * @throws RegistryException
+     */
+    private function selectComponents(Registry $registry): array
+    {
+        $given = array_values(array_filter((array) $this->argument('components'), is_string(...)));
+
+        if ($given !== [] && ! $this->option('all')) {
+            return $given;
+        }
+
+        if (! $this->option('all') && ! $this->input->isInteractive()) {
+            return [];
+        }
+
+        $names = array_map(fn (RegistryListing $item): string => $item->name, $registry->list());
+
+        if ($this->option('all')) {
+            return $names;
+        }
+
+        $selected = multisearch(
+            'Which components would you like to add?',
+            fn (string $value): array => array_values(array_filter(
+                $names,
+                fn (string $name): bool => $value === '' || str_contains($name, strtolower($value)),
+            )),
+            scroll: 15,
+        );
+
+        return array_values(array_map(strval(...), $selected));
     }
 
     /**

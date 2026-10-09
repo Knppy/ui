@@ -193,3 +193,46 @@ it('fails clearly when the js alias is missing', function () {
 
     $this->artisan('ui:add', ['components' => ['alpine']])->assertFailed();
 });
+
+it('adds every component of the registry with --all', function () {
+    writeComponentsJson();
+    Http::fake([
+        'ui.knppy.com/r/registry.json' => Http::response(['name' => 'knppy', 'items' => [
+            ['name' => 'button', 'type' => 'registry:ui'],
+            ['name' => 'card', 'type' => 'registry:ui'],
+        ]]),
+        'ui.knppy.com/r/button.json' => Http::response(registryPayload('button')),
+        'ui.knppy.com/r/card.json' => Http::response(registryPayload('card')),
+    ]);
+
+    $this->artisan('ui:add', ['--all' => true])->assertSuccessful();
+
+    expect(File::exists(base_path('resources/views/components/ui/button.blade.php')))->toBeTrue()
+        ->and(File::exists(base_path('resources/views/components/ui/card.blade.php')))->toBeTrue();
+});
+
+it('searches for components when none are given', function () {
+    writeComponentsJson();
+    Http::fake([
+        'ui.knppy.com/r/registry.json' => Http::response(['name' => 'knppy', 'items' => [
+            ['name' => 'button', 'type' => 'registry:ui'],
+            ['name' => 'card', 'type' => 'registry:ui'],
+        ]]),
+        'ui.knppy.com/r/card.json' => Http::response(registryPayload('card')),
+    ]);
+
+    $this->artisan('ui:add')
+        ->expectsSearch('Which components would you like to add?', ['card'], 'car', ['card'])
+        ->assertSuccessful();
+
+    expect(File::exists(base_path('resources/views/components/ui/card.blade.php')))->toBeTrue()
+        ->and(File::exists(base_path('resources/views/components/ui/button.blade.php')))->toBeFalse();
+});
+
+it('fails without components when not interactive', function () {
+    writeComponentsJson();
+
+    $this->artisan('ui:add', ['--no-interaction' => true])
+        ->expectsOutputToContain('No components given')
+        ->assertFailed();
+});

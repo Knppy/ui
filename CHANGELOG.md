@@ -5,6 +5,7 @@
 - Add a component registry: components are copied into your project from `registry/` (shadcn style) instead of being served from the package.
 - Add `ui:install` to create `components.json` and the Tailwind v4 `resources/css/app.css` theme.
 - Add `ui:add` to install components (`@namespace/name`, `--overwrite`, `--skip-packages`) along with their registry, Composer and npm dependencies.
+- Add `ui:add --all` and an interactive component search when no names are given.
 - Add `ui:list` to list the items a registry offers (reads `registry.json`).
 - Add `registry:js` files, the `js` alias and per-component Alpine modules that register themselves through the `alpine` loader.
 - Bundle the registry (`registry/r`) as an offline fallback for `@knppy`; disable with `UI_REGISTRY_FALLBACK=false`.

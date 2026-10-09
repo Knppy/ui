@@ -65,6 +65,14 @@ class Installer
     }
 
     /**
+     * The registry this installer resolves items from.
+     */
+    public function registry(): Registry
+    {
+        return $this->registry;
+    }
+
+    /**
      * Install an item and its registry dependencies into the project.
      *
      * @throws RegistryException
