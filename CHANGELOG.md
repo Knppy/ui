@@ -11,3 +11,4 @@
 - Add `composer registry:build` to regenerate `registry/r` from `registry/`.
 - Remove the `@uiScripts` directive, the `/ui/ui.js` route and the bundled `dist/ui.js`; import the generated `resources/js/ui.js` loader instead.
 - Remove the `ui-lang` publish tag.
+- Only publish the config file: the `ui` and `ui-config` tags remain.

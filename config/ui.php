@@ -55,7 +55,9 @@ return [
     | twMerge
     |--------------------------------------------------------------------------
     |
-    | TODO
+    | Options passed to tailwind-merge-php: extra class groups, a Tailwind
+    | prefix (UI_MERGE_PREFIX) and theme values, used when merging the
+    | classes of components through Ui::classes() and twMerge().
     |
     */
     'twMerge' => [

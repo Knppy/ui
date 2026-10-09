@@ -26,24 +26,10 @@ You can install the package via Composer:
 composer require knppy/ui
 ```
 
-You may publish all of the package's resources at once:
-
-```bash
-php artisan vendor:publish --tag="ui"
-```
-
-Or, you may publish each resource individually:
-
-### Publishing the Configuration File
+Optionally publish the configuration file:
 
 ```bash
 php artisan vendor:publish --tag="ui-config"
-```
-
-### Publishing the Public Assets
-
-```bash
-php artisan vendor:publish --tag="ui-assets"
 ```
 
 ## Usage

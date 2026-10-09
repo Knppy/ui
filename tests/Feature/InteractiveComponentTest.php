@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Blade;
 
-beforeEach(fn () => mountRegistryComponents());
-
 test('message scroller renders its interactive parts', function (): void {
     $html = Blade::render(<<<'BLADE'
         <x-ui.message-scroller>

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Blade;
 
-beforeEach(fn () => mountRegistryComponents());
-
 test('checkbox forwards wire:model to the alpine wrapper, not the native input', function (): void {
     $html = Blade::render('<x-ui.checkbox wire:model.live="agree" />');
 

@@ -58,10 +58,6 @@ class UiServiceProvider extends ServiceProvider
             __DIR__.'/../config/ui.php' => config_path('ui.php'),
         ], ['ui', 'ui-config']);
 
-        $this->publishes([
-            __DIR__.'/../public' => public_path('vendor/ui'),
-        ], ['ui', 'ui-assets']);
-
         $this->commands([
             AddCommand::class,
             InstallCommand::class,
