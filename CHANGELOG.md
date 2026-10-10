@@ -1,6 +1,6 @@
 # Release Notes
 
-## [Unreleased](https://github.com/knppy/ui/commits/master)
+## [Unreleased](https://github.com/knppy/ui/commits/master/compare/0.6.0...HEAD)
 
 - Add a component registry: components are copied into your project from `registry/` (shadcn style) instead of being served from the package.
 - Add `ui:install` to create `components.json` and the Tailwind v4 `resources/css/app.css` theme.
@@ -13,3 +13,8 @@
 - Remove the `@uiScripts` directive, the `/ui/ui.js` route and the bundled `dist/ui.js`; import the generated `resources/js/ui.js` loader instead.
 - Remove the `ui-lang` publish tag.
 - Only publish the config file: the `ui` and `ui-config` tags remain.
+
+## [0.6.0](https://github.com/knppy/ui/commits/master/compare/master...0.6.0) - 2026-10-10
+
+<!-- Release notes generated using configuration in .github/release.yml at master -->
+**Full Changelog**: https://github.com/Knppy/ui/commits/0.6.0
