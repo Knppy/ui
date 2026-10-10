@@ -1,6 +1,6 @@
 # Release Notes
 
-## [Unreleased](https://github.com/knppy/ui/commits/main)
+## [Unreleased](https://github.com/knppy/ui/commits/master)
 
 - Add a component registry: components are copied into your project from `registry/` (shadcn style) instead of being served from the package.
 - Add `ui:install` to create `components.json` and the Tailwind v4 `resources/css/app.css` theme.
