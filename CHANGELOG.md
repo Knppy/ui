@@ -1,6 +1,6 @@
 # Release Notes
 
-## [Unreleased](https://github.com/knppy/ui/commits/master/compare/0.6.0...HEAD)
+## [Unreleased](https://github.com/knppy/ui/commits/master/compare/0.6.1...HEAD)
 
 - Add a component registry: components are copied into your project from `registry/` (shadcn style) instead of being served from the package.
 - Add `ui:install` to create `components.json` and the Tailwind v4 `resources/css/app.css` theme.
@@ -13,6 +13,18 @@
 - Remove the `@uiScripts` directive, the `/ui/ui.js` route and the bundled `dist/ui.js`; import the generated `resources/js/ui.js` loader instead.
 - Remove the `ui-lang` publish tag.
 - Only publish the config file: the `ui` and `ui-config` tags remain.
+
+## [0.6.1](https://github.com/knppy/ui/commits/master/compare/0.6.0...0.6.1) - 2026-11-11
+
+<!-- Release notes generated using configuration in .github/release.yml at master -->
+### What's Changed
+
+#### Dependencies
+
+* Bump shivammathur/setup-php from 2.37.2 to 2.40.0 by @dependabot[bot] in https://github.com/Knppy/ui/pull/11
+* Bump prettier from 3.9.9 to 3.9.10 by @dependabot[bot] in https://github.com/Knppy/ui/pull/12
+
+**Full Changelog**: https://github.com/Knppy/ui/compare/0.6.0...0.6.1
 
 ## [0.6.0](https://github.com/knppy/ui/commits/master/compare/master...0.6.0) - 2026-10-10
 
